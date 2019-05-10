@@ -14,7 +14,7 @@ export function getSelectionRect(selected: Selection): (ClientRect | null) {
     }
   }
   return rect;
-};
+}
 
 /**
  * Returns the native selection node.
@@ -30,7 +30,7 @@ export function getSelection(root: Window): Selection {
   //   t = root.document.selection.createRange().text;
   // }
   return t;
-};
+}
 
 /**
  * Recursively finds the DOM Element of the block where the cursor is currently present.
@@ -51,4 +51,4 @@ export function getSelectedBlockNode(root: Window): Element {
     // console.log(node);
   } while (node !== null);
   return null;
-};
+}

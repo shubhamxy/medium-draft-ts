@@ -1,12 +1,12 @@
-@import './components/addbutton';
-@import './components/toolbar';
-@import './components/blocks/atomic';
-@import './components/blocks/blockquotecaption';
-@import './components/blocks/caption';
-@import './components/blocks/image';
-@import './components/blocks/text';
-@import './components/blocks/todo';
-@import './components/blocks/code';
+@import './components/addbutton.scss';
+@import './components/toolbar.scss';
+@import './components/blocks/atomic.scss';
+@import './components/blocks/blockquotecaption.scss';
+@import './components/blocks/caption.scss';
+@import './components/blocks/image.scss';
+@import './components/blocks/text.scss';
+@import './components/blocks/todo.scss';
+@import './components/blocks/code.scss';
 
 .md-RichEditor-root {
   background: #fff;
@@ -19,7 +19,6 @@
 
 .md-RichEditor-editor {
   cursor: text;
-  margin-top: 10px;
   position: relative;
   margin: 0 auto;
   z-index: 0;
@@ -38,21 +37,10 @@
   .md-RichEditor-blockquote {
     border-left: 5px solid #4CA8DE;
     color: #555;
-    //font-family: 'Hoefler Text', 'Georgia', serif;
     font-size: 1.2em;
     margin: 0;
     padding: 10px 0 10px 20px;
     background-color: #E2F2FF;
-
-    // .public-DraftStyleDefault-block:first-child {
-    //   padding-top: 10px;
-    // }
-
-    // cite {
-    //   .public-DraftStyleDefault-block:first-child {
-    //     padding-top: 0;
-    //   }
-    // }
   }
 }
 
@@ -65,13 +53,6 @@
     text-decoration: underline;
   }
 }
-
-// .public-DraftEditor-content {
-//   .md-block:first-child {
-//     margin-top: 0;
-//     padding-top: 0;
-//   }
-// }
 
 .md-RichEditor-editor .public-DraftStyleDefault-pre {
   margin-top: 10px;

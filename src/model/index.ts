@@ -24,7 +24,7 @@ export function createEditorState(content: string | Draft.RawDraftContentState =
  * @param blockType 
  * @param initialData 
  */
-export function getDefaultBlockData(blockType: string, initialData: Object = {}): Object {
+export function getDefaultBlockData(blockType: string, initialData: {} = {}): {} {
   switch (blockType) {
     case Block.TODO:
       return {

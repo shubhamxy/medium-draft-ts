@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/cjs",
+    "outDir": "./dist/cjs",
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2018",
     "allowJs": false,
     "removeComments": true,
     "rootDir": "./src/",
@@ -16,5 +16,7 @@
   },
   "exclude": [
     "./src/demo.tsx",
-  ],
+    "dist",
+    "lib"
+  ]
 }

@@ -3,6 +3,9 @@ Some of the constants which are used throughout this project instead of
 directly using string.
 */
 
+export const KEY_ENTER = 13;
+export const KEY_ESCAPE = 27;
+
 export const Block = {
   UNSTYLED: 'unstyled',
   PARAGRAPH: 'unstyled',
@@ -86,9 +89,3 @@ export const continuousBlocks = [
 ];
 
 export const BASE_BLOCK_CLASS = 'md-block';
-
-export default {
-  Block,
-  Inline,
-  Entity,
-};

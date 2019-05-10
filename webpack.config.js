@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
 const pkg = require('./package.json');
 
 const banner = [
@@ -58,7 +59,14 @@ module.exports = (env, argv) => {
         use: [
           isProd ? MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
-          'sass-loader'
+          {
+            loader:  'postcss-loader',
+            options: {
+              plugins: [
+                autoprefixer()
+              ]
+            }
+          },
         ],
       }],
     },

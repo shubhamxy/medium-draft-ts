@@ -11,9 +11,7 @@ $add-btn-width: 30px;
 
 .md-sb-button {
     background: none;
-    // background-color: #EAEAEA;
     border: 1px solid #5b5b5b;
-    // border: 1px solid #A0A0A0;
     color: #6D6D6D;
     cursor: pointer;
     height: $add-btn-width;
@@ -24,10 +22,6 @@ $add-btn-width: 30px;
     margin-right: 2px;
     text-align: center;
     transition: all 0.2s ease;
-
-    // &.md-sb-img-button {
-    //     width: inherit;
-    // }
 
     &:focus {
         outline: none;
@@ -58,23 +52,17 @@ $add-btn-width: 30px;
 }
 
 .md-example-appear {
-  // opacity: 0.01;
-  // transform: translateX(-25px) scale(0.1);
   transform: translate3d(-38px, 0px, 0px);
   opacity: 0;
 }
 
 .md-example-appear.md-example-appear-active {
-  // opacity: 1;
-  // transform: translate(0px, 0px) scale(1, 1) rotate(135deg);
-  // transform: translateX(0px), scale(1);
   transform: translate3d(0px, 0px, 0px);
   opacity: 1;
   transition: all .5s ease-in;
 }
 
 .md-example-enter {
-  // opacity: 0.01;
   transform: translate3d(-38px, 0px, 0px);
   opacity: 0;
 }
