@@ -77,13 +77,9 @@ export default class Editor extends React.PureComponent<EditorProps, State> {
     } = null;
 
     public componentDidMount() {
-        if (!this.props.autoFocus) {
-            return;
+        if (this.props.autoFocus) {
+            setTimeout(this.focus);
         }
-
-        setTimeout(() => {
-            this.focus();
-        });
     }
 
     public componentDidUpdate(prevProps: EditorProps, prevState: State) {
@@ -153,7 +149,7 @@ export default class Editor extends React.PureComponent<EditorProps, State> {
         );
     }
 
-    private focus() {
+    private focus = () => {
         if (typeof this.editorRef === 'object' && this.editorRef.current) {
             this.editorRef.current.focus();
         }
@@ -182,9 +178,7 @@ export default class Editor extends React.PureComponent<EditorProps, State> {
             title: '',
             showInput: false,
             style: {},
-        }, () => {
-            this.focus();
-        });
+        }, this.focus);
     }
 
     private getInput = (title: string): Promise<string> => {

@@ -72,7 +72,7 @@ export interface DraftPlugin {
     blockStyleFn?: (contentBlock: ContentBlock) => string | null;
     blockRenderMap?: Immutable.Map<string, {
         element: string;
-        wrapper?: React.ReactElement<any>;
+        wrapper?: React.ReactElement;
         aliasedElements?: string[];
     }>;
     customStyleMap?: {};

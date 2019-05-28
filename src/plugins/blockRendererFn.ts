@@ -2,7 +2,7 @@ import QuoteCaptionBlock from '../components/blocks/blockquotecaption';
 import CaptionBlock from '../components/blocks/caption';
 import AtomicBlock from '../components/blocks/atomic';
 import TodoBlock from '../components/blocks/todo';
-import BreakBlock from '../components/blocks/break';
+import BreakBlock from '../components/blocks/separator';
 import TextBlock from '../components/blocks/text';
 import {Block} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';

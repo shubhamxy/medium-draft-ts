@@ -5,7 +5,7 @@ export { default as QuoteCaptionBlock } from './components/blocks/blockquotecapt
 export { default as CaptionBlock } from './components/blocks/caption';
 export { default as TodoBlock } from './components/blocks/todo';
 export { default as ImageBlock } from './components/blocks/image';
-export { default as BreakBlock } from './components/blocks/break';
+export { default as BreakBlock } from './components/blocks/separator';
 export { default as TextBlock } from './components/blocks/text';
 
 import Editor from './Editor';

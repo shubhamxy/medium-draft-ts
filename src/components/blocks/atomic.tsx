@@ -1,12 +1,12 @@
 import React from 'react';
-import Draft from 'draft-js';
+import {ContentBlock, EditorState} from 'draft-js';
 
 interface Props {
-    block: Draft.ContentBlock;
-    getEditorState: () => Draft.EditorState;
+    block: ContentBlock;
+    getEditorState: () => EditorState;
 }
 
-const AtomicBlock: React.StatelessComponent<Props> = (props: Props) => {
+const AtomicBlock: React.FunctionComponent<Props> = (props: Props) => {
     const content = props.getEditorState().getCurrentContent();
     const entity = content.getEntity(props.block.getEntityAt(0));
     const data = entity.getData();

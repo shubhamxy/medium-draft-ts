@@ -1,22 +1,33 @@
 import React from 'react';
-import {addNewBlock} from '../model';
+import {addNewBlock, addNewBlockAt, getCurrentBlock} from '../model';
 import {Block} from '../util/constants';
 import {SideButtonComponentProps} from '../Editor';
 
-export class Separator extends React.Component<SideButtonComponentProps> {
+export class Separator extends React.PureComponent<SideButtonComponentProps> {
 
     public render() {
         return (
             <button className="md-sb-button" onClick={this.onClick} type="button">
-                <i className="fa fa-minus"/>
+                <svg viewBox="0 0 14 14" height="14" width="14">
+                    <rect y="6" width="14" height="2"/>
+                </svg>
             </button>
         );
     }
 
     private onClick = () => {
-        this.props.setEditorState(addNewBlock(
+        let state = addNewBlock(
             this.props.getEditorState(),
             Block.BREAK
-        ));
+        );
+
+        const currentBlock = getCurrentBlock(state);
+        const key = currentBlock.getKey();
+
+        state = addNewBlockAt(state, key);
+
+        this.props.setEditorState(state);
+
+        this.props.close();
     }
 }

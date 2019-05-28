@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import {Block, Inline} from '../util/constants';
 import {DraftPlugin} from '../plugin_editor/PluginsEditor';
 import Link, {findLinkEntities} from '../components/entities/link';
-import Draft from 'draft-js';
+import {ContentBlock} from 'draft-js';
 
 const BASE_BLOCK_CLASS = 'md-block';
 
@@ -12,7 +12,7 @@ const BASE_BLOCK_CLASS = 'md-block';
  */
 export default function createInlineStylePlugin(): DraftPlugin {
     return {
-        blockStyleFn(contentBlock: Draft.ContentBlock): string | null {
+        blockStyleFn(contentBlock: ContentBlock): string | null {
             const blockType = contentBlock.getType();
 
             switch (blockType) {

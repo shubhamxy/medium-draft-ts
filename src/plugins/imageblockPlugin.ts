@@ -3,7 +3,7 @@ import {ContentBlock, EditorState, genKey, SelectionState} from 'draft-js';
 import {BASE_BLOCK_CLASS, Block, HANDLED, NOT_HANDLED} from '../util/constants';
 import ImageBlock from '../components/blocks/image';
 import {addNewBlock, addNewBlockAt, resetBlockWithType, updateDataOfBlock} from '../model';
-import {DraftPlugin} from '../plugin_editor/PluginsEditor';
+import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 
 export type ImageUploadFunction = (files: Blob[]) => Promise<string[]>;
 
@@ -24,7 +24,7 @@ function shouldEarlyReturn(block: ContentBlock): boolean {
  * @param files
  */
 function dummyUploadImage(files: Blob[]): Promise<string[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         setTimeout(() => {
             resolve(files.map((fl) => URL.createObjectURL(fl)));
         }, 1000);
@@ -33,7 +33,7 @@ function dummyUploadImage(files: Blob[]): Promise<string[]> {
 
 export default function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
     return {
-        blockRendererFn(block, {getEditorState, setEditorState}) {
+        blockRendererFn(block: ContentBlock, {getEditorState, setEditorState}: PluginFunctions) {
             if (shouldEarlyReturn(block)) {
                 return null;
             }
@@ -47,7 +47,7 @@ export default function imageBlockPlugin(options?: ImagePluginOptionType): Draft
             };
         },
 
-        blockStyleFn(block) {
+        blockStyleFn(block: ContentBlock) {
             if (shouldEarlyReturn(block)) {
                 return null;
             }
@@ -59,7 +59,7 @@ export default function imageBlockPlugin(options?: ImagePluginOptionType): Draft
             return `${BASE_BLOCK_CLASS} ${imgClass} ${uploading ? `${imgClass}--uploading` : ''}`;
         },
 
-        handleDroppedFiles(selection, files, {getEditorState, setEditorState}) {
+        handleDroppedFiles(selection: SelectionState, files: Blob[], {getEditorState, setEditorState}: PluginFunctions) {
             if (!selection.isCollapsed() || !files.length) {
                 return NOT_HANDLED;
             }
@@ -108,16 +108,16 @@ export default function imageBlockPlugin(options?: ImagePluginOptionType): Draft
 
             const uploadImage = (options && options.uploadImage) ? options.uploadImage : dummyUploadImage;
             uploadImage(imageFiles).then((images) => {
-                const editorState = getEditorState();
-                const block = editorState.getCurrentContent().getBlockForKey(newBlockKey);
-                newEditorState = updateDataOfBlock(editorState, block, {
+                const editorStateInner = getEditorState();
+                const blockInner = editorStateInner.getCurrentContent().getBlockForKey(newBlockKey);
+                newEditorState = updateDataOfBlock(editorStateInner, blockInner, {
                     src: images[0],
                 });
                 URL.revokeObjectURL(src);
                 setEditorState(newEditorState);
             }).catch(() => {
-                const editorState = getEditorState();
-                resetBlockWithType(editorState, Block.UNSTYLED, {});
+                const editorStateInner = getEditorState();
+                resetBlockWithType(editorStateInner, Block.UNSTYLED, {});
             });
             return HANDLED;
         },

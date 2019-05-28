@@ -6,6 +6,15 @@ import 'draft-js/dist/Draft.css';
 import './index.scss';
 import './demo.css';
 import './components/addbutton.scss';
+import './components/addbutton.scss';
+import './components/toolbar.scss';
+import './components/blocks/atomic.scss';
+import './components/blocks/blockquotecaption.scss';
+import './components/blocks/caption.scss';
+import './components/blocks/image.scss';
+import './components/blocks/text.scss';
+import './components/blocks/todo.scss';
+import './components/blocks/code.scss';
 import {EditorProps, SideButton} from './Editor';
 import {createEditorState, Editor as EditorDraft } from './';
 import codeBlockPlugin from './plugins/codeblockplugin';
@@ -16,6 +25,7 @@ import blockMovePlugin from './plugins/blockMovePlugin';
 import keyboardPlugin from './plugins/keyboardPlugin';
 import {DraftPlugin} from './plugin_editor/PluginsEditor';
 import {Separator} from './SideButtons/Separator';
+import {Image} from './SideButtons/Image';
 
 interface State {
     editorState: Draft.EditorState;
@@ -44,6 +54,9 @@ class App extends React.Component<Props, State> {
         this.sideButtons = [
             {
                 component: Separator,
+            },
+            {
+                component: Image,
             }
         ];
 

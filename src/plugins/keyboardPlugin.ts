@@ -20,8 +20,9 @@ import {
     StringToTypeMap
 } from '../util/constants';
 import {addNewBlockAt, getCurrentBlock, resetBlockWithType} from '../model';
-import {DraftPlugin} from '../plugin_editor/PluginsEditor';
+import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
+import React from 'react';
 
 const {changeType, showLinkInput, unlink} = KEY_COMMANDS;
 
@@ -59,7 +60,7 @@ export default function keyboardPlugin(): DraftPlugin {
             return getDefaultKeyBinding(ev);
         },
 
-        handleKeyCommand(command, editorState, pluginFns) {
+        handleKeyCommand(command: string, editorState: EditorState, pluginFns: PluginFunctions) {
             const {
                 setEditorState
             } = pluginFns;
@@ -115,7 +116,7 @@ export default function keyboardPlugin(): DraftPlugin {
             return NOT_HANDLED;
         },
 
-        handleBeforeInput(inputString, editorState, pluginFns) {
+        handleBeforeInput(inputString: string, editorState: EditorState, pluginFns: PluginFunctions) {
             const {setEditorState} = pluginFns;
             const mapping = StringToTypeMap;
             const selection = editorState.getSelection();
@@ -170,7 +171,7 @@ export default function keyboardPlugin(): DraftPlugin {
             return HANDLED;
         },
 
-        handleReturn(ev, editorState, {setEditorState}) {
+        handleReturn(ev: React.KeyboardEvent<{}>, editorState: EditorState, {setEditorState}: PluginFunctions) {
             const currentBlock = getCurrentBlock(editorState);
             const blockType = currentBlock.getType();
 
@@ -218,7 +219,7 @@ export default function keyboardPlugin(): DraftPlugin {
             return NOT_HANDLED;
         },
 
-        onTab(ev, {getEditorState, setEditorState}) {
+        onTab(ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}: PluginFunctions) {
             const editorState = getEditorState();
             const newEditorState = RichUtils.onTab(ev, editorState, 2);
             if (newEditorState !== editorState) {
@@ -226,7 +227,7 @@ export default function keyboardPlugin(): DraftPlugin {
             }
         },
 
-        onUpArrow(ev, {getEditorState, setEditorState}) {
+        onUpArrow(ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}: PluginFunctions) {
             if (ev.ctrlKey || ev.metaKey || ev.altKey) {
                 return false;
             }

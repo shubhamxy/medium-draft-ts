@@ -102,8 +102,8 @@ export default class AddButton extends React.Component<AddButtonProps, AddButton
                     className={`md-sb-button md-add-button${this.state.isOpen ? ' md-open-button' : ''}`}
                     type="button"
                 >
-                    <svg viewBox="0 0 8 8" height="14" width="14">
-                        <path d="M3 0v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z"/>
+                    <svg viewBox="0 0 14 14" height="14" width="14">
+                        <polygon points="14,5 9,5 9,0 5,0 5,5 0,5 0,9 5,9 5,14 9,14 9,9 14,9 "/>
                     </svg>
                 </button>
                 {

@@ -3,7 +3,7 @@ import CaptionBlock from './blocks/caption';
 import AtomicBlock from './blocks/atomic';
 import TodoBlock from './blocks/todo';
 import ImageBlock from './blocks/image';
-import BreakBlock from './blocks/break';
+import BreakBlock from './blocks/separator';
 
 import {Block} from '../util/constants';
 

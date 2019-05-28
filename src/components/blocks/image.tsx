@@ -29,7 +29,7 @@ class ImageBlock extends React.Component<Props> {
             focusOffset: 0,
         });
         setEditorState(EditorState.forceSelection(editorState, newSelection));
-    };
+    }
 
     public render() {
         const {block} = this.props;

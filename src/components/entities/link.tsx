@@ -1,9 +1,9 @@
-import Draft from 'draft-js';
+import {ContentBlock, ContentState} from 'draft-js';
 import React from 'react';
 
 import {Entity} from '../../util/constants';
 
-export const findLinkEntities = (contentBlock: Draft.ContentBlock, callback: (start: number, end: number) => void, contentState: Draft.ContentState) => {
+export const findLinkEntities = (contentBlock: ContentBlock, callback: (start: number, end: number) => void, contentState: ContentState) => {
     contentBlock.findEntityRanges(
         (character) => {
             const entityKey = character.getEntity();
@@ -14,7 +14,7 @@ export const findLinkEntities = (contentBlock: Draft.ContentBlock, callback: (st
 };
 
 interface Props {
-    contentState: Draft.ContentState;
+    contentState: ContentState;
     entityKey: string;
     children: React.ReactNode;
 }

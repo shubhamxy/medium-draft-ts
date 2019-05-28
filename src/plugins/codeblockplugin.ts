@@ -1,16 +1,17 @@
-import {EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
+import {ContentBlock, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
 
 import CodeBlock from '../components/blocks/code';
 import {getCurrentBlock, updateDataOfBlock} from '../model';
 import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_CODES, NOT_HANDLED} from '../util/constants';
-import {DraftPlugin} from '../plugin_editor/PluginsEditor';
+import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
+import React from 'react';
 
 interface OptionType {
     ignoreCommands?: string[];
     tabSize?: 2 | 4;
 }
 
-function shouldEarlyReturn(block: Draft.ContentBlock): boolean {
+function shouldEarlyReturn(block: ContentBlock): boolean {
     return (block.getType() !== Block.CODE);
 }
 
@@ -19,7 +20,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
     const tabSize = (options && options.tabSize) ? options.tabSize : 2;
 
     return {
-        blockRendererFn(block, {setEditorState, getEditorState}) {
+        blockRendererFn(block: ContentBlock, {setEditorState, getEditorState}: PluginFunctions) {
             if (shouldEarlyReturn(block)) {
                 return null;
             }
@@ -33,7 +34,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
             };
         },
 
-        blockStyleFn(block) {
+        blockStyleFn(block: ContentBlock) {
             if (shouldEarlyReturn(block)) {
                 return null;
             }
@@ -43,7 +44,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
             return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-code language-${lang || 'no-lang'}`;
         },
 
-        keyBindingFn(ev, {getEditorState}) {
+        keyBindingFn(ev: React.KeyboardEvent, {getEditorState}: PluginFunctions) {
             const editorState = getEditorState();
             if (shouldEarlyReturn(getCurrentBlock(editorState))) {
                 return;
@@ -54,7 +55,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
             }
         },
 
-        handleKeyCommand(command, editorState, {setEditorState, getProps}) {
+        handleKeyCommand(command: string, editorState: EditorState, {setEditorState, getProps}: PluginFunctions) {
             const block = getCurrentBlock(editorState);
 
             if (shouldEarlyReturn(block)) {
@@ -76,7 +77,8 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
                             const newData = data.set('language', lang);
                             setEditorState(updateDataOfBlock(editorState, block, newData));
                         }).catch(() => {
-                    });
+                            // TODO
+                        });
                     return HANDLED;
                 } else {
                     const lang = prompt('Set Language:', data.get('language') || '');
@@ -92,7 +94,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
             return NOT_HANDLED;
         },
 
-        handleReturn(ev, editorState, {setEditorState}) {
+        handleReturn(ev: React.KeyboardEvent, editorState: EditorState, {setEditorState}: PluginFunctions) {
             if (shouldEarlyReturn(getCurrentBlock(editorState))) {
                 return NOT_HANDLED;
             }
@@ -105,7 +107,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
             return HANDLED;
         },
 
-        handlePastedText(text, html, editorState, {setEditorState}) {
+        handlePastedText(text: string, html: string, editorState: EditorState, {setEditorState}: PluginFunctions) {
             const currentBlock = getCurrentBlock(editorState);
 
             if (shouldEarlyReturn(currentBlock)) {
@@ -129,7 +131,7 @@ export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
             return HANDLED;
         },
 
-        onTab(ev, {getEditorState, setEditorState}) {
+        onTab(ev: React.KeyboardEvent, {getEditorState, setEditorState}: PluginFunctions) {
             const editorState = getEditorState();
             const currentBlock = getCurrentBlock(editorState);
             const selection = editorState.getSelection();
