@@ -11,7 +11,7 @@ export { default as TextBlock } from './components/blocks/text';
 import Editor from './Editor';
 export * from './model';
 
-export { default as PluginsEditor } from './plugin_editor/Editor';
+export { default as PluginsEditor } from './plugin_editor/PluginsEditor';
 export { default as MultiDecorator } from './plugin_editor/MultiDecorator';
 export { default as blockMovePlugin } from './plugins/blockMovePlugin';
 export { default as blockRendererFnPlugin } from './plugins/blockRendererFn';
@@ -19,7 +19,6 @@ export { default as codeblockplugin } from './plugins/codeblockplugin';
 export { default as imageblockPlugin } from './plugins/imageblockPlugin';
 export { default as keyboardPlugin } from './plugins/keyboardPlugin';
 export { default as stylePlugin } from './plugins/style';
-
 
 export {
   Editor,

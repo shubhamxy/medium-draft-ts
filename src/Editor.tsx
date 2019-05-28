@@ -1,9 +1,23 @@
 import React from 'react';
 
-import PluginsEditor, {DraftPlugin} from './plugin_editor/Editor';
+import PluginsEditor, {DraftPlugin} from './plugin_editor/PluginsEditor';
 import {KEY_ENTER, KEY_ESCAPE} from './util/constants';
 import {getSelectedBlockNode} from './util';
 import {EditorState} from 'draft-js';
+import AddButton from './components/AddButton';
+
+export interface SideButtonComponentProps {
+    getEditorState: () => EditorState;
+    setEditorState: (state: EditorState) => void;
+    close: () => void;
+}
+
+export type SideButtonComponent = React.Component<SideButtonComponentProps>;
+
+export interface SideButton {
+    component: new (props: SideButtonComponentProps) => SideButtonComponent;
+    props?: {};
+}
 
 export interface EditorProps {
     autoFocus?: boolean;
@@ -12,6 +26,7 @@ export interface EditorProps {
     onChange: (editorState: EditorState) => void;
     placeholder?: '';
     plugins?: DraftPlugin[];
+    sideButtons: SideButton[];
 }
 
 type EditorRefCb = (editor: PluginsEditor) => void;
@@ -83,6 +98,7 @@ export default class Editor extends React.PureComponent<EditorProps, State> {
         const {
             editorEnabled,
             autoFocus,
+            sideButtons,
             ...restProps
         } = this.props;
 
@@ -97,6 +113,15 @@ export default class Editor extends React.PureComponent<EditorProps, State> {
                         getParentMethods={this.getMethods}
                     />
                 </div>
+                {sideButtons.length > 0 && editorEnabled && (
+                    <AddButton
+                        editorState={this.props.editorState}
+                        getEditorState={this.getEditorState}
+                        setEditorState={this.props.onChange}
+                        focus={this.focus}
+                        sideButtons={this.props.sideButtons}
+                    />
+                )}
                 {this.renderInput()}
             </div>
         );
@@ -133,6 +158,8 @@ export default class Editor extends React.PureComponent<EditorProps, State> {
             this.editorRef.current.focus();
         }
     }
+
+    private getEditorState = () => this.props.editorState;
 
     private handleInputKeyDown = (ev: React.KeyboardEvent) => {
         if (ev.which !== KEY_ENTER && ev.which !== KEY_ESCAPE) {

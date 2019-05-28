@@ -57,7 +57,7 @@ export function getCurrentBlock(editorState: Draft.EditorState): Draft.ContentBl
  * @param newType 
  * @param initialData 
  */
-export function addNewBlock(editorState: Draft.EditorState, newType: string = Block.UNSTYLED, initialData: Object = {}): Draft.EditorState {
+export function addNewBlock(editorState: Draft.EditorState, newType: string = Block.UNSTYLED, initialData: {} = {}): Draft.EditorState {
   const selectionState = editorState.getSelection();
   if (!selectionState.isCollapsed()) {
     return editorState;
@@ -73,14 +73,14 @@ export function addNewBlock(editorState: Draft.EditorState, newType: string = Bl
     if (currentBlock.getType() === newType) {
       return editorState;
     }
-    const newBlock = <Draft.ContentBlock>currentBlock.merge({
+    const newBlock = currentBlock.merge({
       type: newType,
       data: getDefaultBlockData(newType, initialData),
-    });
-    const newContentState = <Draft.ContentState>contentState.merge({
+    }) as Draft.ContentBlock;
+    const newContentState = contentState.merge({
       blockMap: blockMap.set(key, newBlock),
       selectionAfter: selectionState,
-    });
+    }) as Draft.ContentState;
     return Draft.EditorState.push(editorState, newContentState, 'change-block-type');
   }
   return editorState;
@@ -93,23 +93,23 @@ export function addNewBlock(editorState: Draft.EditorState, newType: string = Bl
  * @param newType 
  * @param overrides 
  */
-export const resetBlockWithType = (editorState: Draft.EditorState, newType: string = Block.UNSTYLED, overrides: Object = {}) => {
+export const resetBlockWithType = (editorState: Draft.EditorState, newType: string = Block.UNSTYLED, overrides: {} = {}) => {
   const contentState = editorState.getCurrentContent();
   const selectionState = editorState.getSelection();
   const key = selectionState.getStartKey();
   const blockMap = contentState.getBlockMap();
   const block = blockMap.get(key);
-  const newBlock = <Draft.ContentBlock>block.mergeDeep(overrides, {
+  const newBlock = block.mergeDeep(overrides, {
     type: newType,
     data: getDefaultBlockData(newType),
-  });
-  const newContentState = <Draft.ContentState>contentState.merge({
+  }) as Draft.ContentBlock;
+  const newContentState = contentState.merge({
     blockMap: blockMap.set(key, newBlock),
     selectionAfter: selectionState.merge({
       anchorOffset: 0,
       focusOffset: 0,
     }),
-  });
+  }) as Draft.ContentState;
   return Draft.EditorState.push(editorState, newContentState, 'change-block-type');
 };
 
@@ -119,24 +119,20 @@ export const resetBlockWithType = (editorState: Draft.EditorState, newType: stri
  * @param block 
  * @param newData 
  */
-export const updateDataOfBlock = (editorState: Draft.EditorState, block: Draft.ContentBlock, newData: Object) => {
+export const updateDataOfBlock = (editorState: Draft.EditorState, block: Draft.ContentBlock, newData: {}) => {
   const contentState = editorState.getCurrentContent();
-  const newBlock = <Draft.ContentBlock>block.merge({
+  const newBlock = block.merge({
     data: newData,
-  });
-  const newContentState = <Draft.ContentState>contentState.merge({
+  }) as Draft.ContentBlock;
+  const newContentState = contentState.merge({
     blockMap: contentState.getBlockMap().set(block.getKey(), newBlock),
-  });
+  }) as Draft.ContentState;
   return Draft.EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
 /**
  * Used from [react-rte](https://github.com/sstur/react-rte/blob/master/src/lib/insertBlockAfter.js)
  * by [sstur](https://github.com/sstur)
- * @param editorState 
- * @param pivotBlockKey 
- * @param newBlockType 
- * @param initialData 
  */
 export const addNewBlockAt = (
   editorState: Draft.EditorState,
@@ -175,7 +171,7 @@ export const addNewBlockAt = (
 
   const selection = editorState.getSelection();
 
-  const newContent = <Draft.ContentState>content.merge({
+  const newContent = content.merge({
     blockMap: newBlockMap,
     selectionBefore: selection,
     selectionAfter: selection.merge({
@@ -185,7 +181,7 @@ export const addNewBlockAt = (
       focusOffset: 0,
       isBackward: false,
     }),
-  });
+  }) as Draft.ContentState;
   return Draft.EditorState.push(editorState, newContent, 'split-block');
 };
 
@@ -244,16 +240,16 @@ export function swapBlocks(editorState: Draft.EditorState, block: Draft.ContentB
   const toBlockKey = toBlock.getKey();
 
   blockMap = blockMap
-    .set(fromBlockKey, <Draft.ContentBlock>toBlock.set('key', fromBlockKey))
-    .set(toBlockKey, <Draft.ContentBlock>block.set('key', toBlockKey));
+    .set(fromBlockKey, toBlock.set('key', fromBlockKey) as Draft.ContentBlock)
+    .set(toBlockKey, block.set('key', toBlockKey) as Draft.ContentBlock);
   let newSelection = editorState.getSelection();
-  newSelection = <Draft.SelectionState>newSelection.merge({
+  newSelection = newSelection.merge({
     anchorKey: toBlockKey,
     focusKey: toBlockKey,
-  });
+  }) as Draft.SelectionState;
 
-  return Draft.EditorState.push(editorState, <Draft.ContentState>newContent.merge({
+  return Draft.EditorState.push(editorState, newContent.merge({
     blockMap,
     selectionAfter: newSelection,
-  }), 'change-block-type');
+  }) as Draft.ContentState, 'change-block-type');
 }

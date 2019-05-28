@@ -67,6 +67,7 @@ es/
 build/
 medium-draft.d.ts
 docs/
+.idea
 .DS_Store
 local/
 coverage/

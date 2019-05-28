@@ -36,7 +36,7 @@ export function getSelection(root: Window): Selection {
  * Recursively finds the DOM Element of the block where the cursor is currently present.
  * If not found, returns null.
  */
-export function getSelectedBlockNode(root: Window): Element {
+export function getSelectedBlockNode(root: Window): HTMLElement {
   const selection = root.getSelection();
   if (selection.rangeCount === 0) {
     return null;
@@ -45,7 +45,7 @@ export function getSelectedBlockNode(root: Window): Element {
   // console.log(node);
   do {
     if ((node as Element).getAttribute && (node as Element).getAttribute('data-block') === 'true') {
-      return (node as Element);
+      return (node as HTMLElement);
     }
     node = node.parentNode;
     // console.log(node);

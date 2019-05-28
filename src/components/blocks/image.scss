@@ -1,52 +1,60 @@
 @keyframes fadein {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 
 figure.md-block-image {
-    margin: 10px 0;
-    background: #fbfbfb;
-    img {
-        display: block;
-        margin: 0 auto;
-        cursor: default;
-        max-width: 100%;
-        border: 1px solid #eee;
-        box-sizing: border-box;
+  margin: 10px 0;
+  background: #fbfbfb;
 
-        &.is-selected {
-            box-shadow: 0 0 0 3px #02b875;
-        }
-    }
+  img {
+    display: block;
+    margin: 0 auto;
+    cursor: default;
+    max-width: 100%;
+    border: 1px solid #eee;
+    box-sizing: border-box;
 
-    &--uploading {
-        animation: fadein 1s infinite;
+    &.is-selected {
+      box-shadow: 0 0 0 3px #02b875;
     }
+  }
 
-    figcaption {
-        display: block;
-        font-size: 14px;
-        line-height: 1.4;
-        color: rgba(0,0,0,.6);
-        letter-spacing: 0;
-        font-weight: 300;
-        font-style: normal;
-        text-align: center;
-        padding: 5px 0;
+  &--uploading {
+    animation: fadein 1s infinite;
+  }
 
-        .public-DraftStyleDefault-block {
-            text-align: center;
-        }
-    }
+  figcaption {
+    display: block;
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, .6);
+    letter-spacing: 0;
+    font-weight: 300;
+    font-style: normal;
+    text-align: center;
+    padding: 5px 0;
 
-    .md-block-image-inner-container {
-        position: relative;
+    .public-DraftStyleDefault-block {
+      text-align: center;
     }
-    .md-block-image-toolbar-container {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        cursor: pointer;
-    }
+  }
+
+  .md-block-image-inner-container {
+    position: relative;
+  }
+
+  .md-block-image-toolbar-container {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
+  }
 }

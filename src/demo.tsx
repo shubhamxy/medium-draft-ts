@@ -5,7 +5,8 @@ import {EditorState} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import './index.scss';
 import './demo.css';
-import { EditorProps } from './Editor';
+import './components/addbutton.scss';
+import {EditorProps, SideButton} from './Editor';
 import {createEditorState, Editor as EditorDraft } from './';
 import codeBlockPlugin from './plugins/codeblockplugin';
 import imageBlockPlugin from './plugins/imageblockPlugin';
@@ -13,7 +14,8 @@ import stylePlugin from './plugins/style';
 import rendererPlugin from './plugins/blockRendererFn';
 import blockMovePlugin from './plugins/blockMovePlugin';
 import keyboardPlugin from './plugins/keyboardPlugin';
-import {DraftPlugin} from './plugin_editor/Editor';
+import {DraftPlugin} from './plugin_editor/PluginsEditor';
+import {Separator} from './SideButtons/Separator';
 
 interface State {
     editorState: Draft.EditorState;
@@ -39,12 +41,20 @@ class App extends React.Component<Props, State> {
             keyboardPlugin(),
         ];
 
+        this.sideButtons = [
+            {
+                component: Separator,
+            }
+        ];
+
         this.state = {
             editorState: createEditorState(),
         };
     }
 
     private readonly plugins: DraftPlugin[];
+
+    private readonly sideButtons: SideButton[];
 
     public render() {
         const {Component: Editor = EditorDraft} = this.props;
@@ -55,6 +65,7 @@ class App extends React.Component<Props, State> {
                 editorState={this.state.editorState}
                 onChange={this.onChange}
                 plugins={this.plugins}
+                sideButtons={this.sideButtons}
             />
         );
     }
