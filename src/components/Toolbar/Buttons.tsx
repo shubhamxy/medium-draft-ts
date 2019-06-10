@@ -1,13 +1,17 @@
-import {HYPERLINK} from '../../util/constants';
+import {Block, HYPERLINK, Inline} from '../../util/constants';
 import React from 'react';
 import {ToolbarButtonInterface} from './Toolbar';
 
 export const BLOCK_BUTTONS: ToolbarButtonInterface[] = [
     {
         label: 'H2',
-        style: 'header-two',
-        icon: 'header',
+        style: Block.H2,
         description: 'Heading 2',
+    },
+    {
+        label: 'H3',
+        style: Block.H3,
+        description: 'Heading 3',
     },
     {
         label: (
@@ -15,52 +19,46 @@ export const BLOCK_BUTTONS: ToolbarButtonInterface[] = [
                 <path d="M12.5 0l.5.6c-2 1.5-3 3-3 4.8 0 1.5.8 2.7 2.4 3.8L9.5 12C8 10.8 7.1 9.3 7.1 7.7c0-2.4 1.8-5 5.4-7.7zM5.4 0l.5.6c-2 1.5-3 3-3 4.8 0 1.5.7 2.7 2.3 3.8L2.4 12C.8 10.8 0 9.3 0 7.7c0-2.4 1.8-5 5.4-7.7z" fill="#FFF"/>
             </svg>
         ),
-        style: 'blockquote',
-        icon: 'quote-right',
+        style: Block.BLOCKQUOTE,
         description: 'Blockquote',
     },
     {
         label: 'UL',
-        style: 'unordered-list-item',
-        icon: 'list-ul',
+        style: Block.UL,
         description: 'Unordered List',
     },
     {
         label: 'OL',
-        style: 'ordered-list-item',
-        icon: 'list-ol',
+        style: Block.OL,
         description: 'Ordered List',
-    },
-    {
-        label: '✓',
-        style: 'todo',
-        description: 'Todo List',
-    },
+    }
 ];
 
 export const INLINE_BUTTONS: ToolbarButtonInterface[] = [
     {
         label: 'B',
-        style: 'BOLD',
-        icon: 'bold',
+        style: Inline.BOLD,
         description: 'Bold',
     },
     {
         label: 'I',
-        style: 'ITALIC',
-        icon: 'italic',
+        style: Inline.ITALIC,
         description: 'Italic',
     },
     {
         label: 'U',
-        style: 'UNDERLINE',
-        icon: 'underline',
+        style: Inline.UNDERLINE,
         description: 'Underline',
     },
     {
         label: 'Hi',
-        style: 'HIGHLIGHT',
+        style: Inline.HIGHLIGHT,
         description: 'Highlight selection',
+    },
+    {
+        label: 'St',
+        style: Inline.STRIKETHROUGH,
+        description: 'Strikethrough selection',
     },
     {
         label: (
@@ -69,7 +67,6 @@ export const INLINE_BUTTONS: ToolbarButtonInterface[] = [
             </svg>
         ),
         style: HYPERLINK,
-        icon: 'link',
         description: 'Add a link',
     },
 ];

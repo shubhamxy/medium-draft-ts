@@ -86,14 +86,6 @@ export const htmlToBlock = (nodeName, node) => {
       };
     }
     return undefined;
-  } else if (nodeName === 'div' && node.className && node.className.match(/^md-block-todo/)) {
-    const inputNode = node.querySelector('input');
-    return {
-      type: Block.TODO,
-      data: {
-        checked: inputNode && inputNode.checked,
-      },
-    };
   } else if (nodeName === 'hr') {
     return {
       type: Block.BREAK,

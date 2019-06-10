@@ -6,13 +6,6 @@ declare module 'draft-js/lib/isSoftNewlineEvent' {
   export default isSoftNewlineEvent;
 }
 
-declare module 'draft-js-prism-plugin' {
-
-  function prismPlugin(options: Object): any;
-
-  export default prismPlugin;
-}
-
 declare module 'draft-js/lib/isSoftNewlineEvent' {
   import React from 'react';
 

@@ -25,13 +25,13 @@ export class ToolbarButton extends React.Component<ToolbarButtonProps> {
         className += ` md-RichEditor-styleButton-${this.props.style.toLowerCase()}`;
 
         return (
-            <span
+            <button
                 className={`${className} hint--top`}
                 onMouseDown={this.onToggle}
                 aria-label={this.props.description}
             >
                 {this.props.icon ? <i className={`fa fa-${this.props.icon}`}/> : this.props.label}
-            </span>
+            </button>
         );
     }
 

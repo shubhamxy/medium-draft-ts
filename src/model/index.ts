@@ -26,10 +26,6 @@ export function createEditorState(content: string | RawDraftContentState = null)
  */
 export function getDefaultBlockData(blockType: string, initialData: {} = {}): {} {
     switch (blockType) {
-        case Block.TODO:
-            return {
-                checked: false,
-            };
         case Block.CODE: {
             return {
                 language: '',
@@ -47,6 +43,7 @@ export function getDefaultBlockData(blockType: string, initialData: {} = {}): {}
 export function getCurrentBlock(editorState: EditorState): ContentBlock {
     const selectionState = editorState.getSelection();
     const contentState = editorState.getCurrentContent();
+
     return contentState.getBlockForKey(selectionState.getStartKey());
 }
 
@@ -116,6 +113,7 @@ export const resetBlockWithType = (editorState: EditorState, newType: string = B
             focusOffset: 0,
         }),
     }) as ContentState;
+
     return EditorState.push(editorState, newContentState, 'change-block-type');
 };
 
@@ -133,6 +131,7 @@ export const updateDataOfBlock = (editorState: EditorState, block: ContentBlock,
     const newContentState = contentState.merge({
         blockMap: contentState.getBlockMap().set(block.getKey(), newBlock),
     }) as ContentState;
+
     return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
@@ -188,6 +187,7 @@ export const addNewBlockAt = (
             isBackward: false,
         }),
     }) as ContentState;
+
     return EditorState.push(editorState, newContent, 'split-block');
 };
 
@@ -230,6 +230,7 @@ export const isCursorBetweenLink = (editorState: EditorState): null | {
             }
         }
     }
+
     return ret;
 };
 

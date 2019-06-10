@@ -12,6 +12,7 @@ export function getSelectionRect(selected: Selection): (ClientRect | null) {
             return null;
         }
     }
+
     return rect;
 }
 

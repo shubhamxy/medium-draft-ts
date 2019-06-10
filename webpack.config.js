@@ -1,8 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const postcssPresetEnv = require('postcss-preset-env');
+const postcssNesting = require('postcss-nesting');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const pkg = require('./package.json');
@@ -65,11 +64,7 @@ module.exports = (env, argv) => {
                             options: {
                                 plugins: [
                                     autoprefixer(),
-                                    postcssPresetEnv({
-                                        features: {
-                                            'nesting-rules': true
-                                        }
-                                    })
+                                    postcssNesting()
                                 ]
                             }
                         },
@@ -82,7 +77,6 @@ module.exports = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: '[name].css',
             }),
-            new OptimizeCSSAssetsPlugin(),
         ] : [
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, './index.html'),

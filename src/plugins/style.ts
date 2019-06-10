@@ -24,16 +24,9 @@ export function createInlineStylePlugin(): DraftPlugin {
                     return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-atomic`;
                 case Block.CAPTION:
                     return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-caption`;
-                case Block.TODO: {
-                    const data = contentBlock.getData();
-                    const checkedClass = data.get('checked') === true ?
-                        `${BASE_BLOCK_CLASS}-todo-checked` : `${BASE_BLOCK_CLASS}-todo-unchecked`;
-                    let finalClass = `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-paragraph `;
-                    finalClass += `${BASE_BLOCK_CLASS}-todo ${checkedClass}`;
-                    return finalClass;
-                }
                 case Block.BLOCKQUOTE_CAPTION: {
                     const cls = `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-quote`;
+
                     return `${cls} md-RichEditor-blockquote ${BASE_BLOCK_CLASS}-quote-caption`;
                 }
                 default:
@@ -44,18 +37,6 @@ export function createInlineStylePlugin(): DraftPlugin {
             [Inline.HIGHLIGHT]: {
                 backgroundColor: 'yellow',
             },
-            [Inline.CODE]: {
-                fontFamily: 'Consolas, "Liberation Mono", Menlo, Courier, monospace',
-                margin: '4px 0',
-                fontSize: '0.9em',
-                padding: '1px 3px',
-                color: '#555',
-                backgroundColor: '#fcfcfc',
-                border: '1px solid #ccc',
-                borderBottomColor: '#bbb',
-                borderRadius: 3,
-                boxShadow: 'inset 0 -1px 0 #bbb',
-            },
         },
         blockRenderMap: Immutable.Map({
             [Block.CAPTION]: {
@@ -63,9 +44,6 @@ export function createInlineStylePlugin(): DraftPlugin {
             },
             [Block.BLOCKQUOTE_CAPTION]: {
                 element: 'blockquote',
-            },
-            [Block.TODO]: {
-                element: 'div',
             },
             [Block.IMAGE]: {
                 element: 'figure',

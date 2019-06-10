@@ -23,7 +23,6 @@ export const Block = {
   ATOMIC: 'atomic',
   BLOCKQUOTE_CAPTION: 'block-quote-caption',
   CAPTION: 'caption',
-  TODO: 'todo',
   IMAGE: 'atomic:image',
   BREAK: 'atomic:break',
 };
@@ -54,17 +53,17 @@ export const KEY_COMMANDS = {
   deleteBlock: () => 'delete-block',
 };
 
-export const KEY_CODES = {
-  K: 75,
-  L: 76,
-  ONE: 49,
-  TWO: 50,
-  THREE: 51,
-  EIGHT: 56,
-  COMMA: 188,
-  PERIOD: 190,
-  QUOTE: 222,
-};
+export const enum KEY_CODES {
+  K = 75,
+  L = 76,
+  ONE = 49,
+  TWO = 50,
+  THREE = 51,
+  EIGHT = 56,
+  COMMA = 188,
+  PERIOD = 190,
+  QUOTE = 222,
+}
 
 export const StringToTypeMap: {[key: string]: string} = {
   '--': `${Block.BLOCKQUOTE}:${Block.BLOCKQUOTE_CAPTION}:${Block.CAPTION}`,
@@ -76,7 +75,6 @@ export const StringToTypeMap: {[key: string]: string} = {
   '# ': Block.H1,
   '##': Block.H2,
   '==': Block.UNSTYLED,
-  '[]': Block.TODO,
   '``': Block.CODE,
 };
 
@@ -85,7 +83,6 @@ export const continuousBlocks = [
   Block.BLOCKQUOTE,
   Block.OL,
   Block.UL,
-  Block.TODO,
 ];
 
 export const BASE_BLOCK_CLASS = 'md-block';

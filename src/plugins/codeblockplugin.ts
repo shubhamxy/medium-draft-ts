@@ -41,6 +41,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
 
             const data = block.getData();
             const lang = data.get('language', 'no-lang');
+
             return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-code language-${lang || 'no-lang'}`;
         },
 
@@ -79,6 +80,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
                         }).catch(() => {
                             // TODO
                         });
+
                     return HANDLED;
                 } else {
                     const lang = prompt('Set Language:', data.get('language') || '');
@@ -87,6 +89,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
                         const newData = data.set('language', lang);
                         setEditorState(updateDataOfBlock(editorState, block, newData));
                     }
+
                     return HANDLED;
                 }
             }
@@ -104,6 +107,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
             }
 
             setEditorState(RichUtils.insertSoftNewline(editorState));
+
             return HANDLED;
         },
 
@@ -128,6 +132,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
                     'insert-characters'
                 )
             );
+
             return HANDLED;
         },
 

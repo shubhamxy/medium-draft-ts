@@ -69,6 +69,7 @@ export default class MultiDecorator {
      */
     public getComponentForKey(key: string): () => void {
         const decorator = this.getDecoratorForKey(key);
+
         return decorator.getComponentForKey(
             MultiDecorator.getInnerKey(key)
         );
@@ -82,6 +83,7 @@ export default class MultiDecorator {
      */
     public getPropsForKey(key: string): object {
         const decorator = this.getDecoratorForKey(key);
+
         return decorator.getPropsForKey(
             MultiDecorator.getInnerKey(key)
         );
@@ -108,6 +110,7 @@ export default class MultiDecorator {
      */
     public static getInnerKey(key: string): string {
         const parts = key.split(KEY_SEPARATOR);
+
         return parts.slice(1).join(KEY_SEPARATOR);
     }
 }

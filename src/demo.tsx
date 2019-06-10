@@ -88,7 +88,7 @@ class App extends React.Component<Props, State> {
     }
 
     private onChange = (editorState: EditorState) => {
-        console.log(editorState.toJS());
+        // console.log(editorState.toJS());
 
         this.setState({
             editorState,

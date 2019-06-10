@@ -36,14 +36,6 @@ export function blockRendererPlugin(): DraftPlugin {
                             getEditorState,
                         },
                     };
-                case Block.TODO:
-                    return {
-                        component: TodoBlock,
-                        props: {
-                            setEditorState,
-                            getEditorState,
-                        },
-                    };
                 case Block.BREAK:
                     return {
                         component: SeparatorBlock,

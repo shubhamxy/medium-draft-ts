@@ -33,6 +33,7 @@ export function keyboardPlugin(): DraftPlugin {
                 if (ev.shiftKey) {
                     return unlink();
                 }
+
                 return showLinkInput();
             }
 
@@ -96,13 +97,16 @@ export function keyboardPlugin(): DraftPlugin {
                 }
 
                 setEditorState(RichUtils.toggleBlockType(editorState, newBlockType));
+
                 return HANDLED;
             } else if (command.indexOf(`${KEY_COMMANDS.toggleInline()}`) === 0) {
                 const inline = command.split(':')[1];
                 setEditorState(RichUtils.toggleInlineStyle(editorState, inline));
+
                 return HANDLED;
             } else if (command === 'backspace' && currentBlockType === Block.CODE && !block.getText().length) {
                 setEditorState(resetBlockWithType(editorState));
+
                 return HANDLED;
             }
 
@@ -110,6 +114,7 @@ export function keyboardPlugin(): DraftPlugin {
 
             if (newState) {
                 setEditorState(newState);
+
                 return HANDLED;
             }
 
@@ -168,6 +173,7 @@ export function keyboardPlugin(): DraftPlugin {
             setEditorState(resetBlockWithType(editorState, fType, {
                 text: '',
             }));
+
             return HANDLED;
         },
 
@@ -177,12 +183,14 @@ export function keyboardPlugin(): DraftPlugin {
 
             if (isSoftNewlineEvent(ev)) {
                 setEditorState(RichUtils.insertSoftNewline(editorState));
+
                 return HANDLED;
             }
 
             if (!ev.altKey || !ev.metaKey || !ev.ctrlKey) {
                 if (blockType.indexOf(Block.ATOMIC) === 0) {
                     setEditorState(addNewBlockAt(editorState, currentBlock.getKey()));
+
                     return HANDLED;
                 }
 
@@ -193,11 +201,11 @@ export function keyboardPlugin(): DraftPlugin {
                         case Block.BLOCKQUOTE:
                         case Block.BLOCKQUOTE_CAPTION:
                         case Block.CAPTION:
-                        case Block.TODO:
                         case Block.H2:
                         case Block.H3:
                         case Block.H1:
                             setEditorState(resetBlockWithType(editorState, Block.UNSTYLED));
+
                             return HANDLED;
                         default:
                             return NOT_HANDLED;
@@ -209,11 +217,10 @@ export function keyboardPlugin(): DraftPlugin {
                 if (selection.isCollapsed() && currentBlock.getLength() === selection.getStartOffset()) {
                     if (continuousBlocks.indexOf(blockType) < 0) {
                         setEditorState(addNewBlockAt(editorState, currentBlock.getKey()));
+
                         return HANDLED;
                     }
-                    return NOT_HANDLED;
                 }
-                return NOT_HANDLED;
             }
 
             return NOT_HANDLED;
@@ -263,6 +270,7 @@ export function keyboardPlugin(): DraftPlugin {
                         }),
                     }) as ContentState;
                     setEditorState(EditorState.push(editorState, newContent, 'insert-characters'));
+
                     return true;
                 }
             } else if (currentBlock.getType().indexOf(Block.ATOMIC) === 0) {
@@ -279,6 +287,7 @@ export function keyboardPlugin(): DraftPlugin {
                     isBackward: false,
                 }) as SelectionState;
                 setEditorState(EditorState.forceSelection(editorState, newSelection));
+
                 return true;
             }
         }

@@ -243,16 +243,17 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
         const content = editorState.getCurrentContent();
         let entityKey = null;
         let newUrl = url;
+
         if (this.props.processURL) {
             newUrl = this.props.processURL(url);
-        } else if (url.indexOf('http') !== 0 && url.indexOf('mailto:') !== 0) {
+        } else if (url && url.indexOf('http') !== 0 && url.indexOf('mailto:') !== 0) {
             if (url.indexOf('@') >= 0) {
                 newUrl = `mailto:${newUrl}`;
             } else {
                 newUrl = `http://${newUrl}`;
             }
         }
-        if (newUrl !== '') {
+        if (newUrl) {
             const contentWithEntity = content.createEntity(E.LINK, 'MUTABLE', { url: newUrl });
             editorState = EditorState.push(editorState, contentWithEntity, 'apply-entity');
             entityKey = contentWithEntity.getLastCreatedEntityKey();

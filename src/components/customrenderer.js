@@ -7,10 +7,7 @@ import BreakBlock from './blocks/SeparatorBlock';
 
 import {Block} from '../util/constants';
 
-console.log(12312);
-
 export default (setEditorState, getEditorState) => (contentBlock) => {
-    // console.log(editorState, onChange);
     const type = contentBlock.getType();
     switch (type) {
         case Block.BLOCKQUOTE_CAPTION:
@@ -26,14 +23,6 @@ export default (setEditorState, getEditorState) => (contentBlock) => {
                 component: AtomicBlock,
                 editable: false,
                 props: {
-                    getEditorState,
-                },
-            };
-        case Block.TODO:
-            return {
-                component: TodoBlock,
-                props: {
-                    setEditorState,
                     getEditorState,
                 },
             };

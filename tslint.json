@@ -25,6 +25,7 @@
     "max-line-length": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
+    "newline-before-return": true,
     "prefer-const": false,
     "member-ordering": [
       true,

@@ -27,7 +27,6 @@ export interface ToolbarButtonInterface {
     label?: string | JSX.Element;
     style: string;
     description?: string;
-    icon?: string;
 }
 
 export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
@@ -44,6 +43,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     public componentWillReceiveProps(newProps: ToolbarProps) {
         const {editorState} = newProps;
         const selectionState = editorState.getSelection();
+
         if (selectionState.isCollapsed()) {
             if (this.state.showURLInput) {
                 this.setState({
@@ -51,7 +51,6 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                     urlInputValue: '',
                 });
             }
-            return;
         }
     }
 
@@ -67,7 +66,6 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         if (selectionState.isCollapsed()) {
             return;
         }
-        // eslint-disable-next-line no-undef
         const nativeSelection = getSelection(window);
         if (!nativeSelection.rangeCount) {
             return;
@@ -86,12 +84,13 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         // center of selection relative to parent - half width of toolbar
         const selectionCenter = (selectionBoundary.left + (selectionBoundary.width / 2)) - parentBoundary.left;
         let left = selectionCenter - (width / 2);
-        const screenLeft = parentBoundary.left + left;
-        if (screenLeft < 0) {
-            // If the toolbar would be off-screen
-            // move it as far left as it can without going off-screen
-            left = -parentBoundary.left;
+
+        if (left < 0) {
+            left = 0;
+        } else if (left + toolbarBoundary.width > parentBoundary.width) {
+            left = parentBoundary.width - toolbarBoundary.width;
         }
+
         toolbarNode.style.left = `${left}px`;
         toolbarNode.style.width = `${width}px`;
         toolbarNode.style.top = `${top}px`;
@@ -108,6 +107,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         if (showURLInput) {
             let className = `md-editor-toolbar${(isOpen ? ' md-editor-toolbar--is-open' : '')}`;
             className += ' md-editor-toolbar--link-input';
+
             return (
                 <div
                     ref={this.toolbarRef}
@@ -117,7 +117,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                         className="md-RichEditor-controls md-RichEditor-show-link-input"
                         style={{display: 'block'}}
                     >
-                        <span className="md-url-input-close" onClick={this.hideLinkInput}>&times;</span>
+                        <button className="md-url-input-close md-RichEditor-styleButton" onClick={this.onSaveLink}>ok</button>
                         <input
                             ref={this.urlInputRef}
                             type="text"
@@ -147,6 +147,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                 break;
             }
         }
+
         return (
             <div
                 ref={this.toolbarRef}
@@ -168,13 +169,13 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                 ) : null}
                 {hasHyperLink && (
                     <div className="md-RichEditor-controls">
-                        <span
+                        <button
                             className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top"
                             onClick={this.handleLinkInput}
                             aria-label={hyperlinkDescription}
                         >
                             {hyperlinkLabel}
-                        </span>
+                        </button>
                     </div>
                 )}
             </div>
@@ -185,10 +186,10 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         if (e.which === KEY_ENTER) {
             e.preventDefault();
             e.stopPropagation();
-            this.props.setLink(this.state.urlInputValue);
-            this.hideLinkInput(null);
+
+            this.onSaveLink();
         } else if (e.which === KEY_ESCAPE) {
-            this.hideLinkInput(null);
+            this.hideLinkInput();
         }
     }
 
@@ -207,6 +208,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         const selection = editorState.getSelection();
         if (selection.isCollapsed()) {
             this.props.focus();
+
             return;
         }
         const currentBlock = getCurrentBlock(editorState);
@@ -215,6 +217,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         currentBlock.findEntityRanges((character) => {
             const entityKey = character.getEntity();
             selectedEntity = entityKey;
+
             return entityKey !== null && editorState.getCurrentContent().getEntity(entityKey).getType() === Entity.LINK;
         }, (start, end) => {
             let selStart = selection.getAnchorOffset();
@@ -248,11 +251,12 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         }
     }
 
-    private hideLinkInput: MouseEventHandler<HTMLSpanElement> = (e) => {
-        if (e !== null) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    private onSaveLink = () => {
+        this.props.setLink(this.state.urlInputValue);
+        this.hideLinkInput();
+    }
+
+    private hideLinkInput = () => {
         this.setState({
             showURLInput: false,
             urlInputValue: '',

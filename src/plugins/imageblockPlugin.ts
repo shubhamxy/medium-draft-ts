@@ -119,6 +119,7 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
                 const editorStateInner = getEditorState();
                 resetBlockWithType(editorStateInner, Block.UNSTYLED, {});
             });
+
             return HANDLED;
         }
     };

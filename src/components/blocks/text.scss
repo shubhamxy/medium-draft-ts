@@ -17,4 +17,19 @@
     font-size: 1.3em;
     margin: 1.2em 0;
   }
+
+  h3 {
+    font-size: 1.15em;
+    margin: 1.2em 0;
+  }
+
+  & h2, & h3 {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

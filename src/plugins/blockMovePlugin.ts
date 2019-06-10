@@ -40,8 +40,11 @@ function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEven
         return false;
     }
 
+    console.log('move');
+
     const blockToSwapWith = isUp ? contentState.getBlockBefore(blockToMove.getKey()) : contentState.getBlockAfter(blockToMove.getKey());
     setEditorState(swapBlocks(editorState, blockToMove, blockToSwapWith));
+
     return true;
 }
 
@@ -54,6 +57,8 @@ export function blockMovePlugin(options?: BlockMovePluginOptions): DraftPlugin {
 
     return {
         onUpArrow: (ev, {getEditorState, setEditorState}) => {
+            console.log('ewrqwer');
+
             return moveBlock(keyFilterFunction, ev, getEditorState(), MoveDirection.UP, setEditorState);
         },
         onDownArrow: (ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}) => {
