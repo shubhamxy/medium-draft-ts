@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {EditorState} from 'draft-js';
+import {stateToHTML} from 'draft-js-export-html';
 
 import 'draft-js/dist/Draft.css';
 import './index.scss';
@@ -88,7 +89,7 @@ class App extends React.Component<Props, State> {
     }
 
     private onChange = (editorState: EditorState) => {
-        // console.log(editorState.toJS());
+        console.log(stateToHTML(editorState.getCurrentContent()));
 
         this.setState({
             editorState,
