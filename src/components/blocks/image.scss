@@ -14,7 +14,7 @@ figure.md-block-image {
   margin: 10px 0;
   background: #fbfbfb;
 
-  img {
+  & .md-block-image-inner-container--image {
     display: block;
     margin: 0 auto;
     cursor: default;
@@ -31,27 +31,27 @@ figure.md-block-image {
     animation: fadein 1s infinite;
   }
 
-  figcaption {
+  & figcaption {
     display: block;
     font-size: 14px;
     line-height: 1.4;
-    color: rgba(0, 0, 0, .6);
+    color: rgba(72, 72, 72, 0.6);
     letter-spacing: 0;
     font-weight: 300;
     font-style: normal;
     text-align: center;
     padding: 5px 0;
 
-    .public-DraftStyleDefault-block {
+    & .public-DraftStyleDefault-block {
       text-align: center;
     }
   }
 
-  .md-block-image-inner-container {
+  & .md-block-image-inner-container {
     position: relative;
   }
 
-  .md-block-image-toolbar-container {
+  & .md-block-image-toolbar-container {
     position: absolute;
     top: 0;
     right: 10px;

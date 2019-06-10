@@ -15,7 +15,7 @@ const enum MoveDirection {
     DOWN,
 }
 
-function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEvent<{}>, editorState: EditorState, direction: MoveDirection, setEditorState: (es: Draft.EditorState) => void): boolean {
+function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEvent<{}>, editorState: EditorState, direction: MoveDirection, setEditorState: (es: EditorState) => void): boolean {
     if (!keyFilterFunction(ev)) {
         return false;
     }
@@ -49,7 +49,7 @@ interface BlockMovePluginOptions {
     keyFilterFunction?: KeyBoardFilterFunc;
 }
 
-export default function blockMovePlugin(options?: BlockMovePluginOptions): DraftPlugin {
+export function blockMovePlugin(options?: BlockMovePluginOptions): DraftPlugin {
     const keyFilterFunction = (options && options.keyFilterFunction) || defaultFilterFunction;
 
     return {

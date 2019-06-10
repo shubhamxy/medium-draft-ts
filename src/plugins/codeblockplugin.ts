@@ -15,7 +15,7 @@ function shouldEarlyReturn(block: ContentBlock): boolean {
     return (block.getType() !== Block.CODE);
 }
 
-export default function codeBlockPlugin(options?: OptionType): DraftPlugin {
+export function codeBlockPlugin(options?: OptionType): DraftPlugin {
     const ignoreCommands = (options && options.ignoreCommands) || ['bold', 'italic', 'underline'];
     const tabSize = (options && options.tabSize) ? options.tabSize : 2;
 

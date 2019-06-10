@@ -1,7 +1,7 @@
 import {ContentBlock, EditorState, genKey, SelectionState} from 'draft-js';
 
 import {BASE_BLOCK_CLASS, Block, HANDLED, NOT_HANDLED} from '../util/constants';
-import ImageBlock from '../components/blocks/image';
+import ImageBlock from '../components/blocks/ImageBlock';
 import {addNewBlock, addNewBlockAt, resetBlockWithType, updateDataOfBlock} from '../model';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 
@@ -31,7 +31,7 @@ function dummyUploadImage(files: Blob[]): Promise<string[]> {
     });
 }
 
-export default function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
+export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
     return {
         blockRendererFn(block: ContentBlock, {getEditorState, setEditorState}: PluginFunctions) {
             if (shouldEarlyReturn(block)) {
@@ -120,10 +120,6 @@ export default function imageBlockPlugin(options?: ImagePluginOptionType): Draft
                 resetBlockWithType(editorStateInner, Block.UNSTYLED, {});
             });
             return HANDLED;
-        },
-
-        // handleDrop(selection, dt, isInternal) {
-        //   return NOT_HANDLED;
-        // },
+        }
     };
 }

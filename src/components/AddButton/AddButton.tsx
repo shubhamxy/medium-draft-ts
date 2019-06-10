@@ -1,8 +1,8 @@
 import React from 'react';
 import {DraftBlockType, EditorState, SelectionState} from 'draft-js';
 
-import {getSelectedBlockNode} from '../util';
-import {SideButton} from '../Editor';
+import {getSelectedBlockNode} from '../../util';
+import {SideButton} from '../../MediumDraftEditor';
 
 interface AddButtonProps {
     editorState: EditorState;
@@ -27,25 +27,19 @@ interface ExtendedSelectionState extends SelectionState {
  * Implementation of the medium-link side `+` button to insert various rich blocks
  * like Images/Embeds/Videos.
  */
-export default class AddButton extends React.Component<AddButtonProps, AddButtonState> {
+export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
 
-    constructor(props: AddButtonProps) {
-        super(props);
-        this.state = {
-            visible: false,
-            isOpen: false,
-            top: 0,
-        };
-        this.node = null;
-        this.blockKey = '';
-        this.blockType = 'unstyled';
-    }
+    public state: Readonly<AddButtonState> = {
+        visible: false,
+        isOpen: false,
+        top: 0,
+    };
 
-    private node: HTMLElement;
+    private node: HTMLElement = null;
 
-    private blockType: DraftBlockType;
+    private blockType: DraftBlockType = 'unstyled';
 
-    private blockKey: string;
+    private blockKey: string = '';
 
     // To show + button only when text length == 0
     public componentWillReceiveProps(newProps: AddButtonProps) {

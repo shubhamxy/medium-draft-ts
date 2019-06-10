@@ -1,7 +1,7 @@
 import React from 'react';
 import {addNewBlock, addNewBlockAt, getCurrentBlock} from '../model';
 import {Block} from '../util/constants';
-import {SideButtonComponentProps} from '../Editor';
+import {SideButtonComponentProps} from '../MediumDraftEditor';
 
 export class Separator extends React.PureComponent<SideButtonComponentProps> {
 

@@ -2,7 +2,7 @@ import React, {ChangeEventHandler} from 'react';
 
 import {addNewBlock} from '../model';
 import {Block} from '../util/constants';
-import {SideButtonComponentProps} from '../Editor';
+import {SideButtonComponentProps} from '../MediumDraftEditor';
 
 export class Image extends React.PureComponent<SideButtonComponentProps> {
 

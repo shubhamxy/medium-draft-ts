@@ -1,20 +1,20 @@
-.public-DraftEditor-content {
-  .md-block-paragraph {
-    margin: 20px 0;
+.md-block-paragraph {
+  margin: 25px 0;
 
-    &:first-child {
-      margin-top: 0;
-    }
+  &:first-child {
+    margin-top: 0;
+  }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
-.md-block-checkbox {
-  input[type=checkbox] {
-    float: left;
-    margin-right: 10px;
+.md-RichEditor-editor {
+  cursor: text;
+
+  h2 {
+    font-size: 1.3em;
+    margin: 1.2em 0;
   }
 }

@@ -2,10 +2,12 @@ import QuoteCaptionBlock from './blocks/blockquotecaption';
 import CaptionBlock from './blocks/caption';
 import AtomicBlock from './blocks/atomic';
 import TodoBlock from './blocks/todo';
-import ImageBlock from './blocks/image';
-import BreakBlock from './blocks/separator';
+import ImageBlock from './blocks/ImageBlock';
+import BreakBlock from './blocks/SeparatorBlock';
 
 import {Block} from '../util/constants';
+
+console.log(12312);
 
 export default (setEditorState, getEditorState) => (contentBlock) => {
     // console.log(editorState, onChange);

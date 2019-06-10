@@ -1,92 +1,38 @@
-@keyframes pop-upwards {
-  0% {
-    transform: matrix(.97, 0, 0, 1, 0, 12);
-    opacity: 0;
-  }
-  20% {
-    transform: matrix(.99, 0, 0, 1, 0, 2);
-    opacity: .7;
-  }
-  40% {
-    transform: matrix(1, 0, 0, 1, 0, -1);
-    opacity: 1;
-  }
-  70% {
-    transform: matrix(1, 0, 0, 1, 0, 0);
-    opacity: 1;
-  }
-  100% {
-    transform: matrix(1, 0, 0, 1, 0, 0);
-    opacity: 1;
-  }
-}
-
-@keyframes pop-downwards {
-  0% {
-    transform: matrix(.97, 0, 0, 1, 0, -12);
-    opacity: 0
-  }
-  20% {
-    transform: matrix(.99, 0, 0, 1, 0, -2);
-    opacity: .7
-  }
-  40% {
-    transform: matrix(1, 0, 0, 1, 0, 1);
-    opacity: 1
-  }
-  70% {
-    transform: matrix(1, 0, 0, 1, 0, 0);
-    opacity: 1
-  }
-  100% {
-    transform: matrix(1, 0, 0, 1, 0, 0);
-    opacity: 1
-  }
-}
-
-
-$toolbar-color: #323845;
-
-
 .md-editor-toolbar {
-  background: $toolbar-color;
+  background: #323845;
   color: #fff;
   cursor: auto;
   border-radius: 5px;
   z-index: 2;
   position: absolute;
-  transition: all 0.1s ease;
   visibility: hidden;
   box-shadow: 0 1px 3px 0 #747171;
+  margin-top: -5px;
 
-  &.md-editor-toolbar--isopen {
+  &.md-editor-toolbar--is-open {
     visibility: visible;
   }
 
-  &.md-editor-toolbar--linkinput {
-    animation: pop-downwards 200ms forwards linear;
-  }
-
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -5px;
     left: 50%;
-    margin-left: -5px;
-    border-top: 5px solid $toolbar-color;
+    margin-left: -2px;
+    border-top: 5px solid #323845;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
   }
 
-  .md-url-input {
+  & .md-url-input {
     box-sizing: border-box;
     border-radius: 2px;
     display: block;
     width: 100%;
-    padding: 5px;
-    padding-right: 11px;
+    height: 36px;
+    padding: 5px 11px 5px 5px;
     border: none;
-    background: $toolbar-color;
+    background: #323845;
     color: #fff;
     font-size: 0.9em;
     font-weight: 100;
@@ -96,12 +42,20 @@ $toolbar-color: #323845;
     }
   }
 
-  .md-url-input-close {
+  & .md-url-input-close {
     position: absolute;
-    right: 8px;
-    top: 2.5px;
+    right: 0;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
     font-size: 20px;
     cursor: pointer;
+
+    &:hover {
+      color: yellow;
+    }
   }
 }
 
@@ -110,7 +64,7 @@ $toolbar-color: #323845;
   font-size: 0.8em;
   width: 320px;
 
-  a {
+  & a {
     color: #fff;
     text-decoration: none;
   }
@@ -121,7 +75,7 @@ $toolbar-color: #323845;
     transform: rotate(180deg);
   }
 
-  button {
+  & button {
     background: none;
     border: none;
     color: #fff;
@@ -140,30 +94,26 @@ $toolbar-color: #323845;
 .md-RichEditor-controls {
   font-family: 'Helvetica', sans-serif;
   font-size: 14px;
-  display: inline-block;
   border-right: 1px solid #555;
-  position: relative;
-
-  &.md-RichEditor-show-link-input {
-    padding: 6px 10px;
-  }
+  display: inline-flex;
+  vertical-align: top;
 
   &:last-child {
     border-right: none;
   }
 
-  .md-RichEditor-linkButton {
-    padding: 0 5px;
-    color: #fff;
-    text-decoration: none;
+  &.md-RichEditor-show-link-input {
+    display: block;
   }
 }
 
 .md-RichEditor-styleButton {
   color: #fff;
   cursor: pointer;
-  display: inline-block;
   padding: 6px 10px;
+  height: 24px;
+  line-height: 24px;
+  display: block;
 
   &:hover {
     color: yellow;
@@ -188,6 +138,10 @@ $toolbar-color: #323845;
   &.md-RichEditor-styleButton-strikethrough {
     text-decoration: line-through;
   }
+
+  &.md-RichEditor-linkButton {
+    padding: 6px;
+  }
 }
 
 .md-RichEditor-activeButton {
@@ -200,7 +154,7 @@ $toolbar-color: #323845;
 }
 
 .md-RichEditor-controls-block {
-  .md-RichEditor-styleButton:first-child {
+  & .md-RichEditor-styleButton:first-child {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
   }

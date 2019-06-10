@@ -1,47 +1,23 @@
 .md-RichEditor-root {
-  background: #fff;
-  box-sizing: border-box;
-  padding: 15px 30px;
   position: relative;
-  line-height: 1.4em;
 }
 
-
-.md-RichEditor-editor {
-  cursor: text;
-  position: relative;
-  margin: 0 auto;
-  z-index: 0;
-
-  h3 {
-    font-size: 1.3em;
-    margin: 1.2em 0;
-  }
+.md-side-toolbar {
+  margin-top: 20px;
 }
 
 .md-RichEditor-editor {
-  .public-DraftEditor-content {
-    min-height: 100px;
-  }
-
-  .md-RichEditor-blockquote {
+  & .md-RichEditor-blockquote {
     border-left: 5px solid #4CA8DE;
-    color: #555;
     font-size: 1.2em;
     margin: 0;
-    padding: 10px 0 10px 20px;
+    padding: 15px 0 15px 20px;
     background-color: #E2F2FF;
   }
 }
 
 .md-RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
   display: none;
-}
-
-.md-RichEditor-blockquote {
-  a {
-    text-decoration: underline;
-  }
 }
 
 .md-RichEditor-editor .public-DraftStyleDefault-pre {

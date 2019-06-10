@@ -57,16 +57,16 @@ export interface PluginEditorProps extends EditorProps {
 export interface SimpleDecorator {
     strategy: (block: ContentBlock, callback: (start: number, end: number) => void, contentState: ContentState) => void;
     component: (props: any) => JSX.Element;
-    props?: {};
+    props?: any;
 }
 
 export type DraftDecoratorType = SimpleDecorator | CompositeDecorator;
 
 export interface DraftPlugin {
     blockRendererFn?: (cb: ContentBlock, draftPluginFns: PluginFunctions) => {
-        component: React.ComponentType | React.FunctionComponent;
+        component: React.ComponentType<any> | React.FunctionComponent<any>;
         editable?: boolean;
-        props?: {},
+        props?: any,
     } | null;
     keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => string | void;
     blockStyleFn?: (contentBlock: ContentBlock) => string | null;

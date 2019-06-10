@@ -10,7 +10,7 @@ export const styleToHTML = (style) => {
     case Inline.BOLD:
       return <strong className={`md-inline-${style.toLowerCase()}`} />;
     case Inline.STRIKETHROUGH:
-      return <strike className={`md-inline-${style.toLowerCase()}`} />;
+      return <s className={`md-inline-${style.toLowerCase()}`} />;
     case Inline.UNDERLINE:
       return <u className={`md-inline-${style.toLowerCase()}`} />;
     case Inline.HIGHLIGHT:
@@ -28,22 +28,16 @@ export const blockToHTML = (block) => {
 
   switch (blockType) {
     case Block.H1:
-      // eslint-disable-next-line jsx-a11y/heading-has-content
       return <h1 className={`md-block-${blockClass}`} />;
     case Block.H2:
-      // eslint-disable-next-line jsx-a11y/heading-has-content
       return <h2 className={`md-block-${blockClass}`} />;
     case Block.H3:
-      // eslint-disable-next-line jsx-a11y/heading-has-content
       return <h3 className={`md-block-${blockClass}`} />;
     case Block.H4:
-      // eslint-disable-next-line jsx-a11y/heading-has-content
       return <h4 className={`md-block-${blockClass}`} />;
     case Block.H5:
-      // eslint-disable-next-line jsx-a11y/heading-has-content
       return <h5 className={`md-block-${blockClass}`} />;
     case Block.H6:
-      // eslint-disable-next-line jsx-a11y/heading-has-content
       return <h6 className={`md-block-${blockClass}`} />;
     case Block.BLOCKQUOTE_CAPTION:
     case Block.CAPTION:

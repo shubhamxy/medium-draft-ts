@@ -4,19 +4,18 @@ export { default as CodeBlock } from './components/blocks/code';
 export { default as QuoteCaptionBlock } from './components/blocks/blockquotecaption';
 export { default as CaptionBlock } from './components/blocks/caption';
 export { default as TodoBlock } from './components/blocks/todo';
-export { default as ImageBlock } from './components/blocks/image';
-export { default as BreakBlock } from './components/blocks/separator';
+export { default as ImageBlock } from './components/blocks/ImageBlock';
+export { default as BreakBlock } from './components/blocks/SeparatorBlock';
 export { default as TextBlock } from './components/blocks/text';
 
-import Editor from './Editor';
+import {MediumDraftEditor as Editor} from './MediumDraftEditor';
 export * from './model';
 
 export { default as PluginsEditor } from './plugin_editor/PluginsEditor';
 export { default as MultiDecorator } from './plugin_editor/MultiDecorator';
 export { default as blockMovePlugin } from './plugins/blockMovePlugin';
-export { default as blockRendererFnPlugin } from './plugins/blockRendererFn';
-export { default as codeblockplugin } from './plugins/codeblockplugin';
-export { default as imageblockPlugin } from './plugins/imageblockPlugin';
+export { default as codeBlockPlugin } from './plugins/codeblockplugin';
+export { default as imageBlockPlugin } from './plugins/imageblockPlugin';
 export { default as keyboardPlugin } from './plugins/keyboardPlugin';
 export { default as stylePlugin } from './plugins/style';
 

@@ -1,13 +1,13 @@
 import React from 'react';
-import {EditorBlock} from 'draft-js';
+import {EditorBlock, ContentBlock, EditorState} from 'draft-js';
 
 import {updateDataOfBlock} from '../../model/';
 
 interface Props {
-    block: Draft.ContentBlock;
+    block: ContentBlock;
     blockProps: {
-        getEditorState: () => Draft.EditorState;
-        setEditorState: (es: Draft.EditorState) => void;
+        getEditorState: () => EditorState;
+        setEditorState: (es: EditorState) => void;
     };
 }
 
@@ -28,7 +28,7 @@ export default class CodeBlock extends React.Component<Props> {
         const {setEditorState, getEditorState} = blockProps;
         const newData = data.set('language', lang);
         setEditorState(updateDataOfBlock(getEditorState(), block, newData));
-    };
+    }
 
     public render() {
         const {block} = this.props;

@@ -1,10 +1,12 @@
 import Immutable from 'immutable';
-import { ContentBlock, ContentState } from 'draft-js';
+import {ContentBlock, ContentState} from 'draft-js';
 
 interface CompositeDecoratorType {
-  getDecorations(block: ContentBlock, contentState: ContentState): Immutable.List<string>;
-  getComponentForKey(key: string): () => void;
-  getPropsForKey(key: string): {};
+    getDecorations(block: ContentBlock, contentState: ContentState): Immutable.List<string>;
+
+    getComponentForKey(key: string): () => void;
+
+    getPropsForKey(key: string): {};
 }
 
 /**
@@ -32,83 +34,80 @@ interface CompositeDecoratorType {
 const KEY_SEPARATOR = '-';
 
 export default class MultiDecorator {
-  public decorators: Immutable.List<CompositeDecoratorType>;
+    public decorators: Immutable.List<CompositeDecoratorType>;
 
-  constructor(decorators: CompositeDecoratorType[]) {
-    this.decorators = Immutable.List(decorators);
-  }
+    constructor(decorators: CompositeDecoratorType[]) {
+        this.decorators = Immutable.List(decorators);
+    }
 
-  /**
-   * Return list of decoration IDs per character
-   *
-   * @param {ContentBlock} block
-   * @return {List<String>}
-   */
-  public getDecorations(block: ContentBlock, contentState: ContentState): Immutable.List<string> {
-    const decorations = new Array(block.getText().length).fill(null);
+    /**
+     * Return list of decoration IDs per character
+     */
+    public getDecorations(block: ContentBlock, contentState: ContentState): Immutable.List<string> {
+        const decorations = new Array(block.getText().length).fill(null);
 
-    this.decorators.forEach((decorator, i) => {
-      const subDecorations = decorator.getDecorations(block, contentState);
+        this.decorators.forEach((decorator, i) => {
+            const subDecorations = decorator.getDecorations(block, contentState);
 
-      subDecorations.forEach((key, offset) => {
-        if (!key) {
-          return;
-        }
+            subDecorations.forEach((key, offset) => {
+                if (!key) {
+                    return;
+                }
 
-        decorations[offset] = i + KEY_SEPARATOR + key;
-      });
-    });
+                decorations[offset] = i + KEY_SEPARATOR + key;
+            });
+        });
 
-    return Immutable.List(decorations);
-  }
+        return Immutable.List(decorations);
+    }
 
-  /**
-   * Return component to render a decoration
-   *
-   * @param {String} key
-   * @return {Function}
-   */
-  public getComponentForKey(key: string): () => void {
-    const decorator = this.getDecoratorForKey(key);
-    return decorator.getComponentForKey(
-      MultiDecorator.getInnerKey(key)
-    );
-  }
+    /**
+     * Return component to render a decoration
+     *
+     * @param {String} key
+     * @return {Function}
+     */
+    public getComponentForKey(key: string): () => void {
+        const decorator = this.getDecoratorForKey(key);
+        return decorator.getComponentForKey(
+            MultiDecorator.getInnerKey(key)
+        );
+    }
 
-  /**
-   * Return props to render a decoration
-   *
-   * @param {String} key
-   * @return {Object}
-   */
-  public getPropsForKey(key: string): object {
-    const decorator = this.getDecoratorForKey(key);
-    return decorator.getPropsForKey(
-      MultiDecorator.getInnerKey(key)
-    );
-  }
+    /**
+     * Return props to render a decoration
+     *
+     * @param {String} key
+     * @return {Object}
+     */
+    public getPropsForKey(key: string): object {
+        const decorator = this.getDecoratorForKey(key);
+        return decorator.getPropsForKey(
+            MultiDecorator.getInnerKey(key)
+        );
+    }
 
-  /**
-   * Return a decorator for a specific key
-   *
-   * @param {String} key
-   * @return {CompositeDecoratorType}
-   */
-  public getDecoratorForKey(key: string): CompositeDecoratorType {
-    const parts = key.split(KEY_SEPARATOR);
-    const index = Number(parts[0]);
+    /**
+     * Return a decorator for a specific key
+     *
+     * @param {String} key
+     * @return {CompositeDecoratorType}
+     */
+    public getDecoratorForKey(key: string): CompositeDecoratorType {
+        const parts = key.split(KEY_SEPARATOR);
+        const index = Number(parts[0]);
 
-    return this.decorators.get(index);
-  }
+        return this.decorators.get(index);
+    }
 
-  /**
-   * Return inner key for a decorator
-   *
-   * @param {String} key
-   * @return {String}
-   */
-  public static getInnerKey(key: string): string {
-    const parts = key.split(KEY_SEPARATOR);
-    return parts.slice(1).join(KEY_SEPARATOR);
-  }
+    /**
+     * Return inner key for a decorator
+     *
+     * @param {String} key
+     * @return {String}
+     */
+    public static getInnerKey(key: string): string {
+        const parts = key.split(KEY_SEPARATOR);
+        return parts.slice(1).join(KEY_SEPARATOR);
+    }
 }

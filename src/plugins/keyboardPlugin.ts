@@ -26,7 +26,7 @@ import React from 'react';
 
 const {changeType, showLinkInput, unlink} = KEY_COMMANDS;
 
-export default function keyboardPlugin(): DraftPlugin {
+export function keyboardPlugin(): DraftPlugin {
     return {
         keyBindingFn(ev: React.KeyboardEvent<{}>) {
             if (KeyBindingUtil.hasCommandModifier(ev) && ev.which === KEY_CODES.K) {

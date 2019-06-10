@@ -101,7 +101,7 @@ export default class LinkEditComponent extends React.Component {
         }
         return (
             <div
-                className="md-editor-toolbar md-editor-toolbar--isopen md-editor-toolbar-edit-link"
+                className="md-editor-toolbar md-editor-toolbar--is-open md-editor-toolbar-edit-link"
                 style={this.state.position}
                 ref={(element) => {
                     this.toolbar = element;

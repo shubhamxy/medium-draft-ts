@@ -1,7 +1,7 @@
 .md-side-toolbar {
   position: absolute;
   z-index: 1;
-  left: -35px;
+  left: -45px;
   top: 0;
 }
 
@@ -11,9 +11,9 @@
   border: 1px solid #aaaaaa;
   color: #000;
   cursor: pointer;
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
+  height: 36px;
+  width: 36px;
+  border-radius: 18px;
   font-weight: bold;
   font-size: 20px;
   margin-right: 2px;
@@ -24,7 +24,6 @@
   outline: none;
 
   &::-moz-focus-inner {
-    border: 0;
     padding: 0;
   }
 
@@ -33,12 +32,8 @@
   }
 
   & svg {
-    transition: transform 0.1s;
-  }
-
-  & svg {
-    stroke-width: 0;
     fill: currentColor;
+    transition: transform 0.1s;
   }
 }
 
@@ -62,35 +57,4 @@
   &:hover {
     background: #cecece;
   }
-}
-
-.md-example-appear {
-  transform: translate3d(-38px, 0px, 0px);
-  opacity: 0;
-}
-
-.md-example-appear.md-example-appear-active {
-  transform: translate3d(0px, 0px, 0px);
-  opacity: 1;
-  transition: all .5s ease-in;
-}
-
-.md-example-enter {
-  transform: translate3d(-38px, 0px, 0px);
-  opacity: 0;
-}
-
-.md-example-enter.md-example-enter-active {
-  opacity: 1;
-  transform: translate3d(0px, 0px, 0px);
-  transition: all 500ms ease-in;
-}
-
-.md-example-leave {
-  opacity: 1;
-}
-
-.md-example-leave.md-example-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
 }
