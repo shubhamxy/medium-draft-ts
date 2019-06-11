@@ -51,10 +51,12 @@
     "webpack-cli": "3.3.3",
     "webpack-dev-server": "3.7.1"
   },
+  "dependencies": {
+    "memoize-one": "5.0.4"
+  },
   "peerDependencies": {
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
-    "draft-js": "0.10.5",
-    "memoize-one": "5.0.4"
+    "draft-js": "0.10.5"
   }
 }
