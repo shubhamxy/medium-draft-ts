@@ -13,14 +13,21 @@
 .md-RichEditor-editor {
   cursor: text;
 
-  h2 {
+  & h2 {
     font-size: 1.3em;
     margin: 1.2em 0;
   }
 
-  h3 {
+  & h3 {
     font-size: 1.15em;
     margin: 1.2em 0;
+  }
+
+  & hr {
+    margin: 25px 0;
+    height: 0;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
   }
 
   & h2, & h3 {

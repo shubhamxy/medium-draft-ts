@@ -56,9 +56,9 @@ module.exports = (env, argv) => {
                     ],
                 }, {
                     test: /\.(sa|sc|c)ss$/,
-                    // exclude: /node_modules/,
                     use: [
                         isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader',
                         {
                             loader: 'postcss-loader',
                             options: {

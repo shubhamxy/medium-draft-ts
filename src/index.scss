@@ -34,7 +34,7 @@
   top: 5px;
   left: 5px;
 
-  button {
+  & button {
     display: block;
   }
 }
@@ -47,21 +47,21 @@
   right: 0;
   bottom: 0;
 
-  .md-modal-input {
+  & .md-modal-input {
     position: absolute;
     margin: 0 auto;
     left: 0;
     right: 0;
 
-    &__wrapper {
-      label {
+    & .md-modal-input__wrapper {
+      & label {
         display: block;
         text-align: center;
         width: 60%;
         margin: 0 auto;
       }
 
-      input[type=text] {
+      & input[type=text] {
         display: block;
         width: 100%;
       }
