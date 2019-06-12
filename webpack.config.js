@@ -103,12 +103,6 @@ module.exports = (env, argv) => {
                 commonjs: 'draft-js',
                 commonjs2: 'draft-js',
                 amd: 'draft-js',
-            },
-            immutable: {
-                root: 'Immutable',
-                commonjs2: 'immutable',
-                commonjs: 'immutable',
-                amd: 'immutable'
             }
         } : {},
     }

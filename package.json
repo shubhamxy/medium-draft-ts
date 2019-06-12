@@ -17,15 +17,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brijeshb42/medium-draft.git"
+    "url": "git+https://github.com/dumistoklus/medium-draft.git"
   },
   "keywords": [],
   "author": "Brijesh Bittu <brijesh@bitwiser.in> (http://bitwiser.in/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/brijeshb42/medium-draft/issues"
+    "url": "https://github.com/dumistoklus/medium-draft/issues"
   },
-  "homepage": "https://github.conode-sassm/brijeshb42/medium-draft#readme",
+  "homepage": "https://github.conode-sassm/dumistoklus/medium-draft#readme",
   "devDependencies": {
     "@types/draft-js": "0.10.32",
     "@types/memoize-one": "4.1.1",
