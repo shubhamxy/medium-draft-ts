@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, KeyboardEventHandler, MouseEventHandler} from 'react';
+import * as React from 'react';
 
 import {BlockButtonsBar} from './BlockButtonsBar';
 import {InlineToolbar} from './InlineButtonsBar';
@@ -182,7 +182,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         );
     }
 
-    private onKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    private onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.which === KEY_ENTER) {
             e.preventDefault();
             e.stopPropagation();
@@ -193,13 +193,13 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         }
     }
 
-    private onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    private onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             urlInputValue: e.target.value,
         });
     }
 
-    private handleLinkInput: MouseEventHandler<HTMLSpanElement> = (e, direct = false) => {
+    private handleLinkInput: React.MouseEventHandler<HTMLSpanElement> = (e, direct = false) => {
         if (direct !== true) {
             e.preventDefault();
             e.stopPropagation();

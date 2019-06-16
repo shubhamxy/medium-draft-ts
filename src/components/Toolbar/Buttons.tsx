@@ -1,5 +1,5 @@
 import {Block, HYPERLINK, Inline} from '../../util/constants';
-import React from 'react';
+import * as React from 'react';
 import {ToolbarButtonInterface} from './Toolbar';
 
 export const BLOCK_BUTTONS: ToolbarButtonInterface[] = [

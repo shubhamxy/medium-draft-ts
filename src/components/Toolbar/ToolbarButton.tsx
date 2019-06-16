@@ -1,4 +1,4 @@
-import React, {MouseEventHandler} from 'react';
+import * as React from 'react';
 
 import {HYPERLINK} from '../../util/constants';
 
@@ -35,7 +35,7 @@ export class ToolbarButton extends React.Component<ToolbarButtonProps> {
         );
     }
 
-    private onToggle: MouseEventHandler<HTMLSpanElement> = (e) => {
+    private onToggle: React.MouseEventHandler<HTMLSpanElement> = (e) => {
         e.preventDefault();
         this.props.onToggle(this.props.style);
     }

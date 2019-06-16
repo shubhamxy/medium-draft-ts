@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler} from 'react';
+import * as React from 'react';
 
 import {addNewBlock} from '../model';
 import {Block} from '../util/constants';

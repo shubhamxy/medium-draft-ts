@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import {EditorState} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';

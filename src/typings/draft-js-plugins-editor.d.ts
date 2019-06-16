@@ -1,5 +1,5 @@
 declare module 'draft-js/lib/isSoftNewlineEvent' {
-  import React from 'react';
+  import * as React from 'react';
 
   function isSoftNewlineEvent(ev: React.KeyboardEvent<{}>): boolean;
 
@@ -7,7 +7,7 @@ declare module 'draft-js/lib/isSoftNewlineEvent' {
 }
 
 declare module 'draft-js/lib/isSoftNewlineEvent' {
-  import React from 'react';
+  import * as React from 'react';
 
   function isSoftNewlineEvent(ev: React.KeyboardEvent<{}>): boolean;
 

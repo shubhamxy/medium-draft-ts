@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { convertToHTML } from 'draft-convert';
 
 import { Inline, Block, Entity } from './util/constants';

@@ -4,7 +4,7 @@ import CodeBlock from '../components/blocks/code';
 import {getCurrentBlock, updateDataOfBlock} from '../model';
 import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_CODES, NOT_HANDLED} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
-import React from 'react';
+import * as React from 'react';
 
 interface OptionType {
     ignoreCommands?: string[];

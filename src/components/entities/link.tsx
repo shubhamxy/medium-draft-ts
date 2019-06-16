@@ -1,5 +1,5 @@
 import {ContentBlock, ContentState} from 'draft-js';
-import React from 'react';
+import * as React from 'react';
 
 import {Entity} from '../../util/constants';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {RichUtils, EditorState} from 'draft-js';
 import {ToolbarButton} from './ToolbarButton';
 import {ToolbarButtonInterface} from './Toolbar';

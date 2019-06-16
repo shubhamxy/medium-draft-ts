@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {EditorBlock, ContentBlock, EditorState} from 'draft-js';
 
 import {updateDataOfBlock} from '../../model/';

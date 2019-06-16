@@ -11,6 +11,8 @@ wiki/
 coverage/
 
 .travis.yml
+tsconfig.json
+tslint.json
 dist/*.html
 dist/data.json
 dist/example.js

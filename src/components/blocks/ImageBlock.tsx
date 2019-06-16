@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {EditorBlock, EditorState, SelectionState, ContentBlock} from 'draft-js';
 
 import {getCurrentBlock} from '../../model/';

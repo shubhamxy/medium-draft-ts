@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import PluginsEditor, {DraftPlugin} from './plugin_editor/PluginsEditor';
 import {Block, Entity as E, KEY_ENTER, KEY_ESCAPE} from './util/constants';

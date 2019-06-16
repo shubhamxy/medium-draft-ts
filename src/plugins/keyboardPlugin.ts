@@ -22,7 +22,7 @@ import {
 import {addNewBlockAt, getCurrentBlock, resetBlockWithType} from '../model';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
-import React from 'react';
+import * as React from 'react';
 
 const {changeType, showLinkInput, unlink} = KEY_COMMANDS;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {DraftBlockType, EditorState, SelectionState} from 'draft-js';
 
 import {getSelectedBlockNode} from '../../util';

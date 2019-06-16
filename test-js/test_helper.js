@@ -1,6 +1,6 @@
 import jsdom from 'jsdom';
 import chai, { expect } from 'chai';
-import React from 'react';
+import * as React from 'react';
 
 
 const doc = jsdom.jsdom('<!doctype html><html><body><div id="app"></div></body></html>');
