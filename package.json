@@ -1,6 +1,6 @@
 {
-  "name": "medium-draft",
-  "version": "2.0.0-next",
+  "name": "medium-draft-ts",
+  "version": "1.0.0",
   "description": "A medium like rich text editor built upon draft-js with an emphasis on eliminating mouse usage by adding relevant keyboard shortcuts",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -21,7 +21,7 @@
   },
   "types": "./dist/main.d.ts",
   "keywords": [],
-  "author": "Brijesh Bittu <brijesh@bitwiser.in> (http://bitwiser.in/)",
+  "author": "Brijesh Bittu <brijesh@bitwiser.in> (http://bitwiser.in/) and Ilia Goldfarb",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/dumistoklus/medium-draft/issues"

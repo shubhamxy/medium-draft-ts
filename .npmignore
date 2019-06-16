@@ -6,6 +6,7 @@ node_modules/
 .eslintrc.json
 hash.json
 webpack.*.js
+src/
 docs/
 wiki/
 coverage/

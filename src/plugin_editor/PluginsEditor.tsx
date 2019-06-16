@@ -12,7 +12,7 @@ import {
     EditorState,
     SelectionState
 } from 'draft-js';
-import Immutable from 'immutable';
+import {Map} from 'immutable';
 import memoizeOne from 'memoize-one';
 
 import MultiDecorator from './MultiDecorator';
@@ -70,7 +70,7 @@ export interface DraftPlugin {
     } | null;
     keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => string | void;
     blockStyleFn?: (contentBlock: ContentBlock) => string | null;
-    blockRenderMap?: Immutable.Map<string, {
+    blockRenderMap?: Map<string, {
         element: string;
         wrapper?: React.ReactElement;
         aliasedElements?: string[];

@@ -1,5 +1,5 @@
 import {RawDraftContentState, EditorState, ContentState, ContentBlock, SelectionState, convertFromRaw, genKey} from 'draft-js';
-import Immutable from 'immutable';
+import {List, Map} from 'immutable';
 
 import {Block, Entity} from '../util/constants';
 
@@ -164,9 +164,9 @@ export const addNewBlockAt = (
         key: newBlockKey,
         type: newBlockType,
         text: '',
-        characterList: Immutable.List(),
+        characterList: List(),
         depth: 0,
-        data: Immutable.Map(getDefaultBlockData(newBlockType, initialData)),
+        data: Map(getDefaultBlockData(newBlockType, initialData)),
     });
 
     const newBlockMap = blocksBefore.concat(

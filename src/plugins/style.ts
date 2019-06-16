@@ -1,5 +1,4 @@
-import Immutable from 'immutable';
-
+import {Map} from 'immutable';
 import {Block, Inline} from '../util/constants';
 import {DraftPlugin} from '../plugin_editor/PluginsEditor';
 import Link, {findLinkEntities} from '../components/entities/link';
@@ -38,7 +37,7 @@ export function createInlineStylePlugin(): DraftPlugin {
                 backgroundColor: 'yellow',
             },
         },
-        blockRenderMap: Immutable.Map({
+        blockRenderMap: Map({
             [Block.CAPTION]: {
                 element: 'cite',
             },

@@ -1,8 +1,8 @@
-import Immutable from 'immutable';
+import {List} from 'immutable';
 import {ContentBlock, ContentState} from 'draft-js';
 
 interface CompositeDecoratorType {
-    getDecorations(block: ContentBlock, contentState: ContentState): Immutable.List<string>;
+    getDecorations(block: ContentBlock, contentState: ContentState): List<string>;
 
     getComponentForKey(key: string): () => void;
 
@@ -34,16 +34,16 @@ interface CompositeDecoratorType {
 const KEY_SEPARATOR = '-';
 
 export default class MultiDecorator {
-    public decorators: Immutable.List<CompositeDecoratorType>;
+    public decorators: List<CompositeDecoratorType>;
 
     constructor(decorators: CompositeDecoratorType[]) {
-        this.decorators = Immutable.List(decorators);
+        this.decorators = List(decorators);
     }
 
     /**
      * Return list of decoration IDs per character
      */
-    public getDecorations(block: ContentBlock, contentState: ContentState): Immutable.List<string> {
+    public getDecorations(block: ContentBlock, contentState: ContentState): List<string> {
         const decorations = new Array(block.getText().length).fill(null);
 
         this.decorators.forEach((decorator, i) => {
