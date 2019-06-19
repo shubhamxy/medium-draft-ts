@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import PluginsEditor, {DraftPlugin} from './plugin_editor/PluginsEditor';
+import {DraftPlugin, PluginsEditor} from './plugin_editor/PluginsEditor';
 import {Block, Entity as E, KEY_ENTER, KEY_ESCAPE} from './util/constants';
 import {getSelectedBlockNode} from './util';
 import {EditorState, RichUtils} from 'draft-js';
@@ -34,9 +34,6 @@ export interface EditorProps {
     processURL?: (url: string) => string;
 }
 
-type EditorRefCb = (editor: PluginsEditor) => void;
-type InputRefCb = (node: HTMLInputElement) => void;
-
 interface Styles {
     top?: string | 0;
 }
@@ -62,8 +59,8 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
     constructor(props: EditorProps) {
         super(props);
 
-        this.editorRef = React.createRef();
-        this.inputRef = React.createRef();
+        this.editorRef = React.createRef<PluginsEditor>();
+        this.inputRef = React.createRef<HTMLInputElement>();
 
         this.state = {
             showInput: false,
@@ -72,9 +69,9 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
         };
     }
 
-    private readonly editorRef: React.RefObject<PluginsEditor> | EditorRefCb;
+    private readonly editorRef: React.RefObject<PluginsEditor>;
 
-    private readonly inputRef: React.RefObject<HTMLInputElement> | InputRefCb;
+    private readonly inputRef: React.RefObject<HTMLInputElement>;
 
     private inputPromise?: {
         resolve: (input: string) => void,
@@ -85,17 +82,11 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
         if (this.props.autoFocus) {
             setTimeout(this.focus);
         }
-
-        document.addEventListener('selectionchange', this.onSelectionChange);
-    }
-
-    public componentWillUnmount(): void {
-        document.removeEventListener('selectionchange', this.onSelectionChange);
     }
 
     public componentDidUpdate(prevProps: EditorProps, prevState: State) {
-        if (this.state.showInput && (!prevState.showInput)) {
-            if (typeof this.inputRef === 'object' && this.inputRef.current) {
+        if (this.state.showInput && !prevState.showInput) {
+            if (this.inputRef.current) {
                 this.inputRef.current.focus();
             }
         }
@@ -175,7 +166,7 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
     }
 
     private focus = () => {
-        if (typeof this.editorRef === 'object' && this.editorRef.current) {
+        if (this.editorRef.current) {
             this.editorRef.current.focus();
         }
     }
@@ -290,9 +281,5 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
                 inlineStyle
             )
         );
-    }
-
-    private onSelectionChange = () => {
-
     }
 }

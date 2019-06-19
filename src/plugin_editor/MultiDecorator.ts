@@ -33,7 +33,7 @@ interface CompositeDecoratorType {
 
 const KEY_SEPARATOR = '-';
 
-export default class MultiDecorator {
+export class MultiDecorator {
     public decorators: List<CompositeDecoratorType>;
 
     constructor(decorators: CompositeDecoratorType[]) {
@@ -58,7 +58,7 @@ export default class MultiDecorator {
             });
         });
 
-        return Immutable.List(decorations);
+        return List(decorations);
     }
 
     /**

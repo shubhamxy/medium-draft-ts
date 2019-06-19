@@ -1,4 +1,4 @@
-@keyframes fadein {
+@keyframes imageLoading {
   0% {
     opacity: 0.5;
   }
@@ -11,31 +11,23 @@
 }
 
 figure.md-block-image {
-  margin: 10px 0;
-  background: #fbfbfb;
-
   & .md-block-image-inner-container--image {
     display: block;
     margin: 0 auto;
     cursor: default;
     max-width: 100%;
-    border: 1px solid #eee;
     box-sizing: border-box;
-
-    &.is-selected {
-      box-shadow: 0 0 0 3px #02b875;
-    }
   }
 
   &--uploading {
-    animation: fadein 1s infinite;
+    animation: imageLoading 1s infinite;
   }
 
   & figcaption {
     display: block;
     font-size: 14px;
     line-height: 1.4;
-    color: rgba(72, 72, 72, 0.6);
+    color: #a0a0a0;
     letter-spacing: 0;
     font-weight: 300;
     font-style: normal;

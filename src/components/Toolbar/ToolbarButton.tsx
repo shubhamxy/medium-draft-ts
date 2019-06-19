@@ -6,12 +6,11 @@ interface ToolbarButtonProps {
     onToggle: (style: string) => void;
     style: string;
     active?: boolean;
-    icon?: string;
     label?: string | JSX.Element;
     description?: string;
 }
 
-export class ToolbarButton extends React.Component<ToolbarButtonProps> {
+export class ToolbarButton extends React.PureComponent<ToolbarButtonProps> {
 
     public render() {
         if (this.props.style === HYPERLINK) {
@@ -27,15 +26,15 @@ export class ToolbarButton extends React.Component<ToolbarButtonProps> {
         return (
             <button
                 className={`${className} hint--top`}
-                onMouseDown={this.onToggle}
+                onClick={this.onClick}
                 aria-label={this.props.description}
             >
-                {this.props.icon ? <i className={`fa fa-${this.props.icon}`}/> : this.props.label}
+                {this.props.label}
             </button>
         );
     }
 
-    private onToggle: React.MouseEventHandler<HTMLSpanElement> = (e) => {
+    private onClick: React.MouseEventHandler<HTMLSpanElement> = (e) => {
         e.preventDefault();
         this.props.onToggle(this.props.style);
     }

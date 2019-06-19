@@ -6,14 +6,12 @@
   margin-top: 20px;
 }
 
-.md-RichEditor-editor {
-  & .md-RichEditor-blockquote {
-    border-left: 5px solid #4CA8DE;
-    font-size: 1.2em;
-    margin: 0;
-    padding: 15px 0 15px 20px;
-    background-color: #E2F2FF;
-  }
+.md-RichEditor-blockquote {
+  border-left: 5px solid #4CA8DE;
+  font-size: 1.2em;
+  margin: 0;
+  padding: 15px 0 15px 20px;
+  background-color: #E2F2FF;
 }
 
 .md-RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
@@ -29,16 +27,6 @@
   margin-bottom: 10px;
 }
 
-.md-editor-action {
-  position: fixed;
-  top: 5px;
-  left: 5px;
-
-  & button {
-    display: block;
-  }
-}
-
 .md-modal-container {
   z-index: 1;
   position: absolute;
@@ -46,25 +34,25 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
 
-  & .md-modal-input {
-    position: absolute;
+.md-modal-input {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
+.md-modal-input__wrapper {
+  & label {
+    display: block;
+    text-align: center;
+    width: 60%;
     margin: 0 auto;
-    left: 0;
-    right: 0;
+  }
 
-    & .md-modal-input__wrapper {
-      & label {
-        display: block;
-        text-align: center;
-        width: 60%;
-        margin: 0 auto;
-      }
-
-      & input[type=text] {
-        display: block;
-        width: 100%;
-      }
-    }
+  & input[type=text] {
+    display: block;
+    width: 100%;
   }
 }

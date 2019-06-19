@@ -16,6 +16,7 @@ export default class TodoBlock extends React.Component<Props> {
     public render() {
         const data = this.props.block.getData();
         const checked = data.get('checked') === true;
+
         return (
             <div className={checked ? 'block-todo-completed' : ''}>
                 <span contentEditable={false}>

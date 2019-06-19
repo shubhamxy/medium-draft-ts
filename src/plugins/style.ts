@@ -9,7 +9,7 @@ const BASE_BLOCK_CLASS = 'md-block';
 /**
  * Base plugin that provides styling and structure to the editor.
  */
-export function createInlineStylePlugin(): DraftPlugin {
+export function inlineStylePlugin(): DraftPlugin {
     return {
         blockStyleFn(contentBlock: ContentBlock): string | null {
             const blockType = contentBlock.getType();

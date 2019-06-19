@@ -11,13 +11,13 @@ export { default as TextBlock } from './components/blocks/text';
 import {MediumDraftEditor as Editor} from './MediumDraftEditor';
 export * from './model';
 
-export { default as PluginsEditor } from './plugin_editor/PluginsEditor';
-export { default as MultiDecorator } from './plugin_editor/MultiDecorator';
-export { default as blockMovePlugin } from './plugins/blockMovePlugin';
-export { default as codeBlockPlugin } from './plugins/codeblockplugin';
-export { default as imageBlockPlugin } from './plugins/imageblockPlugin';
-export { default as keyboardPlugin } from './plugins/keyboardPlugin';
-export { default as stylePlugin } from './plugins/style';
+export { PluginsEditor } from './plugin_editor/PluginsEditor';
+export { MultiDecorator } from './plugin_editor/MultiDecorator';
+export { blockMovePlugin } from './plugins/blockMovePlugin';
+export { codeBlockPlugin } from './plugins/codeblockplugin';
+export { imageBlockPlugin } from './plugins/imageblockPlugin';
+export { keyboardPlugin } from './plugins/keyboardPlugin';
+export { inlineStylePlugin } from './plugins/style';
 
 export {
   Editor,

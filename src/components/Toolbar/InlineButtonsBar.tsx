@@ -15,6 +15,7 @@ export const InlineToolbar: React.FunctionComponent<InlineToolbarProps> = (props
         return null;
     }
     const currentStyle = props.editorState.getCurrentInlineStyle();
+
     return (
         <div className="md-RichEditor-controls md-RichEditor-controls-inline">
             {props.buttons.map((button) => {

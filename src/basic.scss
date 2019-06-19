@@ -28,7 +28,6 @@
 
 .md-block-blockquote {
     margin: 0;
-    padding-left: 15px;
     border-left: 5px solid #4CA8DE;
     padding: 10px 0 10px 20px;
     background-color: #E2F2FF;
@@ -37,9 +36,10 @@
 
 .md-block-image {
     margin: 0 0 10px 0;
+    text-align: center;
 
     img {
-        width: 100%;
+        max-width: 100%;
     }
 
     figcaption {
@@ -54,7 +54,7 @@
     input[type=checkbox] {
         float: left;
         position: relative;
-        top: 0px;
+        top: 0;
         left: -2px;
     }
     p {

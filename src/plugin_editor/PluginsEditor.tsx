@@ -15,7 +15,7 @@ import {
 import {Map} from 'immutable';
 import memoizeOne from 'memoize-one';
 
-import MultiDecorator from './MultiDecorator';
+import {MultiDecorator} from './MultiDecorator';
 import {HANDLED, NOT_HANDLED} from '../util/constants';
 
 export interface PluginFunctions {
@@ -132,16 +132,20 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
             mainProps[key] = (...args) => {
                 const returnVal = handlers.some((handler: any) => {
                     const returnVal2: string | boolean = handler(...args, getters());
+
                     return (typeof returnVal2 === 'string' && returnVal2 === HANDLED) || returnVal2 === true;
                 });
+
                 return returnVal ? HANDLED : NOT_HANDLED;
             };
         } else if (key.indexOf('on') === 0) {
             mainProps[key] = (...args) => {
                 handlers.some((handler: any) => {
                     const retVal: boolean = handler(...args, getters());
+
                     return !!retVal;
                 });
+
                 return null;
             };
         } else if (key.indexOf('Fn') === (key.length - 'Fn'.length)) {
@@ -154,6 +158,7 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
                         return result;
                     }
                 }
+
                 return null;
             };
         } else if (key === 'customStyleMap') {
@@ -169,7 +174,8 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
 function getBlockRenderMap(plugins: DraftPlugin[]): DraftBlockRenderMap {
     const blockRenderMap = plugins
         .filter((plugin) => !!plugin.blockRenderMap)
-        .reduce((acc, plugin) => (acc.merge(plugin.blockRenderMap)), Immutable.Map({}));
+        .reduce((acc, plugin) => (acc.merge(plugin.blockRenderMap)), Map({}));
+
     return blockRenderMap.merge(DefaultDraftBlockRenderMap) as DraftBlockRenderMap;
 }
 
@@ -183,6 +189,7 @@ function getDecorators(plugins: DraftPlugin[]): MultiDecorator {
                     acc.push(new CompositeDecorator([dec as SimpleDecorator]));
                 }
             });
+
             return acc;
         },
         []
@@ -195,7 +202,7 @@ function getDecorators(plugins: DraftPlugin[]): MultiDecorator {
     return new MultiDecorator(finalDecorators);
 }
 
-export default class PluginsEditor extends React.PureComponent<PluginEditorProps> {
+export class PluginsEditor extends React.PureComponent<PluginEditorProps> {
 
     public static defaultProps: ExtraPropTypes = {
         plugins: [],

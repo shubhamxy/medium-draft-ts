@@ -20,7 +20,7 @@ import {EditorProps, SideButton, MediumDraftEditor} from './MediumDraftEditor';
 import {createEditorState} from './model';
 import {codeBlockPlugin} from './plugins/codeblockplugin';
 import {imageBlockPlugin} from './plugins/imageblockPlugin';
-import {createInlineStylePlugin} from './plugins/style';
+import {inlineStylePlugin} from './plugins/style';
 import {blockMovePlugin} from './plugins/blockMovePlugin';
 import {keyboardPlugin} from './plugins/keyboardPlugin';
 import {DraftPlugin} from './plugin_editor/PluginsEditor';
@@ -47,7 +47,7 @@ class App extends React.Component<Props, State> {
         this.plugins = [
             codeBlockPlugin(),
             imageBlockPlugin(),
-            createInlineStylePlugin(),
+            inlineStylePlugin(),
             blockMovePlugin(),
             keyboardPlugin(),
             blockRendererPlugin(),
@@ -98,12 +98,3 @@ class App extends React.Component<Props, State> {
 }
 
 ReactDOM.render(<App/>, rootNode);
-
-if (process.env.NODE_ENV === 'development') {
-    if (module.hot) {
-        module.hot.accept('./MediumDraftEditor', () => {
-            const {Editor} = require('./MediumDraftEditor');
-            ReactDOM.render(<App Component={Editor}/>, rootNode);
-        });
-    }
-}
