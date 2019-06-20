@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import {EditorState} from 'draft-js';
+import {ContentBlock, ContentState, EditorState} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 
 import 'draft-js/dist/Draft.css';
@@ -28,6 +28,7 @@ import {Separator} from './SideButtons/Separator';
 import {Image} from './SideButtons/Image';
 import {BLOCK_BUTTONS, INLINE_BUTTONS} from './components/Toolbar/Buttons';
 import {blockRendererPlugin} from './plugins/blockRendererFn';
+import {Block} from './util/constants';
 
 interface State {
     editorState: EditorState;
@@ -35,6 +36,21 @@ interface State {
 
 interface Props {
     Component?: new (props: EditorProps) => MediumDraftEditor;
+}
+
+function convertStateToHtml(currentContent: ContentState): string {
+    let options = {
+        blockRenderers: {
+            [Block.IMAGE]: (block: ContentBlock) => {
+                let data = block.getData();
+                const src = data.get('src');
+
+                return '<figure><img src="' + src + '"><figcaption>' + block.get('text') + '</figcaption></figure>';
+            },
+        },
+    };
+
+    return stateToHTML(currentContent, options);
 }
 
 const rootNode = document.getElementById('root');
@@ -48,7 +64,7 @@ class App extends React.Component<Props, State> {
             codeBlockPlugin(),
             imageBlockPlugin(),
             inlineStylePlugin(),
-            blockMovePlugin(),
+            // blockMovePlugin(),
             keyboardPlugin(),
             blockRendererPlugin(),
         ];
@@ -89,7 +105,7 @@ class App extends React.Component<Props, State> {
     }
 
     private onChange = (editorState: EditorState) => {
-        console.log(stateToHTML(editorState.getCurrentContent()));
+        console.log(convertStateToHtml(editorState.getCurrentContent()));
 
         this.setState({
             editorState,

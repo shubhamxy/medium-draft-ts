@@ -1,13 +1,8 @@
 import * as React from 'react';
-import {ContentBlock, EditorState} from 'draft-js';
+import {BlockProps} from '../../typings';
 
-interface Props {
-    block: ContentBlock;
-    getEditorState: () => EditorState;
-}
-
-const AtomicBlock: React.FunctionComponent<Props> = (props: Props) => {
-    const content = props.getEditorState().getCurrentContent();
+const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
+    const content = props.blockProps.getEditorState().getCurrentContent();
     const entity = content.getEntity(props.block.getEntityAt(0));
     const data = entity.getData();
     const type = entity.getType();

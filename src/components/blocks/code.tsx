@@ -16,20 +16,6 @@ export default class CodeBlock extends React.Component<Props> {
         super(props);
     }
 
-    public handleLanguage = () => {
-        const {block, blockProps} = this.props;
-        const data = block.getData();
-        const lang = prompt('Set Language:', data.get('language') || '');
-
-        if (!lang) {
-            return;
-        }
-
-        const {setEditorState, getEditorState} = blockProps;
-        const newData = data.set('language', lang);
-        setEditorState(updateDataOfBlock(getEditorState(), block, newData));
-    }
-
     public render() {
         const {block} = this.props;
         const lang = block.getData().get('language', '');
@@ -42,5 +28,17 @@ export default class CodeBlock extends React.Component<Props> {
                 <EditorBlock {...this.props} />
             </div>
         );
+    }
+
+    private handleLanguage = () => {
+        const {block, blockProps} = this.props;
+        const data = block.getData();
+        const lang = prompt('Set Language:', data.get('language') || '');
+
+        if (lang) {
+            const {setEditorState, getEditorState} = blockProps;
+            const newData = data.set('language', lang);
+            setEditorState(updateDataOfBlock(getEditorState(), block, newData));
+        }
     }
 }

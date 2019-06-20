@@ -21,8 +21,6 @@ export function createEditorState(content: string | RawDraftContentState = null)
 
 /**
  * Get block level metadata for a given block type.
- * @param blockType
- * @param initialData
  */
 export function getDefaultBlockData(blockType: string, initialData: {} = {}): {} {
     switch (blockType) {
@@ -38,7 +36,6 @@ export function getDefaultBlockData(blockType: string, initialData: {} = {}): {}
 
 /**
  * Get current data of block which has the cursor.
- * @param editorState
  */
 export function getCurrentBlock(editorState: EditorState): ContentBlock {
     const selectionState = editorState.getSelection();
@@ -50,19 +47,13 @@ export function getCurrentBlock(editorState: EditorState): ContentBlock {
 /**
  * Replace an empty block at the current cursor position with a
  * new block of the given type
- * @param editorState
- * @param newType
- * @param initialData
  */
-export function addNewBlock(editorState: EditorState, newType: string = Block.UNSTYLED, initialData: {} = {}): EditorState {
+export function addNewBlock(editorState: EditorState, newType: string, initialData: {} = {}): EditorState {
     const selectionState = editorState.getSelection();
     if (!selectionState.isCollapsed()) {
         return editorState;
     }
 
-    const contentState = editorState.getCurrentContent();
-    const key = selectionState.getStartKey();
-    const blockMap = contentState.getBlockMap();
     const currentBlock = getCurrentBlock(editorState);
 
     if (!currentBlock) {
@@ -74,6 +65,9 @@ export function addNewBlock(editorState: EditorState, newType: string = Block.UN
             return editorState;
         }
 
+        const contentState = editorState.getCurrentContent();
+        const key = selectionState.getStartKey();
+        const blockMap = contentState.getBlockMap();
         const newBlock = currentBlock.merge({
             type: newType,
             data: getDefaultBlockData(newType, initialData),
@@ -92,11 +86,8 @@ export function addNewBlock(editorState: EditorState, newType: string = Block.UN
 /**
  * Changes the block type of the current block. Merge current data
  * with the new overrides.
- * @param editorState
- * @param newType
- * @param overrides
  */
-export const resetBlockWithType = (editorState: EditorState, newType: string = Block.UNSTYLED, overrides: {} = {}) => {
+export const resetBlockWithType = (editorState: EditorState, newType: string, overrides: {} = {}) => {
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
     const key = selectionState.getStartKey();
@@ -119,9 +110,6 @@ export const resetBlockWithType = (editorState: EditorState, newType: string = B
 
 /**
  * Update block-level metadata of the given `block` to the `newData`
- * @param editorState
- * @param block
- * @param newData
  */
 export const updateDataOfBlock = (editorState: EditorState, block: ContentBlock, newData: {}) => {
     const contentState = editorState.getCurrentContent();
@@ -193,7 +181,6 @@ export const addNewBlockAt = (
 
 /**
  * Check whether the cursor is between entity of type LINK
- * @param editorState
  */
 export const isCursorBetweenLink = (editorState: EditorState): null | {
     entityKey: string,
@@ -236,9 +223,6 @@ export const isCursorBetweenLink = (editorState: EditorState): null | {
 
 /**
  * Swap two blocks with the given keys
- * @param editorState Current editor state
- * @param block block to swap
- * @param toBlock block to swap with
  */
 export function swapBlocks(editorState: EditorState, block: ContentBlock, toBlock: ContentBlock): EditorState {
     let newContent = editorState.getCurrentContent();

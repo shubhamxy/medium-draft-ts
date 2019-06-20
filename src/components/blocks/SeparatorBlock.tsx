@@ -1,5 +1,5 @@
 import * as React from 'react';
 
-export default () => (
+export const SeparatorBlock = () => (
     <hr className="md-block-hr"/>
 );

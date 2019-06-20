@@ -3,7 +3,6 @@ import {DraftBlockType, EditorState, SelectionState} from 'draft-js';
 
 import {getSelectedBlockNode} from '../../util';
 import {SideButton} from '../../MediumDraftEditor';
-import {Block} from '../../util/constants';
 
 interface AddButtonProps {
     editorState: EditorState;
@@ -47,27 +46,35 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
         const {editorState} = newProps;
         const contentState = editorState.getCurrentContent();
         const selectionState = editorState.getSelection() as ExtendedSelectionState;
+
         if (!selectionState.isCollapsed()
             || selectionState.anchorKey !== selectionState.focusKey
             || contentState.getBlockForKey(selectionState.getAnchorKey()).getType().indexOf('atomic') >= 0) {
             this.hideBlock();
+
             return;
         }
+
         const block = contentState.getBlockForKey(selectionState.anchorKey as string);
-        const bkey = block.getKey();
+        const blockKey = block.getKey();
+
         if (block.getLength() > 0) {
             this.hideBlock();
+
             return;
         }
+
         if (block.getType() !== this.blockType) {
             this.blockType = block.getType();
             if (block.getLength() === 0) {
                 setTimeout(this.findNode, 0);
             }
-            this.blockKey = bkey;
+            this.blockKey = blockKey;
+
             return;
         }
-        if (this.blockKey === bkey) {
+
+        if (this.blockKey === blockKey) {
             if (block.getLength() > 0) {
                 this.hideBlock();
             } else {
@@ -75,14 +82,16 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
                     visible: true,
                 });
             }
+
             return;
         }
-        this.blockKey = bkey;
+
+        this.blockKey = blockKey;
         if (block.getLength() > 0) {
             this.hideBlock();
-            return;
+        } else {
+            setTimeout(this.findNode, 0);
         }
-        setTimeout(this.findNode, 0);
     }
 
     public render() {
@@ -108,6 +117,7 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
                                 this.props.sideButtons.map((button, index) => {
                                     const Button = button.component;
                                     const extraProps = button.props ? button.props : {};
+
                                     return (
                                         <Button
                                             {...extraProps}
@@ -151,23 +161,20 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
 
     private findNode = () => {
         const node = getSelectedBlockNode(window);
-        if (node === this.node) {
-            return;
+        if (node !== this.node) {
+            if (node) {
+                this.node = node;
+
+                this.setState({
+                    visible: true,
+                    top: node.offsetTop
+                });
+            } else {
+                this.setState({
+                    visible: false,
+                    isOpen: false,
+                });
+            }
         }
-
-        if (!node) {
-            this.setState({
-                visible: false,
-                isOpen: false,
-            });
-            return;
-        }
-
-        this.node = node;
-
-        this.setState({
-            visible: true,
-            top: node.offsetTop
-        });
     }
 }

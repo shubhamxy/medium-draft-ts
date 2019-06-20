@@ -1,8 +1,8 @@
-import {ContentBlock, EditorState, genKey, SelectionState} from 'draft-js';
+import {ContentBlock, EditorState, genKey, SelectionState, Modifier} from 'draft-js';
 
 import {BASE_BLOCK_CLASS, Block, HANDLED, NOT_HANDLED} from '../util/constants';
-import ImageBlock from '../components/blocks/ImageBlock';
-import {addNewBlock, addNewBlockAt, resetBlockWithType, updateDataOfBlock} from '../model';
+import {ImageBlock} from '../components/blocks/ImageBlock';
+import {addNewBlock, addNewBlockAt, getCurrentBlock, resetBlockWithType, updateDataOfBlock} from '../model';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 
 export type ImageUploadFunction = (files: Blob[]) => Promise<string[]>;
@@ -45,6 +45,31 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
                     setEditorState,
                 },
             };
+        },
+
+        /**
+         * Handle pasting when cursor is in an image block. Paste the text as the
+         * caption. Otherwise, let Draft do its thing.
+         */
+        handlePastedText(text: string, html: string, editorState: EditorState, {setEditorState}: PluginFunctions) {
+            const currentBlock = getCurrentBlock(editorState);
+            if (currentBlock.getType() === Block.IMAGE) {
+                const content = editorState.getCurrentContent();
+
+                setEditorState(EditorState.push(
+                    editorState,
+                    Modifier.insertText(
+                        content,
+                        editorState.getSelection(),
+                        text
+                    ),
+                    'change-block-data'
+                ));
+
+                return HANDLED;
+            }
+
+            return NOT_HANDLED;
         },
 
         blockStyleFn(block: ContentBlock) {

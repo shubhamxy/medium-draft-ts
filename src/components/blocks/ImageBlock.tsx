@@ -1,17 +1,9 @@
 import * as React from 'react';
-import {EditorBlock, EditorState, SelectionState, ContentBlock} from 'draft-js';
-
+import {EditorBlock, EditorState, SelectionState} from 'draft-js';
 import {getCurrentBlock} from '../../model/';
+import {BlockProps} from '../../typings';
 
-interface Props {
-    block: ContentBlock;
-    blockProps: {
-        getEditorState: () => EditorState;
-        setEditorState: (es: EditorState) => void;
-    };
-}
-
-export default class ImageBlock extends React.Component<Props> {
+export class ImageBlock extends React.PureComponent<BlockProps> {
 
     public render() {
         const {block} = this.props;

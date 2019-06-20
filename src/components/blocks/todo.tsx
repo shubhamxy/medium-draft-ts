@@ -1,17 +1,9 @@
 import * as React from 'react';
-import {EditorBlock, ContentBlock, EditorState} from 'draft-js';
-
+import {EditorBlock} from 'draft-js';
 import {updateDataOfBlock} from '../../model/';
+import {BlockProps} from '../../typings';
 
-interface Props {
-    block: ContentBlock;
-    blockProps: {
-        getEditorState: () => EditorState;
-        setEditorState: (es: EditorState) => void;
-    };
-}
-
-export default class TodoBlock extends React.Component<Props> {
+export default class TodoBlock extends React.PureComponent<BlockProps> {
 
     public render() {
         const data = this.props.block.getData();

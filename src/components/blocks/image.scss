@@ -11,6 +11,8 @@
 }
 
 figure.md-block-image {
+  margin: 0;
+
   & .md-block-image-inner-container--image {
     display: block;
     margin: 0 auto;
@@ -33,6 +35,7 @@ figure.md-block-image {
     font-style: normal;
     text-align: center;
     padding: 5px 0;
+    border-bottom: 1px solid #ccc;
 
     & .public-DraftStyleDefault-block {
       text-align: center;

@@ -4,9 +4,9 @@ export { default as CodeBlock } from './components/blocks/code';
 export { default as QuoteCaptionBlock } from './components/blocks/blockquotecaption';
 export { default as CaptionBlock } from './components/blocks/caption';
 export { default as TodoBlock } from './components/blocks/todo';
-export { default as ImageBlock } from './components/blocks/ImageBlock';
-export { default as BreakBlock } from './components/blocks/SeparatorBlock';
-export { default as TextBlock } from './components/blocks/text';
+export { ImageBlock } from './components/blocks/ImageBlock';
+export { SeparatorBlock } from './components/blocks/SeparatorBlock';
+export { TextBlock } from './components/blocks/text';
 
 import {MediumDraftEditor as Editor} from './MediumDraftEditor';
 export * from './model';

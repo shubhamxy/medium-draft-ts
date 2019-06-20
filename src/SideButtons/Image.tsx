@@ -43,12 +43,11 @@ export class Image extends React.PureComponent<SideButtonComponentProps> {
     add to the editor.
     */
     private onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // e.preventDefault();
         const file = e.target.files[0];
+
         if (file.type.indexOf('image/') === 0) {
-            // console.log(this.props.getEditorState());
-            // eslint-disable-next-line no-undef
             const src = URL.createObjectURL(file);
+
             this.props.setEditorState(addNewBlock(
                 this.props.getEditorState(),
                 Block.IMAGE, {

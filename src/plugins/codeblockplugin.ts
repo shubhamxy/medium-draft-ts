@@ -8,6 +8,7 @@ import * as React from 'react';
 
 interface OptionType {
     ignoreCommands?: string[];
+    // tslint:disable-next-line:no-magic-numbers
     tabSize?: 2 | 4;
 }
 

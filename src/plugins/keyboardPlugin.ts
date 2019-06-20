@@ -105,7 +105,7 @@ export function keyboardPlugin(): DraftPlugin {
 
                 return HANDLED;
             } else if (command === 'backspace' && currentBlockType === Block.CODE && !block.getText().length) {
-                setEditorState(resetBlockWithType(editorState));
+                setEditorState(resetBlockWithType(editorState, Block.UNSTYLED));
 
                 return HANDLED;
             }

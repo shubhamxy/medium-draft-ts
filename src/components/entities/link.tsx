@@ -7,6 +7,7 @@ export const findLinkEntities = (contentBlock: ContentBlock, callback: (start: n
     contentBlock.findEntityRanges(
         (character) => {
             const entityKey = character.getEntity();
+
             return entityKey !== null && contentState.getEntity(entityKey).getType() === Entity.LINK;
         },
         callback
@@ -22,6 +23,7 @@ interface Props {
 const Link = (props: Props) => {
     const {contentState, entityKey} = props;
     const {url} = contentState.getEntity(entityKey).getData();
+
     return (
         <a
             className="md-link"

@@ -17,6 +17,7 @@ import memoizeOne from 'memoize-one';
 
 import {MultiDecorator} from './MultiDecorator';
 import {HANDLED, NOT_HANDLED} from '../util/constants';
+import {BlockProps, BlockPropsInner} from '../typings';
 
 export interface PluginFunctions {
     /**
@@ -64,9 +65,9 @@ export type DraftDecoratorType = SimpleDecorator | CompositeDecorator;
 
 export interface DraftPlugin {
     blockRendererFn?: (cb: ContentBlock, draftPluginFns: PluginFunctions) => {
-        component: React.ComponentType<any> | React.FunctionComponent<any>;
+        component: React.ComponentType<BlockProps> | React.FunctionComponent<BlockProps>;
         editable?: boolean;
-        props?: any,
+        props?: BlockPropsInner,
     } | null;
     keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => string | void;
     blockStyleFn?: (contentBlock: ContentBlock) => string | null;
