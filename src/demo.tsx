@@ -47,6 +47,9 @@ function convertStateToHtml(currentContent: ContentState): string {
 
                 return '<figure><img src="' + src + '"><figcaption>' + block.get('text') + '</figcaption></figure>';
             },
+            [Block.BREAK]: () => {
+                return '<hr/>';
+            }
         },
     };
 
@@ -105,7 +108,9 @@ class App extends React.Component<Props, State> {
     }
 
     private onChange = (editorState: EditorState) => {
-        console.log(convertStateToHtml(editorState.getCurrentContent()));
+        const html = convertStateToHtml(editorState.getCurrentContent());
+
+        console.log(html);
 
         this.setState({
             editorState,

@@ -38,10 +38,6 @@
     top: 0;
     cursor: pointer;
     background: #323845;
-
-    &:hover {
-      color: yellow;
-    }
   }
 }
 
@@ -103,8 +99,11 @@
   box-sizing: border-box;
 
   &:hover {
-    color: yellow;
     background: #242933;
+  }
+
+  &:active {
+    background: #000;
   }
 
   &:last-child {
@@ -135,12 +134,7 @@
 }
 
 .md-RichEditor-activeButton {
-  color: #50FF4D;
   background: #1c1f25;
-
-  &:hover {
-    color: #08c;
-  }
 }
 
 .md-RichEditor-controls-block {

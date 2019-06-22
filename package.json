@@ -1,6 +1,6 @@
 {
   "name": "medium-draft-ts",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A medium like rich text editor built upon draft-js with an emphasis on eliminating mouse usage by adding relevant keyboard shortcuts",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -52,7 +52,8 @@
     "webpack-dev-server": "3.7.2"
   },
   "dependencies": {
-    "memoize-one": "5.0.4"
+    "memoize-one": "5.0.4",
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "peerDependencies": {
     "react": "^16.3.0",
