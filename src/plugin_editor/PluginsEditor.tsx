@@ -4,9 +4,12 @@ import {
     ContentBlock,
     ContentState,
     DefaultDraftBlockRenderMap,
+    DraftBlockRenderConfig,
     DraftBlockRenderMap,
+    DraftBlockType,
     DraftDragType,
     DraftHandleValue,
+    DraftStyleMap,
     Editor,
     EditorProps,
     EditorState,
@@ -76,7 +79,7 @@ export interface DraftPlugin {
         wrapper?: React.ReactElement;
         aliasedElements?: string[];
     }>;
-    customStyleMap?: {};
+    customStyleMap?: DraftStyleMap;
     handleReturn?: (ev: React.KeyboardEvent<{}>, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleKeyCommand?: (command: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleBeforeInput?: (input: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
@@ -173,11 +176,11 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
 }
 
 function getBlockRenderMap(plugins: DraftPlugin[]): DraftBlockRenderMap {
-    const blockRenderMap = plugins
+    const blockRenderMap: DraftBlockRenderMap = plugins
         .filter((plugin) => !!plugin.blockRenderMap)
-        .reduce((acc, plugin) => (acc.merge(plugin.blockRenderMap)), Map({}));
+        .reduce((acc, plugin) => (acc.merge(plugin.blockRenderMap)), Map<DraftBlockType, DraftBlockRenderConfig>());
 
-    return blockRenderMap.merge(DefaultDraftBlockRenderMap) as DraftBlockRenderMap;
+    return blockRenderMap.merge(DefaultDraftBlockRenderMap);
 }
 
 function getDecorators(plugins: DraftPlugin[]): MultiDecorator {
@@ -203,7 +206,7 @@ function getDecorators(plugins: DraftPlugin[]): MultiDecorator {
     return new MultiDecorator(finalDecorators);
 }
 
-export class PluginsEditor extends React.PureComponent<PluginEditorProps> {
+export class PluginsEditor extends React.Component<PluginEditorProps> {
 
     public static defaultProps: ExtraPropTypes = {
         plugins: [],

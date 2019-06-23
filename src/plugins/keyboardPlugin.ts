@@ -1,4 +1,5 @@
 import {
+    BlockMap,
     ContentBlock,
     ContentState,
     EditorState,

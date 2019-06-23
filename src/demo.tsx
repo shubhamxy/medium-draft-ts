@@ -1,7 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import {ContentBlock, ContentState, EditorState} from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
+import {EditorState} from 'draft-js';
 
 import 'draft-js/dist/Draft.css';
 import './index.scss';
@@ -28,7 +27,7 @@ import {Separator} from './SideButtons/Separator';
 import {Image} from './SideButtons/Image';
 import {BLOCK_BUTTONS, INLINE_BUTTONS} from './components/Toolbar/Buttons';
 import {blockRendererPlugin} from './plugins/blockRendererFn';
-import {Block} from './util/constants';
+import {setRenderOptions} from './exporter';
 
 interface State {
     editorState: EditorState;
@@ -38,57 +37,33 @@ interface Props {
     Component?: new (props: EditorProps) => MediumDraftEditor;
 }
 
-function convertStateToHtml(currentContent: ContentState): string {
-    let options = {
-        blockRenderers: {
-            [Block.IMAGE]: (block: ContentBlock) => {
-                let data = block.getData();
-                const src = data.get('src');
-
-                return '<figure><img src="' + src + '"><figcaption>' + block.get('text') + '</figcaption></figure>';
-            },
-            [Block.BREAK]: () => {
-                return '<hr/>';
-            }
-        },
-    };
-
-    return stateToHTML(currentContent, options);
-}
-
 const rootNode = document.getElementById('root');
 
 class App extends React.Component<Props, State> {
 
-    constructor(props: Props) {
-        super(props);
+    public state = {
+        editorState: createEditorState(),
+    };
 
-        this.plugins = [
-            codeBlockPlugin(),
-            imageBlockPlugin(),
-            inlineStylePlugin(),
-            // blockMovePlugin(),
-            keyboardPlugin(),
-            blockRendererPlugin(),
-        ];
+    private readonly plugins: DraftPlugin[] = [
+        codeBlockPlugin(),
+        imageBlockPlugin(),
+        inlineStylePlugin(),
+        // blockMovePlugin(),
+        keyboardPlugin(),
+        blockRendererPlugin(),
+    ];
 
-        this.sideButtons = [
-            {
-                component: Separator,
-            },
-            {
-                component: Image,
-            }
-        ];
+    private readonly sideButtons: SideButton[] = [
+        {
+            component: Separator,
+        },
+        {
+            component: Image,
+        }
+    ];
 
-        this.state = {
-            editorState: createEditorState(),
-        };
-    }
-
-    private readonly plugins: DraftPlugin[];
-
-    private readonly sideButtons: SideButton[];
+    private exporter = setRenderOptions();
 
     public render() {
         const {Component: Editor = MediumDraftEditor} = this.props;
@@ -108,7 +83,7 @@ class App extends React.Component<Props, State> {
     }
 
     private onChange = (editorState: EditorState) => {
-        const html = convertStateToHtml(editorState.getCurrentContent());
+        const html = this.exporter(editorState.getCurrentContent());
 
         console.log(html);
 

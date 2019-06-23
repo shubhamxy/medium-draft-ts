@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const postcssNesting = require('postcss-nesting');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const pkg = require('./package.json');
 
 const banner = [
@@ -44,6 +45,10 @@ module.exports = (env, argv) => {
         output: getOutput(isProd),
         resolve: {
             extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
+            alias: {
+                // protect from tow copies of immutable
+                immutable: path.join(__dirname, '/node_modules/immutable/dist/immutable.min.js')
+            }
         },
         devtool: isProd ? '' : 'source-map',
         module: {
@@ -78,6 +83,8 @@ module.exports = (env, argv) => {
                 filename: '[name].css',
             }),
         ] : [
+            // When BundleAnalyzerPlugin is active, use production mode!
+            //new BundleAnalyzerPlugin(),
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, './index.html'),
             }),
