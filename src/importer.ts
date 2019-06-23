@@ -1,6 +1,6 @@
 import {convertFromHTML, ConvertFromHTMLOptions, EntityKey} from 'draft-convert';
 import {Block, Entity as EntityType, Inline} from './util/constants';
-import {DraftInlineStyle} from 'draft-js';
+import {ContentState, DraftInlineStyle} from 'draft-js';
 
 export const htmlToStyle = (nodeName: string, node: HTMLElement, currentStyle: DraftInlineStyle) => {
     switch (nodeName) {
@@ -129,6 +129,10 @@ export const options: ConvertFromHTMLOptions = {
     htmlToBlock,
 };
 
-export const setImportOptions = (htmlOptions = options) => convertFromHTML(htmlOptions);
+export function setImportOptions(htmlOptions: ConvertFromHTMLOptions = options) {
+    return convertFromHTML(htmlOptions);
+}
 
-export const toState = (rawHTML: string, htmlOptions = options) => convertFromHTML(htmlOptions)(rawHTML);
+export function toState(rawHTML: string, htmlOptions: ConvertFromHTMLOptions = options): ContentState {
+    return convertFromHTML(htmlOptions)(rawHTML);
+}

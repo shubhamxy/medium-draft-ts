@@ -205,7 +205,7 @@ function getDecorators(plugins: DraftPlugin[]): MultiDecorator {
     return new MultiDecorator(finalDecorators);
 }
 
-export class PluginsEditor extends React.Component<PluginEditorProps> {
+export class PluginsEditor extends React.PureComponent<PluginEditorProps> {
 
     public static defaultProps: ExtraPropTypes = {
         plugins: [],
@@ -273,11 +273,15 @@ export class PluginsEditor extends React.Component<PluginEditorProps> {
     }
 
     public focus() {
-        if (!this.editor) {
-            return;
+        if (this.editor) {
+            this.editor.focus();
         }
+    }
 
-        this.editor.focus();
+    public blur() {
+        if (this.editor) {
+            this.editor.blur();
+        }
     }
 
     private editorRefCb = (node: Editor) => {
@@ -298,14 +302,6 @@ export class PluginsEditor extends React.Component<PluginEditorProps> {
             });
 
         onChange(newEs);
-    }
-
-    private blur() {
-        if (!this.editor) {
-            return;
-        }
-
-        this.editor.blur();
     }
 
     private getters = (): PluginFunctions => ({
