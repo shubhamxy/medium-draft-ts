@@ -72,33 +72,33 @@ export interface DraftPlugin {
         editable?: boolean;
         props?: BlockPropsInner,
     } | null;
-    keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => string | void;
-    blockStyleFn?: (contentBlock: ContentBlock) => string | null;
     blockRenderMap?: Map<string, {
         element: string;
         wrapper?: React.ReactElement;
         aliasedElements?: string[];
     }>;
+    blockStyleFn?: (contentBlock: ContentBlock) => string | null;
     customStyleMap?: DraftStyleMap;
-    handleReturn?: (ev: React.KeyboardEvent<{}>, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
-    handleKeyCommand?: (command: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
+    decorators?: DraftDecoratorType[];
     handleBeforeInput?: (input: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
-    handlePastedText?: (text: string, html: string, editorState: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
-    handlePastedFiles?: (files: Blob[]) => DraftHandleValue;
-    handleDroppedFiles?: (selection: SelectionState, files: Blob[], draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleDrop?: (selection: EditorState, dataTransfer: DataTransfer, isInternal: DraftDragType, draftPluginFns: PluginFunctions) => DraftHandleValue;
+    handleDroppedFiles?: (selection: SelectionState, files: Blob[], draftPluginFns: PluginFunctions) => DraftHandleValue;
+    handleKeyCommand?: (command: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
+    handlePastedFiles?: (files: Blob[]) => DraftHandleValue;
+    handlePastedText?: (text: string, html: string, editorState: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
+    handleReturn?: (ev: React.KeyboardEvent<{}>, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
+    initialize?: (draftPluginFns: PluginFunctions) => void;
+    keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => string | void;
+    onBlur?: (e: React.SyntheticEvent<{}>) => void;
+    onChange?: (es: EditorState, draftPluginFns: PluginFunctions) => (EditorState | void);
+    onDownArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
     onEscape?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
+    onFocus?: (e: React.SyntheticEvent<{}>) => void;
+    onLeftArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
+    onRightArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
     onTab?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
     onUpArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onChange?: (es: EditorState, draftPluginFns: PluginFunctions) => EditorState;
-    onRightArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onDownArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onLeftArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onFocus?: (e: React.SyntheticEvent<{}>) => void;
-    onBlur?: (e: React.SyntheticEvent<{}>) => void;
-    decorators?: DraftDecoratorType[];
     willUnmount?: (draftPluginFns: PluginFunctions) => void;
-    initialize?: (draftPluginFns: PluginFunctions) => void;
 }
 
 interface ExtraPropTypes {
@@ -107,13 +107,13 @@ interface ExtraPropTypes {
 
 type DraftPluginKeys = keyof DraftPlugin;
 type DraftPluginArray = {
-    [K in DraftPluginKeys]?: Array<DraftPlugin[keyof DraftPlugin]>
+    [K in DraftPluginKeys]?: Array<DraftPlugin[DraftPluginKeys]>
 };
-type DraftPluginFunctionsArray = {
-    [K in DraftPluginKeys]?: (() => null | DraftHandleValue);
+type DraftPluginsMergedProps = {
+    [K in keyof EditorProps]?: EditorProps[K];
 };
 
-function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginFunctions): DraftPluginFunctionsArray {
+function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginFunctions): DraftPluginsMergedProps {
     const props: DraftPluginArray = {};
 
     plugins.forEach((plugin) => {
@@ -123,7 +123,7 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
         });
     });
 
-    const mainProps: DraftPluginFunctionsArray = {};
+    const mainProps: DraftPluginsMergedProps = {};
 
     (Object.keys(props) as DraftPluginKeys[]).forEach((key) => {
         if (key === 'onChange' || key === 'blockRenderMap') {
@@ -133,16 +133,14 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
         const handlers = props[key];
 
         if (key.indexOf('handle') === 0) {
+            // @ts-ignore: Unreachable code error
             mainProps[key] = (...args) => {
-                const returnVal = handlers.some((handler: any) => {
-                    const returnVal2: string | boolean = handler(...args, getters());
-
-                    return (typeof returnVal2 === 'string' && returnVal2 === HANDLED) || returnVal2 === true;
-                });
+                const returnVal = handlers.some((handler: any) => handler(...args, getters()) === HANDLED);
 
                 return returnVal ? HANDLED : NOT_HANDLED;
             };
         } else if (key.indexOf('on') === 0) {
+            // @ts-ignore: Unreachable code error
             mainProps[key] = (...args) => {
                 handlers.some((handler: any) => {
                     const retVal: boolean = handler(...args, getters());
@@ -153,6 +151,7 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
                 return null;
             };
         } else if (key.indexOf('Fn') === (key.length - 'Fn'.length)) {
+            // @ts-ignore: Unreachable code error
             mainProps[key] = (...args) => {
                 for (let i = 0; i < handlers.length; i++) {
                     const handler = handlers[i] as any;
@@ -216,7 +215,7 @@ export class PluginsEditor extends React.Component<PluginEditorProps> {
         super(props);
 
         const {plugins} = props;
-        this.parsePlugins = memoizeOne<(plugins: DraftPlugin[], getters?: () => PluginFunctions) => DraftPluginFunctionsArray>(getMainPropsFromPlugins);
+        this.parsePlugins = memoizeOne<(plugins: DraftPlugin[], getters?: () => PluginFunctions) => DraftPluginsMergedProps>(getMainPropsFromPlugins);
         this.blockRenderMapPlugins = memoizeOne<(plugins: DraftPlugin[]) => DraftBlockRenderMap>(getBlockRenderMap);
         this.pluginDecorators = memoizeOne(getDecorators);
 
@@ -230,7 +229,7 @@ export class PluginsEditor extends React.Component<PluginEditorProps> {
             .forEach((pl) => pl.initialize(this.getters()));
     }
 
-    private parsePlugins: (plugins: DraftPlugin[], getters?: () => PluginFunctions) => DraftPluginFunctionsArray;
+    private parsePlugins: (plugins: DraftPlugin[], getters?: () => PluginFunctions) => DraftPluginsMergedProps;
 
     private blockRenderMapPlugins: (plugins: DraftPlugin[]) => DraftBlockRenderMap;
 

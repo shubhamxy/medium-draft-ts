@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const postcssNesting = require('postcss-nesting');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const pkg = require('./package.json');
 
 const banner = [
@@ -34,7 +33,7 @@ module.exports = (env, argv) => {
 
     return {
         target: 'web',
-        mode: argv.mode,
+        mode: isProd ? 'production' : 'development',
         entry: {
             'medium-draft': isProd ? './src/index.ts' : './src/demo.tsx',
             'index': [
@@ -83,8 +82,6 @@ module.exports = (env, argv) => {
                 filename: '[name].css',
             }),
         ] : [
-            // When BundleAnalyzerPlugin is active, use production mode!
-            //new BundleAnalyzerPlugin(),
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, './index.html'),
             }),
@@ -110,6 +107,12 @@ module.exports = (env, argv) => {
                 commonjs: 'draft-js',
                 commonjs2: 'draft-js',
                 amd: 'draft-js',
+            },
+            'immutable': {
+                root: 'immutable',
+                commonjs: 'immutable',
+                commonjs2: 'immutable',
+                amd: 'immutable',
             }
         } : {},
     }
