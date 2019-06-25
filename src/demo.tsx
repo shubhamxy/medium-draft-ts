@@ -7,16 +7,15 @@ import './index.scss';
 import './demo.css';
 import './components/AddButton/addbutton.scss';
 import './components/Toolbar/toolbar.scss';
-import './components/blocks/atomic.scss';
-import './components/blocks/blockquotecaption.scss';
-import './components/blocks/caption.scss';
-import './components/blocks/image.scss';
-import './components/blocks/text.scss';
-import './components/blocks/todo.scss';
-import './components/blocks/code.scss';
+import './blocks/atomic.scss';
+import './blocks/blockquotecaption.scss';
+import './blocks/caption.scss';
+import './blocks/image.scss';
+import './blocks/text.scss';
+import './blocks/todo.scss';
+import './blocks/code.scss';
 
-import {EditorProps, SideButton, MediumDraftEditor} from './MediumDraftEditor';
-import {createEditorState} from './model';
+import {SideButton, MediumDraftEditor} from './MediumDraftEditor';
 import {codeBlockPlugin} from './plugins/codeblockplugin';
 import {imageBlockPlugin} from './plugins/imageblockPlugin';
 import {inlineStylePlugin} from './plugins/style';
@@ -28,21 +27,19 @@ import {Image} from './SideButtons/Image';
 import {BLOCK_BUTTONS, INLINE_BUTTONS} from './components/Toolbar/Buttons';
 import {blockRendererPlugin} from './plugins/blockRendererFn';
 import {setRenderOptions} from './exporter';
+import {toState} from './importer';
 
 interface State {
     editorState: EditorState;
 }
 
-interface Props {
-    Component?: new (props: EditorProps) => MediumDraftEditor;
-}
-
 const rootNode = document.getElementById('root');
+let demoText = '<h2><em>Castlevania: Lords of Shadow</em></h2><p><em>Lords of Shadow</em> is a third-person action-adventure game in which the player controls the main character, Gabriel Belmont. The combat involves a retractable chain whip called the Combat Cross. The player can perform up to forty unlockable <a href="https://en.wikipedia.org/wiki/Combo_(video_gaming)">combos</a> with it. The commands consist of direct attacks for dealing damage to single  enemies, and weak area attacks when surrounded by them. It is also  capable of interactions with secondary weapons, such as knives, holy  water and other items which can be upgraded. In addition, the Combat Cross&#x27;s melee skills can be combined with the  Light and Shadow magic system, which are spells aimed at defense and  aggression, respectively. The whip is upgradeable and can also be used to guard against an opponent&#x27;s attack.</p><p>The developers attempted to reach out to new audiences by distancing <em>Lords of Shadow</em> from previous <em>Castlevania</em> games, but kept some elements intact to not alienate franchise fans. For example, vampires and werewolves are recurring enemies in the game,  but other existing enemies include trolls, giant spiders and  goblin-like creatures. The enemies can be defeated for experience  points, which can be used to purchase combos or to augment the player&#x27;s  abilities further.<em>Lords of Shadow</em>  has large-scale bosses known as titans. The Combat Cross can be used to  grapple onto their bodies and navigate them, and break the runes that  animate the titan.</p>';
 
-class App extends React.Component<Props, State> {
+class App extends React.Component<{}, State> {
 
     public state = {
-        editorState: createEditorState(),
+        editorState: EditorState.createWithContent(toState(demoText)),
     };
 
     private readonly plugins: DraftPlugin[] = [
@@ -66,10 +63,8 @@ class App extends React.Component<Props, State> {
     private exporter = setRenderOptions();
 
     public render() {
-        const {Component: Editor = MediumDraftEditor} = this.props;
-
         return (
-            <Editor
+            <MediumDraftEditor
                 autoFocus
                 editorState={this.state.editorState}
                 onChange={this.onChange}
@@ -85,7 +80,10 @@ class App extends React.Component<Props, State> {
     private onChange = (editorState: EditorState) => {
         const html = this.exporter(editorState.getCurrentContent());
 
-        console.log(html);
+        if (html !== demoText) {
+            demoText = html;
+            console.log(demoText);
+        }
 
         this.setState({
             editorState,

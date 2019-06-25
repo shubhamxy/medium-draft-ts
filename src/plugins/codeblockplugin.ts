@@ -1,6 +1,6 @@
 import {ContentBlock, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
 
-import CodeBlock from '../components/blocks/code';
+import CodeBlock from '../blocks/code';
 import {getCurrentBlock, updateDataOfBlock} from '../model';
 import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_CODES, NOT_HANDLED} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';

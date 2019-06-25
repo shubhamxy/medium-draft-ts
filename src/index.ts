@@ -1,12 +1,12 @@
-export { default as Link, findLinkEntities } from './components/entities/link';
-export { default as AtomicBlock } from './components/blocks/atomic';
-export { default as CodeBlock } from './components/blocks/code';
-export { default as QuoteCaptionBlock } from './components/blocks/blockquotecaption';
-export { default as CaptionBlock } from './components/blocks/caption';
-export { default as TodoBlock } from './components/blocks/todo';
-export { ImageBlock } from './components/blocks/ImageBlock';
-export { SeparatorBlock } from './components/blocks/SeparatorBlock';
-export { TextBlock } from './components/blocks/text';
+export { default as Link, findLinkEntities } from './entities/link';
+export { default as AtomicBlock } from './blocks/atomic';
+export { default as CodeBlock } from './blocks/code';
+export { default as QuoteCaptionBlock } from './blocks/blockquotecaption';
+export { default as CaptionBlock } from './blocks/caption';
+export { default as TodoBlock } from './blocks/todo';
+export { ImageBlock } from './blocks/ImageBlock';
+export { SeparatorBlock } from './blocks/SeparatorBlock';
+export { TextBlock } from './blocks/text';
 
 import {MediumDraftEditor as Editor} from './MediumDraftEditor';
 export * from './model';

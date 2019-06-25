@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {EditorBlock} from 'draft-js';
-import {updateDataOfBlock} from '../../model/';
-import {BlockProps} from '../../typings';
+import {updateDataOfBlock} from '../model';
+import {BlockProps} from '../typings';
 
 export default class TodoBlock extends React.PureComponent<BlockProps> {
 

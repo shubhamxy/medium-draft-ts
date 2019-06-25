@@ -3,7 +3,7 @@ import createEditorState from './content';
 import { Block } from '../util/constants';
 
 import preData from '../../docs/data.json';
-import Link, { findLinkEntities } from '../components/entities/link';
+import Link, { findLinkEntities } from '../entities/link';
 
 describe('createEditorState', () => {
   const es = createEditorState();

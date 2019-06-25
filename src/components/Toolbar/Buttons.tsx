@@ -2,36 +2,64 @@ import {Block, HYPERLINK, Inline} from '../../util/constants';
 import * as React from 'react';
 import {ToolbarButtonInterface} from './Toolbar';
 
+export const BLOCK_BUTTON_H1 = {
+    label: 'H1',
+    style: Block.H1,
+    description: 'Heading 1',
+};
+
+export const BLOCK_BUTTON_H2 = {
+    label: 'H2',
+    style: Block.H2,
+    description: 'Heading 2',
+};
+
+export const BLOCK_BUTTON_H3 = {
+    label: 'H3',
+    style: Block.H3,
+    description: 'Heading 3',
+};
+
+export const BLOCK_BUTTON_BLOCKQUOTE = {
+    label: (
+        <svg width="10.8" height="10" viewBox="0 0 13 12">
+            <path d="M12.5 0l.5.6c-2 1.5-3 3-3 4.8 0 1.5.8 2.7 2.4 3.8L9.5 12C8 10.8 7.1 9.3 7.1 7.7c0-2.4 1.8-5 5.4-7.7zM5.4 0l.5.6c-2 1.5-3 3-3 4.8 0 1.5.7 2.7 2.3 3.8L2.4 12C.8 10.8 0 9.3 0 7.7c0-2.4 1.8-5 5.4-7.7z" fill="currentColor"/>
+        </svg>
+    ),
+    style: Block.BLOCKQUOTE,
+    description: 'Blockquote',
+};
+
+export const BLOCK_BUTTON_UL =  {
+    label: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path fill="currentColor" d="M8 5h14v1H8zM8 12h14v1H8zM8 19h14v1H8z"/>
+            <circle fill="currentColor" cx="4.5" cy="5.5" r="1.5"/>
+            <circle fill="currentColor" cx="4.5" cy="12.5" r="1.5"/>
+            <circle fill="currentColor" cx="4.5" cy="19.5" r="1.5"/>
+        </svg>
+    ),
+    style: Block.UL,
+    description: 'Unordered List',
+};
+
+export const BLOCK_BUTTON_OL =  {
+    label: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path fill="currentColor" d="M8 5h14v1H8zM8 12h14v1H8zM8 19h14v1H8zM4.4 8h-1V3.9h-.9v-.7L4.4 3v5zM5.6 15h-3v-.6L4 12.7l.4-.7.1-.5-.1-.5-.4-.2-.4.2-.1.6h-1c0-.4.1-.8.4-1.1.2-.3.6-.5 1-.5.5 0 .8.1 1.1.4s.4.6.4 1.1l-.2.8-.7 1-.7 1h1.8v.7zM3.9 19.1l.4-.2.1-.5-.2-.5-.2-.2-.4.2-.1.4h-1c0-.4.1-.7.4-.9.3-.3.6-.4 1.1-.4.5 0 .8.1 1.1.4.3.2.4.6.4 1l-.2.6-.5.4.5.4.2.7c0 .4-.1.8-.4 1-.3.4-.7.5-1.1.5-.4 0-.8-.1-1.1-.4-.3-.2-.4-.6-.4-1h.9l.2.5.4.2.5-.2c.2-.1.2-.3.2-.5l-.2-.6a.8.8 0 0 0-.5-.2h-.5v-.7h.4z"/>
+        </svg>
+    ),
+    style: Block.OL,
+    description: 'Ordered List',
+};
+
 export const BLOCK_BUTTONS: ToolbarButtonInterface[] = [
-    {
-        label: 'H2',
-        style: Block.H2,
-        description: 'Heading 2',
-    },
-    {
-        label: 'H3',
-        style: Block.H3,
-        description: 'Heading 3',
-    },
-    {
-        label: (
-            <svg width="10.8" height="10" viewBox="0 0 13 12">
-                <path d="M12.5 0l.5.6c-2 1.5-3 3-3 4.8 0 1.5.8 2.7 2.4 3.8L9.5 12C8 10.8 7.1 9.3 7.1 7.7c0-2.4 1.8-5 5.4-7.7zM5.4 0l.5.6c-2 1.5-3 3-3 4.8 0 1.5.7 2.7 2.3 3.8L2.4 12C.8 10.8 0 9.3 0 7.7c0-2.4 1.8-5 5.4-7.7z" fill="#FFF"/>
-            </svg>
-        ),
-        style: Block.BLOCKQUOTE,
-        description: 'Blockquote',
-    },
-    {
-        label: 'UL',
-        style: Block.UL,
-        description: 'Unordered List',
-    },
-    {
-        label: 'OL',
-        style: Block.OL,
-        description: 'Ordered List',
-    }
+    BLOCK_BUTTON_H1,
+    BLOCK_BUTTON_H2,
+    BLOCK_BUTTON_H3,
+    BLOCK_BUTTON_BLOCKQUOTE,
+    BLOCK_BUTTON_UL,
+    BLOCK_BUTTON_OL
 ];
 
 export const INLINE_BUTTONS: ToolbarButtonInterface[] = [

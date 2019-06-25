@@ -1,7 +1,7 @@
 import {ContentBlock, EditorState, genKey, SelectionState, Modifier} from 'draft-js';
 
 import {BASE_BLOCK_CLASS, Block, HANDLED, NOT_HANDLED} from '../util/constants';
-import {ImageBlock} from '../components/blocks/ImageBlock';
+import {ImageBlock} from '../blocks/ImageBlock';
 import {addNewBlock, addNewBlockAt, getCurrentBlock, resetBlockWithType, updateDataOfBlock} from '../model';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 

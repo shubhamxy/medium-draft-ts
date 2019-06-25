@@ -1,7 +1,7 @@
 import {ContentBlock, ContentState} from 'draft-js';
 import * as React from 'react';
 
-import {Entity} from '../../util/constants';
+import {Entity} from '../util/constants';
 
 export const findLinkEntities = (contentBlock: ContentBlock, callback: (start: number, end: number) => void, contentState: ContentState) => {
     contentBlock.findEntityRanges(

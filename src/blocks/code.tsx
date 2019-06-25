@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {EditorBlock, ContentBlock, EditorState} from 'draft-js';
 
-import {updateDataOfBlock} from '../../model/';
+import {updateDataOfBlock} from '../model';
 
 interface Props {
     block: ContentBlock;

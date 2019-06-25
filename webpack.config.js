@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
         resolve: {
             extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
             alias: {
-                // protect from tow copies of immutable
+                // protect from two copies of immutable
                 immutable: path.join(__dirname, '/node_modules/immutable/dist/immutable.min.js')
             }
         },

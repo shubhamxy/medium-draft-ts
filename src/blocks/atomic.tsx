@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {BlockProps} from '../../typings';
+import {BlockProps} from '../typings';
 
 const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
     const content = props.blockProps.getEditorState().getCurrentContent();
