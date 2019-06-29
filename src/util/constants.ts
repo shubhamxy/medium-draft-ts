@@ -5,6 +5,7 @@ directly using string.
 
 export const KEY_ENTER = 13;
 export const KEY_ESCAPE = 27;
+export const KEY_CTRL = 17;
 
 export const Block = {
   UNSTYLED: 'unstyled',
