@@ -1,14 +1,14 @@
 import {ContentBlock, ContentState} from 'draft-js';
 import * as React from 'react';
 
-import {Entity} from '../util/constants';
+import {EntityTypes} from '../util/constants';
 
 export const findLinkEntities = (contentBlock: ContentBlock, callback: (start: number, end: number) => void, contentState: ContentState) => {
     contentBlock.findEntityRanges(
         (character) => {
             const entityKey = character.getEntity();
 
-            return entityKey !== null && contentState.getEntity(entityKey).getType() === Entity.LINK;
+            return entityKey !== null && contentState.getEntity(entityKey).getType() === EntityTypes.LINK;
         },
         callback
     );

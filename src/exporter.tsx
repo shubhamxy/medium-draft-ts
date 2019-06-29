@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ContentStateConverterOptions, convertToHTML, RawBlock, RawEntity} from 'draft-convert';
 
-import {Block, Entity, Inline} from './util/constants';
+import {Block, EntityTypes, Inline} from './util/constants';
 import {ContentState} from 'draft-js';
 
 export const styleToHTML = (style: string) => {
@@ -109,7 +109,7 @@ export const blockToHTML = (block: RawBlock) => {
 };
 
 export const entityToHTML = (entity: RawEntity, originalText: string) => {
-    if (entity.type === Entity.LINK) {
+    if (entity.type === EntityTypes.LINK) {
         return (
             <a href={entity.data.url}>
                 {originalText}

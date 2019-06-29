@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import {DraftPlugin, PluginsEditor} from './plugin_editor/PluginsEditor';
-import {Block, Entity as E, KEY_ENTER, KEY_ESCAPE} from './util/constants';
-import {getSelectedBlockNode} from './util';
-import {EditorState, RichUtils} from 'draft-js';
+import {Block, EntityTypes} from './util/constants';
+import {EditorState, RichUtils, SelectionState} from 'draft-js';
 import {AddButton} from './components/AddButton/AddButton';
 import {Toolbar, ToolbarButtonInterface} from './components/Toolbar/Toolbar';
+import {getCurrentBlock} from './model';
 
 export interface SideButtonComponentProps {
     getEditorState: () => EditorState;
@@ -34,20 +34,10 @@ export interface EditorProps {
     processURL?: (url: string) => string;
 }
 
-interface Styles {
-    top?: string | 0;
-}
-
-interface State {
-    showInput: boolean;
-    title: string;
-    style: Styles;
-}
-
 /**
  * The main editor component with all the bells and whistles
  */
-export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
+export class MediumDraftEditor extends React.PureComponent<EditorProps> {
 
     public static defaultProps = {
         autoFocus: false,
@@ -60,36 +50,20 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
         super(props);
 
         this.editorRef = React.createRef<PluginsEditor>();
-        this.inputRef = React.createRef<HTMLInputElement>();
-
-        this.state = {
-            showInput: false,
-            title: '',
-            style: {},
-        };
     }
 
     private readonly editorRef: React.RefObject<PluginsEditor>;
-
-    private readonly inputRef: React.RefObject<HTMLInputElement>;
-
-    private inputPromise?: {
-        resolve: (input: string) => void,
-        reject: () => void,
-    } = null;
 
     public componentDidMount() {
         if (this.props.autoFocus) {
             setTimeout(this.focus);
         }
+
+        document.addEventListener('selectionchange', this.onSelectionChange);
     }
 
-    public componentDidUpdate(prevProps: EditorProps, prevState: State) {
-        if (this.state.showInput && !prevState.showInput) {
-            if (this.inputRef.current) {
-                this.inputRef.current.focus();
-            }
-        }
+    public componentWillUnmount(): void {
+        document.removeEventListener('selectionchange', this.onSelectionChange);
     }
 
     public render() {
@@ -111,7 +85,6 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
                     <PluginsEditor
                         {...restProps}
                         ref={this.editorRef}
-                        getParentMethods={this.getMethods}
                     />
                 </div>
                 {sideButtons.length > 0 && editorEnabled && (
@@ -134,35 +107,22 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
                         inlineButtons={inlineButtons}
                     />
                 )}
-                {this.renderInput()}
             </div>
         );
     }
 
-    private renderInput() {
-        const {showInput, title, style} = this.state;
+    /**
+     * Bug fix
+     * Disable selection on clicking outside Editor root
+     */
+    private onSelectionChange = () => {
+        const selection = document.getSelection();
+        if (selection.anchorOffset === 0 && selection.focusOffset === 0 && !this.props.editorState.getSelection().isCollapsed()) {
+            const currentBlock = getCurrentBlock(this.props.editorState);
+            const key = currentBlock.getKey();
 
-        if (!showInput) {
-            return null;
+            this.props.onChange(EditorState.acceptSelection(this.props.editorState, SelectionState.createEmpty(key)));
         }
-
-        return (
-            <div className="md-modal-container" tabIndex={-1}>
-                <div className="md-modal-input" style={style}>
-                    <div className="md-modal-input__wrapper">
-                        <label>
-                            {title}
-                            <input
-                                type="text"
-                                defaultValue=""
-                                ref={this.inputRef}
-                                onKeyDown={this.handleInputKeyDown}
-                            />
-                        </label>
-                    </div>
-                </div>
-            </div>
-        );
     }
 
     private focus = () => {
@@ -172,61 +132,6 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
     }
 
     private getEditorState = () => this.props.editorState;
-
-    private handleInputKeyDown = (ev: React.KeyboardEvent) => {
-        if (ev.which !== KEY_ENTER && ev.which !== KEY_ESCAPE) {
-            return;
-        }
-
-        ev.preventDefault();
-        ev.stopPropagation();
-
-        if (this.inputPromise) {
-            if (ev.which === KEY_ENTER) {
-                this.inputPromise.resolve((ev.target as HTMLInputElement).value);
-            } else {
-                this.inputPromise.reject();
-            }
-            this.inputPromise = null;
-        }
-
-        this.setState({
-            title: '',
-            showInput: false,
-            style: {},
-        }, this.focus);
-    }
-
-    private getInput = (title: string): Promise<string> => {
-        const currentBlockElement = getSelectedBlockNode(window);
-
-        let style: Styles = {
-            top: 0,
-        };
-
-        if (currentBlockElement) {
-            style.top = currentBlockElement.getBoundingClientRect().top + window.scrollY + 'px';
-        }
-
-        this.setState({
-            title,
-            style,
-            showInput: true,
-        });
-
-        return new Promise<string>((resolve, reject) => {
-            this.inputPromise = {
-                resolve,
-                reject,
-            };
-        });
-    }
-
-    private getMethods = () => {
-        return {
-            getInput: this.getInput,
-        };
-    }
 
     private setLink = (url: string) => {
         let { editorState } = this.props;
@@ -245,7 +150,7 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps, State> {
             }
         }
         if (newUrl) {
-            const contentWithEntity = content.createEntity(E.LINK, 'MUTABLE', { url: newUrl });
+            const contentWithEntity = content.createEntity(EntityTypes.LINK, 'MUTABLE', { url: newUrl });
             editorState = EditorState.push(editorState, contentWithEntity, 'apply-entity');
             entityKey = contentWithEntity.getLastCreatedEntityKey();
         }

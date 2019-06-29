@@ -5,8 +5,9 @@ import {InlineToolbar} from './InlineButtonsBar';
 
 import {getSelection, getSelectionRect} from '../../util';
 import {getCurrentBlock} from '../../model';
-import {Entity, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
-import {EditorState} from 'draft-js';
+import {EntityTypes, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
+import {EditorState, DraftEntityType, Entity} from 'draft-js';
+import {ToolbarButton} from './ToolbarButton';
 
 interface ToolbarProps {
     editorState: EditorState;
@@ -27,6 +28,37 @@ export interface ToolbarButtonInterface {
     label?: string | JSX.Element;
     style: string;
     description?: string;
+}
+
+function getEntities(editorState: EditorState, entityType: DraftEntityType) {
+    const content = editorState.getCurrentContent();
+    const entities: Entity[] = [];
+
+    content.getBlocksAsArray().forEach((block) => {
+        let selectedEntity: Entity | null = null;
+
+        block.findEntityRanges((character) => {
+            if (character.getEntity() !== null) {
+                const entity = content.getEntity(character.getEntity());
+                if (entity.getType() === entityType) {
+                    selectedEntity = {
+                        entityKey: character.getEntity(),
+                        blockKey: block.getKey(),
+                        entity: content.getEntity(character.getEntity()),
+                    };
+
+                    return true;
+                }
+            }
+
+            return false;
+        },
+        (start, end) => {
+            entities.push({ ...selectedEntity, start, end });
+        });
+    });
+
+    return entities;
 }
 
 export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
@@ -97,8 +129,10 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     }
 
     public render() {
-        const {editorState, inlineButtons} = this.props;
+        const {editorState, inlineButtons, blockButtons} = this.props;
         const {showURLInput, urlInputValue} = this.state;
+        let currentInlineButtons = [...inlineButtons];
+
         let isOpen = true;
         if (editorState.getSelection().isCollapsed()) {
             isOpen = false;
@@ -113,10 +147,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                     ref={this.toolbarRef}
                     className={className}
                 >
-                    <div
-                        className="md-RichEditor-controls md-RichEditor-show-link-input"
-                        style={{display: 'block'}}
-                    >
+                    <div className="md-RichEditor-controls md-RichEditor-controls--show-input">
                         <button className="md-url-input-close md-RichEditor-styleButton" onClick={this.onSaveLink}>ok</button>
                         <input
                             ref={this.urlInputRef}
@@ -124,26 +155,19 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                             className="md-url-input"
                             onKeyDown={this.onKeyDown}
                             onChange={this.onChange}
-                            placeholder="Press ENTER or ESC"
+                            placeholder="Enter or paste url"
                             value={urlInputValue}
                         />
                     </div>
                 </div>
             );
         }
-        let hasHyperLink = false;
-        let hyperlinkLabel: string | JSX.Element = '#';
-        let hyperlinkDescription = 'Add a link';
 
-        for (let cnt = 0; cnt < inlineButtons.length; cnt++) {
-            if (inlineButtons[cnt].style === HYPERLINK) {
-                hasHyperLink = true;
-                if (inlineButtons[cnt].label) {
-                    hyperlinkLabel = inlineButtons[cnt].label;
-                }
-                if (inlineButtons[cnt].description) {
-                    hyperlinkDescription = inlineButtons[cnt].description;
-                }
+        // try find hyperlink to move it in separate section
+        let hyperLink: null | ToolbarButtonInterface = null;
+        for (let cnt = currentInlineButtons.length - 1; cnt > 0; cnt--) {
+            if (currentInlineButtons[cnt].style === HYPERLINK) {
+                hyperLink = currentInlineButtons.splice(cnt, 1)[0];
                 break;
             }
         }
@@ -153,29 +177,29 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                 ref={this.toolbarRef}
                 className={`md-editor-toolbar${(isOpen ? ' md-editor-toolbar--is-open' : '')}`}
             >
-                {this.props.blockButtons.length > 0 ? (
+                {blockButtons.length > 0 ? (
                     <BlockButtonsBar
                         editorState={editorState}
                         onToggle={this.props.toggleBlockType}
-                        buttons={this.props.blockButtons}
+                        buttons={blockButtons}
                     />
                 ) : null}
-                {this.props.inlineButtons.length > 0 ? (
+                {currentInlineButtons.length > 0 ? (
                     <InlineToolbar
                         editorState={editorState}
                         onToggle={this.props.toggleInlineStyle}
-                        buttons={this.props.inlineButtons}
+                        buttons={currentInlineButtons}
                     />
                 ) : null}
-                {hasHyperLink && (
+                {hyperLink && (
                     <div className="md-RichEditor-controls">
-                        <button
-                            className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top"
-                            onClick={this.handleLinkInput}
-                            aria-label={hyperlinkDescription}
-                        >
-                            {hyperlinkLabel}
-                        </button>
+                        <ToolbarButton
+                            label={hyperLink.label}
+                            style={hyperLink.style}
+                            active={true}
+                            onToggle={this.handleLinkInput}
+                            description={hyperLink.description}
+                        />
                     </div>
                 )}
             </div>
@@ -199,47 +223,49 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         });
     }
 
-    private handleLinkInput: React.MouseEventHandler<HTMLSpanElement> = (e, direct = false) => {
-        if (direct !== true) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    private handleLinkInput = () => {
         const {editorState} = this.props;
         const selection = editorState.getSelection();
+
+        // On empty selection
         if (selection.isCollapsed()) {
             this.props.focus();
 
             return;
         }
+
         const currentBlock = getCurrentBlock(editorState);
         let selectedEntity = '';
         let linkFound = false;
+
+        const entities = getEntities(editorState, EntityTypes.LINK);
+
+        if (entities.length === 1) {
+            console.log(true);
+        } else {
+            console.log(false);
+        }
+
         currentBlock.findEntityRanges((character) => {
             const entityKey = character.getEntity();
             selectedEntity = entityKey;
 
-            return entityKey !== null && editorState.getCurrentContent().getEntity(entityKey).getType() === Entity.LINK;
-        }, (start, end) => {
-            let selStart = selection.getAnchorOffset();
-            let selEnd = selection.getFocusOffset();
-            if (selection.getIsBackward()) {
-                selStart = selection.getFocusOffset();
-                selEnd = selection.getAnchorOffset();
-            }
-            if (start === selStart && end === selEnd) {
-                linkFound = true;
-                const {url} = editorState.getCurrentContent().getEntity(selectedEntity).getData();
-                this.setState({
-                    showURLInput: true,
-                    urlInputValue: url,
-                }, () => {
-                    setTimeout(() => {
-                        this.urlInputRef.current.focus();
-                        this.urlInputRef.current.select();
-                    }, 0);
-                });
-            }
+            return entityKey !== null && editorState.getCurrentContent().getEntity(entityKey).getType() === EntityTypes.LINK;
+        }, () => {
+            linkFound = true;
+            const {url} = editorState.getCurrentContent().getEntity(selectedEntity).getData();
+
+            this.setState({
+                showURLInput: true,
+                urlInputValue: url,
+            }, () => {
+                setTimeout(() => {
+                    this.urlInputRef.current.focus();
+                    this.urlInputRef.current.select();
+                }, 0);
+            });
         });
+
         if (!linkFound) {
             this.setState({
                 showURLInput: true,

@@ -1,5 +1,5 @@
-import {Block, HYPERLINK, Inline} from '../../util/constants';
 import * as React from 'react';
+import {Block, HYPERLINK, Inline} from '../../util/constants';
 import {ToolbarButtonInterface} from './Toolbar';
 
 export const BLOCK_BUTTON_H1 = {
@@ -62,39 +62,51 @@ export const BLOCK_BUTTONS: ToolbarButtonInterface[] = [
     BLOCK_BUTTON_OL
 ];
 
+export const INLINE_BUTTON_BOLD = {
+    label: 'B',
+    style: Inline.BOLD,
+    description: 'Bold',
+};
+
+export const INLINE_BUTTON_ITALIC = {
+    label: 'I',
+    style: Inline.ITALIC,
+    description: 'Italic',
+};
+
+export const INLINE_BUTTON_UNDERLINE = {
+    label: 'U',
+    style: Inline.UNDERLINE,
+    description: 'Underline',
+};
+
+export const INLINE_BUTTON_HIGHLIGHT = {
+    label: 'Hi',
+    style: Inline.HIGHLIGHT,
+    description: 'Highlight selection',
+};
+
+export const INLINE_BUTTON_STRIKETHROUGH = {
+    label: 'St',
+    style: Inline.STRIKETHROUGH,
+    description: 'Strikethrough selection',
+};
+
+export const INLINE_BUTTON_HYPERLINK = {
+    label: (
+        <svg width="24" height="24">
+            <path d="M12 9.2l2.7-2.8.7-.4c.6-.2 1.1-.1 1.6.4l1.4 1.5c.6.6.7 1.1.5 1.5l-.4.8-3 3c-.5.5-1.1.6-1.6.4l-.6-.3L12 9.2zm1.1 6.6l-3 2.7-.8.4c-.5.2-1.1 0-1.5-.4L6.3 17c-.5-.5-.6-1.1-.4-1.6 0-.3.2-.5.4-.7l3-3c.5-.5 1.1-.8 1.5-.6.3.1.5.4.6.5l1.7 4.2z" stroke="#FFF" fill="none"/>
+        </svg>
+    ),
+    style: HYPERLINK,
+    description: 'Add a link',
+};
+
 export const INLINE_BUTTONS: ToolbarButtonInterface[] = [
-    {
-        label: 'B',
-        style: Inline.BOLD,
-        description: 'Bold',
-    },
-    {
-        label: 'I',
-        style: Inline.ITALIC,
-        description: 'Italic',
-    },
-    {
-        label: 'U',
-        style: Inline.UNDERLINE,
-        description: 'Underline',
-    },
-    {
-        label: 'Hi',
-        style: Inline.HIGHLIGHT,
-        description: 'Highlight selection',
-    },
-    {
-        label: 'St',
-        style: Inline.STRIKETHROUGH,
-        description: 'Strikethrough selection',
-    },
-    {
-        label: (
-            <svg width="24" height="24">
-                <path d="M12 9.2l2.7-2.8.7-.4c.6-.2 1.1-.1 1.6.4l1.4 1.5c.6.6.7 1.1.5 1.5l-.4.8-3 3c-.5.5-1.1.6-1.6.4l-.6-.3L12 9.2zm1.1 6.6l-3 2.7-.8.4c-.5.2-1.1 0-1.5-.4L6.3 17c-.5-.5-.6-1.1-.4-1.6 0-.3.2-.5.4-.7l3-3c.5-.5 1.1-.8 1.5-.6.3.1.5.4.6.5l1.7 4.2z" stroke="#FFF" fill="none"/>
-            </svg>
-        ),
-        style: HYPERLINK,
-        description: 'Add a link',
-    },
+    INLINE_BUTTON_BOLD,
+    INLINE_BUTTON_ITALIC,
+    INLINE_BUTTON_UNDERLINE,
+    INLINE_BUTTON_HIGHLIGHT,
+    INLINE_BUTTON_STRIKETHROUGH,
+    INLINE_BUTTON_HYPERLINK,
 ];

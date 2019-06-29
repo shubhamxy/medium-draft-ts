@@ -11,9 +11,6 @@ interface InlineToolbarProps {
 }
 
 export const InlineToolbar: React.FunctionComponent<InlineToolbarProps> = (props) => {
-    if (props.buttons.length < 1) {
-        return null;
-    }
     const currentStyle = props.editorState.getCurrentInlineStyle();
 
     return (

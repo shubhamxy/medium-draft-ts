@@ -36,7 +36,7 @@ export const Inline = {
   HIGHLIGHT: 'HIGHLIGHT',
 };
 
-export const Entity = {
+export const EntityTypes = {
   LINK: 'LINK',
 };
 

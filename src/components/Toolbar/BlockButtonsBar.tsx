@@ -10,9 +10,6 @@ interface BlockButtonsBar {
 }
 
 export const BlockButtonsBar: React.FunctionComponent<BlockButtonsBar> = (props) => {
-    if (props.buttons.length < 1) {
-        return null;
-    }
     const {editorState} = props;
     const blockType = RichUtils.getCurrentBlockType(editorState);
 

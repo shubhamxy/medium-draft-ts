@@ -1,5 +1,5 @@
 import {convertFromHTML, ConvertFromHTMLOptions, EntityKey} from 'draft-convert';
-import {Block, Entity as EntityType, Inline} from './util/constants';
+import {Block, EntityTypes as EntityType, Inline} from './util/constants';
 import {ContentState, DraftInlineStyle} from 'draft-js';
 
 export const htmlToStyle = (nodeName: string, node: HTMLElement, currentStyle: DraftInlineStyle) => {

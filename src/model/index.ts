@@ -1,7 +1,7 @@
 import {RawDraftContentState, EditorState, ContentState, ContentBlock, SelectionState, convertFromRaw, genKey} from 'draft-js';
 import {List, Map} from 'immutable';
 
-import {Block, Entity} from '../util/constants';
+import {Block, EntityTypes} from '../util/constants';
 
 export function createEditorState(content: string | RawDraftContentState = null): EditorState {
     if (content === null) {
@@ -206,7 +206,7 @@ export const isCursorBetweenLink = (editorState: EditorState): null | {
                 blockKey = currentBlock.getKey();
                 if (entityKey !== null) {
                     const entity = content.getEntity(entityKey);
-                    if (entity.getType() === Entity.LINK) {
+                    if (entity.getType() === EntityTypes.LINK) {
                         ret = {
                             entityKey,
                             blockKey,

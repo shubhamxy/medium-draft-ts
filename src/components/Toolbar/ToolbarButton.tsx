@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import {HYPERLINK} from '../../util/constants';
-
 interface ToolbarButtonProps {
     onToggle: (style: string) => void;
     style: string;
@@ -13,19 +11,14 @@ interface ToolbarButtonProps {
 export class ToolbarButton extends React.PureComponent<ToolbarButtonProps> {
 
     public render() {
-        if (this.props.style === HYPERLINK) {
-            return null;
-        }
-
-        let className = 'md-RichEditor-styleButton';
+        let className = `md-RichEditor-styleButton md-RichEditor-styleButton-${this.props.style.toLowerCase()}`;
         if (this.props.active) {
             className += ' md-RichEditor-activeButton';
         }
-        className += ` md-RichEditor-styleButton-${this.props.style.toLowerCase()}`;
 
         return (
             <button
-                className={`${className} hint--top`}
+                className={className}
                 onClick={this.onClick}
                 aria-label={this.props.description}
             >
@@ -36,6 +29,7 @@ export class ToolbarButton extends React.PureComponent<ToolbarButtonProps> {
 
     private onClick: React.MouseEventHandler<HTMLSpanElement> = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         this.props.onToggle(this.props.style);
     }
 }
