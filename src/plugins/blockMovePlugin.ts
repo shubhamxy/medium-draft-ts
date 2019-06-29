@@ -1,8 +1,8 @@
+import * as React from 'react';
 import {EditorState} from 'draft-js';
 
 import {swapBlocks} from '../model';
 import {DraftPlugin} from '../plugin_editor/PluginsEditor';
-import * as React from 'react';
 
 type KeyBoardFilterFunc = (ev: React.KeyboardEvent<{}> | KeyboardEvent) => boolean;
 
@@ -19,8 +19,8 @@ function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEven
     if (!keyFilterFunction(ev)) {
         return false;
     }
-    const selection = editorState.getSelection();
 
+    const selection = editorState.getSelection();
     if (!selection.isCollapsed()) {
         return false;
     }
@@ -40,8 +40,6 @@ function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEven
         return false;
     }
 
-    console.log('move');
-
     const blockToSwapWith = isUp ? contentState.getBlockBefore(blockToMove.getKey()) : contentState.getBlockAfter(blockToMove.getKey());
     setEditorState(swapBlocks(editorState, blockToMove, blockToSwapWith));
 
@@ -57,8 +55,6 @@ export function blockMovePlugin(options?: BlockMovePluginOptions): DraftPlugin {
 
     return {
         onUpArrow: (ev, {getEditorState, setEditorState}) => {
-            console.log('ewrqwer');
-
             return moveBlock(keyFilterFunction, ev, getEditorState(), MoveDirection.UP, setEditorState);
         },
         onDownArrow: (ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}) => {
