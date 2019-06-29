@@ -54,7 +54,7 @@ export const blockToHTML = (block: RawBlock) => {
         case Block.BLOCKQUOTE_CAPTION:
         case Block.CAPTION:
             return {
-                start: `<p><caption>`,
+                start: '<p><caption>',
                 end: '</caption></p>',
             };
 

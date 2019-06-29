@@ -8,7 +8,7 @@ interface ImageButtonOptions {
     uploadImage: (files: Blob[]) => void;
 }
 
-export function getImage(options: ImageButtonOptions) {
+export function getImageButton(options: ImageButtonOptions) {
     return class ImageButton extends React.PureComponent<SideButtonComponentProps> {
 
         private inputRef = React.createRef<HTMLInputElement>();

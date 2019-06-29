@@ -10,7 +10,7 @@ const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
     if (type === 'image') {
         return (
             <div className="md-block-atomic-wrapper">
-                <img role="presentation" src={data.src}/>
+                <img role="presentation" src={data.src} alt=""/>
                 <div className="md-block-atomic-controls">
                     <button>&times;</button>
                 </div>

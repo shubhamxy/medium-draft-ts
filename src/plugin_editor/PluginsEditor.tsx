@@ -229,11 +229,11 @@ export class PluginsEditor extends React.PureComponent<PluginEditorProps> {
             .forEach((pl) => pl.initialize(this.getters()));
     }
 
-    private parsePlugins: (plugins: DraftPlugin[], getters?: () => PluginFunctions) => DraftPluginsMergedProps;
+    private readonly parsePlugins: (plugins: DraftPlugin[], getters?: () => PluginFunctions) => DraftPluginsMergedProps;
 
-    private blockRenderMapPlugins: (plugins: DraftPlugin[]) => DraftBlockRenderMap;
+    private readonly blockRenderMapPlugins: (plugins: DraftPlugin[]) => DraftBlockRenderMap;
 
-    private pluginDecorators: (plugins: DraftPlugin[]) => MultiDecorator;
+    private readonly pluginDecorators: (plugins: DraftPlugin[]) => MultiDecorator;
 
     private editor: Editor;
 

@@ -23,7 +23,7 @@ import {blockMovePlugin} from './plugins/blockMovePlugin';
 import {keyboardPlugin} from './plugins/keyboardPlugin';
 import {DraftPlugin} from './plugin_editor/PluginsEditor';
 import {SeparatorButton} from './SideButtons/SeparatorButton';
-import {getImage} from './SideButtons/ImageButton';
+import {getImageButton} from './SideButtons/ImageButton';
 import {BLOCK_BUTTONS, INLINE_BUTTONS} from './components/Toolbar/Buttons';
 import {blockRendererPlugin} from './plugins/blockRendererFn';
 import {setRenderOptions} from './util/exporter';
@@ -62,7 +62,7 @@ class App extends React.Component<{}, State> {
             component: SeparatorButton,
         },
         {
-            component: getImage({
+            component: getImageButton({
                 uploadImage
             }),
         }
