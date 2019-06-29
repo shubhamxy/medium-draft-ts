@@ -16,17 +16,17 @@ export function inlineStylePlugin(): DraftPlugin {
 
             switch (blockType) {
                 case Block.BLOCKQUOTE:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-quote md-RichEditor-blockquote`;
+                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--quote`;
                 case Block.UNSTYLED:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-paragraph`;
+                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--paragraph`;
                 case Block.ATOMIC:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-atomic`;
+                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--atomic`;
                 case Block.CAPTION:
                     return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-caption`;
                 case Block.BLOCKQUOTE_CAPTION: {
-                    const cls = `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-quote`;
+                    const cls = `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--quote`;
 
-                    return `${cls} md-RichEditor-blockquote ${BASE_BLOCK_CLASS}-quote-caption`;
+                    return `${cls} ${BASE_BLOCK_CLASS}-quote-caption`;
                 }
                 default:
                     return null;

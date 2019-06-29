@@ -2,10 +2,9 @@ import * as React from 'react';
 
 import {DraftPlugin, PluginsEditor} from './plugin_editor/PluginsEditor';
 import {Block, EntityTypes} from './util/constants';
-import {EditorState, RichUtils, SelectionState} from 'draft-js';
+import {EditorState, RichUtils} from 'draft-js';
 import {AddButton} from './components/AddButton/AddButton';
 import {Toolbar, ToolbarButtonInterface} from './components/Toolbar/Toolbar';
-import {getCurrentBlock} from './model';
 
 export interface SideButtonComponentProps {
     getEditorState: () => EditorState;
@@ -26,7 +25,7 @@ export interface EditorProps {
     toolbarEnabled?: boolean;
     editorState: EditorState;
     onChange: (editorState: EditorState) => void;
-    placeholder?: '';
+    placeholder?: string;
     plugins?: DraftPlugin[];
     sideButtons: SideButton[];
     inlineButtons: ToolbarButtonInterface[];
@@ -58,12 +57,6 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps> {
         if (this.props.autoFocus) {
             setTimeout(this.focus);
         }
-
-        document.addEventListener('selectionchange', this.onSelectionChange);
-    }
-
-    public componentWillUnmount(): void {
-        document.removeEventListener('selectionchange', this.onSelectionChange);
     }
 
     public render() {
@@ -77,10 +70,10 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps> {
             ...restProps
         } = this.props;
 
-        const editorClass = `md-RichEditor-editor${!editorEnabled ? ' md-RichEditor-readonly' : ''}`;
+        const editorClass = `md-content-editor${!editorEnabled ? ' md-content-editor--readonly' : ''}`;
 
         return (
-            <div className="md-RichEditor-root">
+            <div className="md-root">
                 <div className={editorClass}>
                     <PluginsEditor
                         {...restProps}
@@ -109,20 +102,6 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps> {
                 )}
             </div>
         );
-    }
-
-    /**
-     * Bug fix
-     * Disable selection on clicking outside Editor root
-     */
-    private onSelectionChange = () => {
-        const selection = document.getSelection();
-        if (selection.anchorOffset === 0 && selection.focusOffset === 0 && !this.props.editorState.getSelection().isCollapsed()) {
-            const currentBlock = getCurrentBlock(this.props.editorState);
-            const key = currentBlock.getKey();
-
-            this.props.onChange(EditorState.acceptSelection(this.props.editorState, SelectionState.createEmpty(key)));
-        }
     }
 
     private focus = () => {
@@ -159,14 +138,15 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps> {
     }
 
     /*
-    The function documented in `draft-js` to be used to toggle block types (mainly
-    for some key combinations handled by default inside draft-js).
+    * The function documented in `draft-js` to be used to toggle block types (mainly
+    * for some key combinations handled by default inside draft-js).
     */
     private toggleBlockType = (blockType: string) => {
         const type = RichUtils.getCurrentBlockType(this.props.editorState);
         if (type.indexOf(`${Block.ATOMIC}:`) === 0) {
             return;
         }
+
         this.props.onChange(
             RichUtils.toggleBlockType(
                 this.props.editorState,
@@ -176,8 +156,8 @@ export class MediumDraftEditor extends React.PureComponent<EditorProps> {
     }
 
     /*
-    The function documented in `draft-js` to be used to toggle inline styles of selection (mainly
-    for some key combinations handled by default inside draft-js).
+    * The function documented in `draft-js` to be used to toggle inline styles of selection (mainly
+    * for some key combinations handled by default inside draft-js).
     */
     private toggleInlineStyle = (inlineStyle: string) => {
         this.props.onChange(

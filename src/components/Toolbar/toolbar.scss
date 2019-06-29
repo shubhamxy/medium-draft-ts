@@ -8,6 +8,7 @@
   box-shadow: 0 1px 3px 0 #747171;
   margin-top: -5px;
   overflow: hidden;
+  white-space: nowrap;
 
   &.md-editor-toolbar--is-open {
     visibility: visible;
@@ -73,7 +74,7 @@
   }
 }
 
-.md-RichEditor-controls {
+.md-toolbar-controls {
   font-family: 'Helvetica', sans-serif;
   font-size: 14px;
   border-right: 1px solid #555;
@@ -84,12 +85,12 @@
     border-right: none;
   }
 
-  &.md-RichEditor-controls--show-input {
+  &.md-toolbar-controls--show-input {
     display: block;
   }
 }
 
-.md-RichEditor-styleButton {
+.md-toolbar-button {
   color: inherit;
   cursor: pointer;
   padding: 6px;
@@ -114,37 +115,27 @@
     margin-right: 0;
   }
 
-  &.md-RichEditor-styleButton-bold {
+  &.md-toolbar-button--bold {
     font-weight: bold;
   }
 
-  &.md-RichEditor-styleButton-italic {
+  &.md-toolbar-button--italic {
     font-style: italic;
   }
 
-  &.md-RichEditor-styleButton-underline {
+  &.md-toolbar-button--underline {
     text-decoration: underline;
   }
 
-  &.md-RichEditor-styleButton-strikethrough {
+  &.md-toolbar-button--strikethrough {
     text-decoration: line-through;
   }
 
-  &.md-RichEditor-linkButton {
-    & > svg {
-      pointer-events: none;
-    }
+  & > svg {
+    pointer-events: none;
   }
 }
 
-.md-RichEditor-activeButton {
+.md-toolbar-button--active {
   background: #1c1f25;
 }
-
-.md-RichEditor-controls-block {
-  & .md-RichEditor-styleButton:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-}
-

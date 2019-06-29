@@ -4,7 +4,7 @@ import {BlockButtonsBar} from './BlockButtonsBar';
 import {InlineToolbar} from './InlineButtonsBar';
 
 import {getSelection, getSelectionRect} from '../../util';
-import {getCurrentBlock} from '../../model';
+import {getCurrentBlock, isCursorInsideLink} from '../../model';
 import {EntityTypes, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
 import {EditorState, DraftEntityType, Entity} from 'draft-js';
 import {ToolbarButton} from './ToolbarButton';
@@ -147,8 +147,8 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                     ref={this.toolbarRef}
                     className={className}
                 >
-                    <div className="md-RichEditor-controls md-RichEditor-controls--show-input">
-                        <button className="md-url-input-close md-RichEditor-styleButton" onClick={this.onSaveLink}>ok</button>
+                    <div className="md-toolbar-controls md-toolbar-controls--show-input">
+                        <button className="md-url-input-close md-toolbar-button" onClick={this.onSaveLink}>ok</button>
                         <input
                             ref={this.urlInputRef}
                             type="text"
@@ -165,9 +165,11 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
         // try find hyperlink to move it in separate section
         let hyperLink: null | ToolbarButtonInterface = null;
+        let isHyperLinkActive = false;
         for (let cnt = currentInlineButtons.length - 1; cnt > 0; cnt--) {
             if (currentInlineButtons[cnt].style === HYPERLINK) {
                 hyperLink = currentInlineButtons.splice(cnt, 1)[0];
+                isHyperLinkActive = isCursorInsideLink(editorState);
                 break;
             }
         }
@@ -192,11 +194,11 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
                     />
                 ) : null}
                 {hyperLink && (
-                    <div className="md-RichEditor-controls">
+                    <div className="md-toolbar-controls">
                         <ToolbarButton
                             label={hyperLink.label}
                             style={hyperLink.style}
-                            active={true}
+                            active={isHyperLinkActive}
                             onToggle={this.handleLinkInput}
                             description={hyperLink.description}
                         />
@@ -237,14 +239,6 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         const currentBlock = getCurrentBlock(editorState);
         let selectedEntity = '';
         let linkFound = false;
-
-        const entities = getEntities(editorState, EntityTypes.LINK);
-
-        if (entities.length === 1) {
-            console.log(true);
-        } else {
-            console.log(false);
-        }
 
         currentBlock.findEntityRanges((character) => {
             const entityKey = character.getEntity();

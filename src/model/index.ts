@@ -180,45 +180,29 @@ export const addNewBlockAt = (
 };
 
 /**
- * Check whether the cursor is between entity of type LINK
+ * Check whether the cursor is inside one entity with type LINK
  */
-export const isCursorBetweenLink = (editorState: EditorState): null | {
-    entityKey: string,
-    blockKey: string,
-    url: string,
-} => {
-    let ret = null;
+export const isCursorInsideLink = (editorState: EditorState): boolean => {
     const selection = editorState.getSelection();
     const content = editorState.getCurrentContent();
     const currentBlock = getCurrentBlock(editorState);
 
-    if (!currentBlock) {
-        return ret;
-    }
+    if (currentBlock && currentBlock.getType().indexOf(Block.ATOMIC) !== 0 && currentBlock.getLength() > 0) {
+        if (selection.getAnchorOffset() > 0) {
 
-    let entityKey = null;
-    let blockKey = null;
+            const entityAnchorKey = currentBlock.getEntityAt(selection.getAnchorOffset());
+            const entityFocusKey = currentBlock.getEntityAt(selection.getFocusOffset());
+            if (entityAnchorKey !== null && entityFocusKey !== null && entityAnchorKey === entityFocusKey) {
+                const entity = content.getEntity(entityAnchorKey);
 
-    if (currentBlock.getType() !== Block.ATOMIC && selection.isCollapsed()) {
-        if (currentBlock.getLength() > 0) {
-            if (selection.getAnchorOffset() > 0) {
-                entityKey = currentBlock.getEntityAt(selection.getAnchorOffset() - 1);
-                blockKey = currentBlock.getKey();
-                if (entityKey !== null) {
-                    const entity = content.getEntity(entityKey);
-                    if (entity.getType() === EntityTypes.LINK) {
-                        ret = {
-                            entityKey,
-                            blockKey,
-                            url: entity.getData().url,
-                        };
-                    }
+                if (entity.getType() === EntityTypes.LINK) {
+                    return true;
                 }
             }
         }
     }
 
-    return ret;
+    return false;
 };
 
 /**

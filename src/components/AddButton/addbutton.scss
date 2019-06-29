@@ -3,6 +3,7 @@
   z-index: 1;
   left: -45px;
   top: 0;
+  margin-top: 20px;
 }
 
 .md-sb-button {
@@ -44,8 +45,9 @@
 }
 
 .mb-side-menu {
+  background: #fff;
   position: absolute;
-  right: 100%;
+  left: calc(100% + 32px);
   top: 0;
   display: flex;
 }

@@ -11,9 +11,9 @@ interface ToolbarButtonProps {
 export class ToolbarButton extends React.PureComponent<ToolbarButtonProps> {
 
     public render() {
-        let className = `md-RichEditor-styleButton md-RichEditor-styleButton-${this.props.style.toLowerCase()}`;
+        let className = `md-toolbar-button md-toolbar-button--${this.props.style.toLowerCase()}`;
         if (this.props.active) {
-            className += ' md-RichEditor-activeButton';
+            className += ' md-toolbar-button--active';
         }
 
         return (

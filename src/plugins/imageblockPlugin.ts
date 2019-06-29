@@ -34,17 +34,15 @@ function dummyUploadImage(files: Blob[]): Promise<string[]> {
 export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
     return {
         blockRendererFn(block: ContentBlock, {getEditorState, setEditorState}: PluginFunctions) {
-            if (shouldEarlyReturn(block)) {
-                return null;
+            if (!shouldEarlyReturn(block)) {
+                return {
+                    component: ImageBlock,
+                    props: {
+                        getEditorState,
+                        setEditorState,
+                    },
+                };
             }
-
-            return {
-                component: ImageBlock,
-                props: {
-                    getEditorState,
-                    setEditorState,
-                },
-            };
         },
 
         /**
@@ -132,6 +130,7 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
             })));
 
             const uploadImage = (options && options.uploadImage) ? options.uploadImage : dummyUploadImage;
+
             uploadImage(imageFiles).then((images) => {
                 const editorStateInner = getEditorState();
                 const blockInner = editorStateInner.getCurrentContent().getBlockForKey(newBlockKey);

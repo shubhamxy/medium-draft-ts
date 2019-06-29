@@ -14,7 +14,7 @@ export const BlockButtonsBar: React.FunctionComponent<BlockButtonsBar> = (props)
     const blockType = RichUtils.getCurrentBlockType(editorState);
 
     return (
-        <div className="md-RichEditor-controls md-RichEditor-controls-block">
+        <div className="md-toolbar-controls md-toolbar-controls-block">
             {props.buttons.map((button) => {
                 return (
                     <ToolbarButton

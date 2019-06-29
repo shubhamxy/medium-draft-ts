@@ -6,7 +6,7 @@ export { default as CaptionBlock } from './blocks/caption';
 export { default as TodoBlock } from './blocks/todo';
 export { ImageBlock } from './blocks/ImageBlock';
 export { SeparatorBlock } from './blocks/SeparatorBlock';
-export { TextBlock } from './blocks/text';
+export { TextBlock } from './blocks/TextBlock';
 
 import {MediumDraftEditor as Editor} from './MediumDraftEditor';
 export * from './model';

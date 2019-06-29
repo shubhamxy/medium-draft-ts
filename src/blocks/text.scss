@@ -1,26 +1,19 @@
-.md-block-paragraph {
-  margin: 25px 0;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.md-RichEditor-editor {
+.md-content-editor {
   cursor: text;
+
+  & h1 {
+    font-size: 2em;
+    margin: 25px 0 15px;
+  }
 
   & h2 {
     font-size: 1.3em;
-    margin: 1.2em 0;
+    margin: 25px 0 15px;
   }
 
   & h3 {
     font-size: 1.15em;
-    margin: 1.2em 0;
+    margin: 25px 0 15px;
   }
 
   & hr {

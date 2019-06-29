@@ -67,7 +67,7 @@ export interface SimpleDecorator {
 export type DraftDecoratorType = SimpleDecorator | CompositeDecorator;
 
 export interface DraftPlugin {
-    blockRendererFn?: (cb: ContentBlock, draftPluginFns: PluginFunctions) => {
+    blockRendererFn?: (contentBlock: ContentBlock, draftPluginFns: PluginFunctions) => {
         component: React.ComponentType<BlockProps> | React.FunctionComponent<BlockProps>;
         editable?: boolean;
         props?: BlockPropsInner,

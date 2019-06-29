@@ -1,5 +1,4 @@
 import {
-    BlockMap,
     ContentBlock,
     ContentState,
     EditorState,
@@ -71,7 +70,7 @@ export function keyboardPlugin(): DraftPlugin {
             //   if (!mainProps.disableToolbar && this.toolbar) {
             //     // For some reason, scroll is jumping sometimes for the below code.
             //     // Debug and fix it later.
-            //     const isCursorLink = isCursorBetweenLink(editorState);
+            //     const isCursorLink = isCursorInsideLink(editorState);
             //     if (isCursorLink) {
             //       this.editLinkAfterSelection(isCursorLink.blockKey, isCursorLink.entityKey);
             //       return HANDLED;

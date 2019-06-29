@@ -2,7 +2,7 @@ import QuoteCaptionBlock from '../blocks/blockquotecaption';
 import CaptionBlock from '../blocks/caption';
 import AtomicBlock from '../blocks/atomic';
 import {SeparatorBlock} from '../blocks/SeparatorBlock';
-import {TextBlock} from '../blocks/text';
+import {TextBlock} from '../blocks/TextBlock';
 import {Block} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 import {ContentBlock} from 'draft-js';
