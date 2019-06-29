@@ -1,5 +1,5 @@
 import {convertFromHTML, ConvertFromHTMLOptions, EntityKey} from 'draft-convert';
-import {Block, EntityTypes as EntityType, Inline} from './util/constants';
+import {Block, EntityTypes as EntityType, Inline} from './constants';
 import {ContentState, DraftInlineStyle} from 'draft-js';
 
 export const htmlToStyle = (nodeName: string, node: HTMLElement, currentStyle: DraftInlineStyle) => {
@@ -81,19 +81,17 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
             data: {},
         };
     } else if (nodeName === 'figure') {
-        if (node.className.match(/^md-block-image/)) {
-            const imageNode = node.querySelector('img');
+        const imageNode = node.querySelector('img') as HTMLImageElement;
 
+        if (imageNode) {
             return {
                 type: Block.IMAGE,
                 data: {
-                    src: imageNode && imageNode.src,
+                    src: imageNode.src,
+                    srcSet: imageNode.srcset,
+                    sizes: imageNode.sizes,
+                    dataId: imageNode.getAttribute('data-id')
                 },
-            };
-        } else if (node.className === `md-block-${Block.ATOMIC.toLowerCase()}`) {
-            return {
-                type: Block.ATOMIC,
-                data: {},
             };
         }
 

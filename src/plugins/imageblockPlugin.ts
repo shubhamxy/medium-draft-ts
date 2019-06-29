@@ -5,30 +5,15 @@ import {ImageBlock} from '../blocks/ImageBlock';
 import {addNewBlock, addNewBlockAt, getCurrentBlock, resetBlockWithType, updateDataOfBlock} from '../model';
 import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
 
-export type ImageUploadFunction = (files: Blob[]) => Promise<string[]>;
-
 export interface ImagePluginOptionType {
     /**
      * A method that returns a Promise and resolves with the url of uploaded image.
      */
-    uploadImage?: ImageUploadFunction;
+    uploadImage?: (files: Blob[]) => void;
 }
 
 function shouldEarlyReturn(block: ContentBlock): boolean {
     return (block.getType() !== Block.IMAGE);
-}
-
-/**
- * If file upload function is not provided, this is used to simulate
- * uploading for 1 sec.
- * @param files
- */
-function dummyUploadImage(files: Blob[]): Promise<string[]> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(files.map((fl) => URL.createObjectURL(fl)));
-        }, 1000);
-    });
 }
 
 export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
@@ -99,10 +84,12 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
 
             let newEditorState: EditorState;
             let src = URL.createObjectURL(imageFiles[0]);
-            let newBlockKey: string;
+            let blockKey: string;
 
-            if (!block.getLength() && block.getType().indexOf('atomic') < 0) {
-                newBlockKey = block.getKey();
+            if (!block.getLength() && block.getType().indexOf(Block.ATOMIC) < 0) {
+
+                // Replace empty block
+                blockKey = block.getKey();
                 newEditorState = addNewBlock(
                     editorState,
                     Block.IMAGE, {
@@ -111,7 +98,9 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
                     }
                 );
             } else {
-                newBlockKey = genKey();
+
+                // Insert after current block
+                blockKey = genKey();
                 newEditorState = addNewBlockAt(
                     editorState,
                     currentBlockKey,
@@ -119,30 +108,19 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
                         src,
                         uploading: true,
                     },
-                    newBlockKey,
+                    blockKey,
                 );
             }
 
             setEditorState(EditorState.forceSelection(newEditorState, new SelectionState({
-                focusKey: newBlockKey,
-                anchorKey: newBlockKey,
+                focusKey: blockKey,
+                anchorKey: blockKey,
                 focusOffset: 0,
             })));
 
-            const uploadImage = (options && options.uploadImage) ? options.uploadImage : dummyUploadImage;
-
-            uploadImage(imageFiles).then((images) => {
-                const editorStateInner = getEditorState();
-                const blockInner = editorStateInner.getCurrentContent().getBlockForKey(newBlockKey);
-                newEditorState = updateDataOfBlock(editorStateInner, blockInner, {
-                    src: images[0],
-                });
-                URL.revokeObjectURL(src);
-                setEditorState(newEditorState);
-            }).catch(() => {
-                const editorStateInner = getEditorState();
-                resetBlockWithType(editorStateInner, Block.UNSTYLED, {});
-            });
+            if (options && options.uploadImage) {
+                options.uploadImage([imageFiles[0]]);
+            }
 
             return HANDLED;
         }

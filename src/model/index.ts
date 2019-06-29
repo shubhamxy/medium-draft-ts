@@ -187,7 +187,7 @@ export const isCursorInsideLink = (editorState: EditorState): boolean => {
     const content = editorState.getCurrentContent();
     const currentBlock = getCurrentBlock(editorState);
 
-    if (currentBlock && currentBlock.getType().indexOf(Block.ATOMIC) !== 0 && currentBlock.getLength() > 0) {
+    if (currentBlock && currentBlock.getType().indexOf(Block.ATOMIC) < 0 && currentBlock.getLength() > 0) {
         if (selection.getAnchorOffset() > 0) {
 
             const entityAnchorKey = currentBlock.getEntityAt(selection.getAnchorOffset());

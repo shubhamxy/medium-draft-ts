@@ -3,7 +3,7 @@ import {addNewBlock, addNewBlockAt, getCurrentBlock} from '../model';
 import {Block} from '../util/constants';
 import {SideButtonComponentProps} from '../MediumDraftEditor';
 
-export class Separator extends React.PureComponent<SideButtonComponentProps> {
+export class SeparatorButton extends React.PureComponent<SideButtonComponentProps> {
 
     public render() {
         return (

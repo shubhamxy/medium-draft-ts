@@ -28,14 +28,14 @@
     padding: 0;
   }
 
-  &.md-sb-img-button {
-    background: white;
-  }
-
-  & svg {
+  & > svg {
     fill: currentColor;
     transition: transform 0.1s;
   }
+}
+
+.md-sb-button-file-input {
+  display: none;
 }
 
 .md-add-button {

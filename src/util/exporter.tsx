@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ContentStateConverterOptions, convertToHTML, RawBlock, RawEntity} from 'draft-convert';
 
-import {Block, EntityTypes, Inline} from './util/constants';
+import {Block, EntityTypes, Inline} from './constants';
 import {ContentState} from 'draft-js';
 
 export const styleToHTML = (style: string) => {
