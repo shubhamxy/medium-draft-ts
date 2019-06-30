@@ -23,7 +23,9 @@
     border-bottom: 1px solid #e5e5e5;
   }
 
-  & h2, & h3 {
+  & h1, & h2, & h3 {
+    line-height: 1.2;
+
     &:first-child {
       margin-top: 0;
     }
