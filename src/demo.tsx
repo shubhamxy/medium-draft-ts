@@ -54,7 +54,7 @@ class App extends React.Component<{}, State> {
         }),
         inlineStylePlugin(),
         blockMovePlugin(),
-        //keyboardPlugin(),
+        keyboardPlugin(),
         blockRendererPlugin(),
     ];
 

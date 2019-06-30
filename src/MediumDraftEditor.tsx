@@ -13,10 +13,8 @@ export interface SideButtonComponentProps {
     close: () => void;
 }
 
-export type SideButtonComponent = React.Component<SideButtonComponentProps>;
-
 export interface SideButton {
-    component: new (props: SideButtonComponentProps) => SideButtonComponent;
+    component: React.ReactNode;
     props?: {};
 }
 
