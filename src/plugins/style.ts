@@ -1,6 +1,6 @@
 import {Map} from 'immutable';
 import {Block, Inline} from '../util/constants';
-import {DraftPlugin} from '../plugin_editor/PluginsEditor';
+import {DraftPlugin} from '../plugins_editor/PluginsEditor';
 import Link, {findLinkEntities} from '../entities/link';
 import {ContentBlock} from 'draft-js';
 

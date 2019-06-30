@@ -1,3 +1,6 @@
+@import '../node_modules/draft-js/dist/Draft.css';
+@import './blocks/blockquote.scss';
+
 .md-root {
   position: relative;
 }
@@ -12,14 +15,6 @@
   &:last-child {
     margin-bottom: 0;
   }
-}
-
-.md-block--quote {
-  border-left: 5px solid #4CA8DE;
-  font-size: 1.2em;
-  margin: 0;
-  padding: 15px 0 15px 20px;
-  background-color: #E2F2FF;
 }
 
 .md-RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {

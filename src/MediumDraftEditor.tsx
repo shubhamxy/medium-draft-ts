@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {DraftPlugin, PluginsEditor} from './plugin_editor/PluginsEditor';
+import {DraftPlugin, PluginsEditor} from './plugins_editor/PluginsEditor';
 import {Block, EntityTypes, KEY_CTRL} from './util/constants';
 import {EditorState, RichUtils} from 'draft-js';
 import {AddButton} from './components/AddButton/AddButton';

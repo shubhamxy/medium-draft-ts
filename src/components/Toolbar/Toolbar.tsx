@@ -2,12 +2,13 @@ import * as React from 'react';
 
 import {BlockButtonsBar} from './BlockButtonsBar';
 import {InlineToolbar} from './InlineButtonsBar';
-
-import {getSelection, getSelectionRect} from '../../util';
-import {getCurrentBlock, isCursorInsideLink} from '../../model';
+import {getSelection, getSelectionRect} from '../../util/selection';
+import {getCurrentBlock, isCursorInsideLink} from '../../util/helpers';
 import {EntityTypes, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
 import {EditorState, DraftEntityType, Entity} from 'draft-js';
 import {ToolbarButton} from './ToolbarButton';
+
+import './Toolbar.scss';
 
 interface ToolbarProps {
     editorState: EditorState;

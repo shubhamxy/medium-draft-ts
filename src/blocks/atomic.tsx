@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {BlockProps} from '../typings';
+import './atomic.scss';
 
 const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
     const content = props.blockProps.getEditorState().getCurrentContent();
@@ -7,7 +8,7 @@ const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
     const data = entity.getData();
     const type = entity.getType();
 
-    if (type === 'image') {
+    if (type === 'ImageBlock.scss') {
         return (
             <div className="md-block-atomic-wrapper">
                 <img role="presentation" src={data.src} alt=""/>

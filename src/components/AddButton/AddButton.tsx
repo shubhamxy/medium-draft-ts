@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {DraftBlockType, EditorState, SelectionState} from 'draft-js';
 
-import {getSelectedBlockNode} from '../../util';
+import {getSelectedBlockNode} from '../../util/selection';
 import {SideButton} from '../../MediumDraftEditor';
+import './AddButton.scss';
 
 interface AddButtonProps {
     editorState: EditorState;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {addNewBlock} from '../model';
+import {addNewBlock} from '../util/helpers';
 import {Block} from '../util/constants';
 import {SideButtonComponentProps} from '../MediumDraftEditor';
 

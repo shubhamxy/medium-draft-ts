@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const postcssNesting = require('postcss-nesting');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const autoprefixer = require('autoprefixer');
 const pkg = require('./package.json');
 
 const banner = [
@@ -36,10 +35,7 @@ module.exports = (env, argv) => {
         mode: isProd ? 'production' : 'development',
         entry: {
             'medium-draft': isProd ? './src/index.ts' : './src/demo.tsx',
-            'index': [
-                'draft-js/dist/Draft.css',
-                './src/index.scss',
-            ],
+            'index': './src/index.scss',
         },
         output: getOutput(isProd),
         resolve: {
@@ -67,7 +63,6 @@ module.exports = (env, argv) => {
                             loader: 'postcss-loader',
                             options: {
                                 plugins: [
-                                    autoprefixer(),
                                     postcssNesting()
                                 ]
                             }

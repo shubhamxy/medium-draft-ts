@@ -2,8 +2,8 @@ import {ContentBlock, EditorState, genKey, SelectionState, Modifier} from 'draft
 
 import {BASE_BLOCK_CLASS, Block, HANDLED, NOT_HANDLED} from '../util/constants';
 import {ImageBlock} from '../blocks/ImageBlock';
-import {addNewBlock, addNewBlockAt, getCurrentBlock} from '../model';
-import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
+import {addNewBlock, addNewBlockAt, getCurrentBlock} from '../util/helpers';
+import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 
 export interface ImagePluginOptionType {
     /**

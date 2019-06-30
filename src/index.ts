@@ -9,10 +9,10 @@ export { SeparatorBlock } from './blocks/SeparatorBlock';
 export { TextBlock } from './blocks/TextBlock';
 
 import {MediumDraftEditor as Editor} from './MediumDraftEditor';
-export * from './model';
+export * from './util/helpers';
 
-export { PluginsEditor } from './plugin_editor/PluginsEditor';
-export { MultiDecorator } from './plugin_editor/MultiDecorator';
+export { PluginsEditor } from './plugins_editor/PluginsEditor';
+export { MultiDecorator } from './plugins_editor/MultiDecorator';
 export { blockMovePlugin } from './plugins/blockMovePlugin';
 export { codeBlockPlugin } from './plugins/codeblockplugin';
 export { imageBlockPlugin } from './plugins/imageblockPlugin';

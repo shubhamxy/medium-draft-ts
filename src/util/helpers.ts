@@ -1,7 +1,7 @@
 import {RawDraftContentState, EditorState, ContentState, ContentBlock, SelectionState, convertFromRaw, genKey} from 'draft-js';
 import {List, Map} from 'immutable';
 
-import {Block, EntityTypes} from '../util/constants';
+import {Block, EntityTypes} from './constants';
 
 export function createEditorState(content: string | RawDraftContentState = null): EditorState {
     if (content === null) {

@@ -4,7 +4,7 @@ import AtomicBlock from '../blocks/atomic';
 import {SeparatorBlock} from '../blocks/SeparatorBlock';
 import {TextBlock} from '../blocks/TextBlock';
 import {Block} from '../util/constants';
-import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
+import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 import {ContentBlock} from 'draft-js';
 
 export function blockRendererPlugin(): DraftPlugin {

@@ -19,8 +19,8 @@ import {
     NOT_HANDLED,
     StringToTypeMap
 } from '../util/constants';
-import {addNewBlockAt, getCurrentBlock, resetBlockWithType} from '../model';
-import {DraftPlugin, PluginFunctions} from '../plugin_editor/PluginsEditor';
+import {addNewBlockAt, getCurrentBlock, resetBlockWithType} from '../util/helpers';
+import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import * as React from 'react';
 
