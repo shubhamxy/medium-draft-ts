@@ -14,7 +14,7 @@ export interface SideButtonComponentProps {
 }
 
 export interface SideButton {
-    component: React.ReactNode;
+    component: (new (props: SideButtonComponentProps) => React.Component) | React.FunctionComponent<SideButtonComponentProps>;
     props?: {};
 }
 

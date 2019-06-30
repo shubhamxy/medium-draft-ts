@@ -66,7 +66,7 @@ class ImageButton extends React.PureComponent<ImageButtonComponentProps> {
     }
 }
 
-export function getImageButton(options: ImageButtonOptions) {
+export function getImageButton(options: ImageButtonOptions): React.FunctionComponent<SideButtonComponentProps> {
     return (props: SideButtonComponentProps) => (
         <ImageButton
             {...props}
