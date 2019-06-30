@@ -1,6 +1,6 @@
 {
   "name": "medium-draft-ts",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A medium like rich text editor built upon draft-js with an emphasis on eliminating mouse usage by adding relevant keyboard shortcuts",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
