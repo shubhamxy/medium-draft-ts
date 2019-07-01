@@ -69,7 +69,7 @@ export const blockToHTML = (block: RawBlock) => {
 
         case Block.ATOMIC:
             return {
-                start: `<figure>`,
+                start: '<figure>',
                 end: '</figure>',
             };
 
@@ -110,11 +110,10 @@ export const blockToHTML = (block: RawBlock) => {
 
 export const entityToHTML = (entity: RawEntity, originalText: string) => {
     if (entity.type === EntityTypes.LINK) {
-        return (
-            <a href={entity.data.url}>
-                {originalText}
-            </a>
-        );
+        return {
+            start: `<a href="${entity.data.url}">`,
+            end: '</a>',
+        };
     }
 
     return originalText;
