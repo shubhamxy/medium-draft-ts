@@ -1,10 +1,9 @@
+import * as React from 'react';
 import {ContentBlock, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
-
 import {CodeBlock} from '../blocks/CodeBlock';
 import {getCurrentBlock, updateDataOfBlock} from '../util/helpers';
-import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_CODES, NOT_HANDLED} from '../util/constants';
+import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_L, NOT_HANDLED} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
-import * as React from 'react';
 
 interface OptionType {
     ignoreCommands?: string[];
@@ -52,7 +51,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
                 return;
             }
 
-            if (ev.ctrlKey && ev.shiftKey && ev.which === KEY_CODES.L) {
+            if (ev.ctrlKey && ev.shiftKey && ev.which === KEY_L) {
                 return 'code-block-add-language';
             }
         },

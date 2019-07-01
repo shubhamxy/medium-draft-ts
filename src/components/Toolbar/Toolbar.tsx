@@ -31,37 +31,6 @@ export interface ToolbarButtonInterface {
     description?: string;
 }
 
-function getEntities(editorState: EditorState, entityType: DraftEntityType) {
-    const content = editorState.getCurrentContent();
-    const entities: Entity[] = [];
-
-    content.getBlocksAsArray().forEach((block) => {
-        let selectedEntity: Entity | null = null;
-
-        block.findEntityRanges((character) => {
-            if (character.getEntity() !== null) {
-                const entity = content.getEntity(character.getEntity());
-                if (entity.getType() === entityType) {
-                    selectedEntity = {
-                        entityKey: character.getEntity(),
-                        blockKey: block.getKey(),
-                        entity: content.getEntity(character.getEntity()),
-                    };
-
-                    return true;
-                }
-            }
-
-            return false;
-        },
-        (start, end) => {
-            entities.push({ ...selectedEntity, start, end });
-        });
-    });
-
-    return entities;
-}
-
 export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
     public state = {

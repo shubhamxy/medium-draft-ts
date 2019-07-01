@@ -14,8 +14,14 @@ import {
     Block,
     continuousBlocks,
     HANDLED,
-    KEY_CODES,
+    KEY_COMMA,
     KEY_COMMANDS,
+    KEY_EIGHT,
+    KEY_K,
+    KEY_ONE,
+    KEY_PERIOD,
+    KEY_THREE,
+    KEY_TWO,
     NOT_HANDLED,
     StringToTypeMap
 } from '../util/constants';
@@ -23,13 +29,14 @@ import {addNewBlockAt, getCurrentBlock, resetBlockWithType} from '../util/helper
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import * as React from 'react';
+import {BlockType} from '../typings';
 
 const {changeType, showLinkInput, unlink} = KEY_COMMANDS;
 
 export function keyboardPlugin(): DraftPlugin {
     return {
         keyBindingFn(ev: React.KeyboardEvent<{}>) {
-            if (KeyBindingUtil.hasCommandModifier(ev) && ev.which === KEY_CODES.K) {
+            if (KeyBindingUtil.hasCommandModifier(ev) && ev.which === KEY_K) {
                 if (ev.shiftKey) {
                     return unlink();
                 }
@@ -43,17 +50,17 @@ export function keyboardPlugin(): DraftPlugin {
                 }
 
                 switch (ev.which) {
-                    case KEY_CODES.ONE:
+                    case KEY_ONE:
                         return changeType(Block.OL);
-                    case KEY_CODES.TWO:
+                    case KEY_TWO:
                         return showLinkInput();
-                    case KEY_CODES.THREE:
+                    case KEY_THREE:
                         return changeType(Block.H3);
-                    case KEY_CODES.EIGHT:
+                    case KEY_EIGHT:
                         return changeType(Block.UL);
-                    case KEY_CODES.COMMA:
+                    case KEY_COMMA:
                         return changeType(Block.CAPTION);
-                    case KEY_CODES.PERIOD:
+                    case KEY_PERIOD:
                         return changeType(Block.UNSTYLED);
                 }
             }
@@ -179,7 +186,7 @@ export function keyboardPlugin(): DraftPlugin {
 
         handleReturn(ev: React.KeyboardEvent<{}>, editorState: EditorState, {setEditorState}: PluginFunctions) {
             const currentBlock = getCurrentBlock(editorState);
-            const blockType = currentBlock.getType();
+            const blockType = currentBlock.getType() as BlockType;
 
             if (isSoftNewlineEvent(ev)) {
                 setEditorState(RichUtils.insertSoftNewline(editorState));

@@ -3,6 +3,7 @@ import {Block, Inline} from '../util/constants';
 import {DraftPlugin} from '../plugins_editor/PluginsEditor';
 import {Link, findLinkEntities} from '../entities/link';
 import {ContentBlock} from 'draft-js';
+import {BlockType} from '../typings';
 
 const BASE_BLOCK_CLASS = 'md-block';
 
@@ -12,7 +13,7 @@ const BASE_BLOCK_CLASS = 'md-block';
 export function inlineStylePlugin(): DraftPlugin {
     return {
         blockStyleFn(contentBlock: ContentBlock): string | null {
-            const blockType = contentBlock.getType();
+            const blockType = contentBlock.getType() as BlockType;
 
             switch (blockType) {
                 case Block.BLOCKQUOTE:

@@ -3,7 +3,7 @@ import {EditorBlock} from 'draft-js';
 import {BlockProps} from '../typings';
 import './BlockQuoteCaption.scss';
 
-export default (props: BlockProps) => (
+export const QuoteCaptionBlock = (props: BlockProps) => (
     <cite>
         <EditorBlock {...props} />
     </cite>

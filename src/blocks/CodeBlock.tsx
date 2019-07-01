@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {EditorBlock} from 'draft-js';
-import {updateDataOfBlock} from '../util/helpers';
 import {BlockProps} from '../typings';
 
 import './CodeBlock.scss';
@@ -16,17 +15,5 @@ export class CodeBlock extends React.Component<BlockProps> {
                 <EditorBlock {...this.props} />
             </div>
         );
-    }
-
-    private handleLanguage = () => {
-        const {block, blockProps} = this.props;
-        const data = block.getData();
-        const lang = prompt('Set Language:', data.get('language') || '');
-
-        if (lang) {
-            const {setEditorState, getEditorState} = blockProps;
-            const newData = data.set('language', lang);
-            setEditorState(updateDataOfBlock(getEditorState(), block, newData));
-        }
     }
 }

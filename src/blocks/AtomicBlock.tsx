@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {BlockProps} from '../typings';
-import './Atomic.scss';
+import './AtomicBlock.scss';
 
-const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
+export const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
     const content = props.blockProps.getEditorState().getCurrentContent();
     const entity = content.getEntity(props.block.getEntityAt(0));
     const data = entity.getData();
@@ -21,5 +21,3 @@ const AtomicBlock: React.FunctionComponent<BlockProps> = (props) => {
 
     return <p>No supported atomic block of type {type}.</p>;
 };
-
-export default AtomicBlock;

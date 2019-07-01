@@ -4,6 +4,6 @@ import {BlockProps} from '../typings';
 
 import './CaptionBlock.scss';
 
-export default (props: BlockProps) => (
+export const CaptionBlock = (props: BlockProps) => (
     <EditorBlock {...props} />
 );
