@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Tooltip.scss';
+import './Tooltip.css';
 
 interface TooltipProps {
     left: number;

@@ -3,7 +3,7 @@ import {DraftBlockType, EditorState, SelectionState} from 'draft-js';
 
 import {getSelectedBlockNode} from '../../util/selection';
 import {SideButton} from '../../MediumDraftEditor';
-import './AddButton.scss';
+import './AddButton.css';
 
 interface AddButtonProps {
     editorState: EditorState;

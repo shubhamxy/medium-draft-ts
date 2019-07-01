@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {EditorBlock} from 'draft-js';
 import {BlockProps} from '../typings';
-import './BlockQuoteCaption.scss';
+import './BlockQuoteCaption.css';
 
 export const QuoteCaptionBlock = (props: BlockProps) => (
     <cite>

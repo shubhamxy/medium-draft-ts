@@ -5,10 +5,10 @@ import {InlineToolbar} from './InlineButtonsBar';
 import {getSelection, getSelectionRect} from '../../util/selection';
 import {getCurrentBlock, isCursorInsideLink} from '../../util/helpers';
 import {EntityTypes, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
-import {EditorState, DraftEntityType, Entity} from 'draft-js';
+import {EditorState} from 'draft-js';
 import {ToolbarButton} from './ToolbarButton';
 
-import './Toolbar.scss';
+import './Toolbar.css';
 
 interface ToolbarProps {
     editorState: EditorState;
@@ -109,13 +109,10 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         }
 
         if (showURLInput) {
-            let className = `md-editor-toolbar${(isOpen ? ' md-editor-toolbar--is-open' : '')}`;
-            className += ' md-editor-toolbar--link-input';
-
             return (
                 <div
                     ref={this.toolbarRef}
-                    className={className}
+                    className={`md-editor-toolbar md-editor-toolbar--link-input${(isOpen ? ' md-editor-toolbar--is-open' : '')}`}
                 >
                     <div className="md-toolbar-controls md-toolbar-controls--show-input">
                         <button className="md-url-input-close md-toolbar-button" onClick={this.onSaveLink}>ok</button>

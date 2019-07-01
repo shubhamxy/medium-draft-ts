@@ -1,0 +1,114 @@
+.md-editor-toolbar {
+    background: #303030;
+    color: #fff;
+    border-radius: 2px;
+    z-index: 2;
+    position: absolute;
+    visibility: hidden;
+    box-shadow: 0 1px 3px 0 #717171;
+    margin-top: -5px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.md-editor-toolbar.md-editor-toolbar--is-open {
+    visibility: visible;
+}
+
+.md-editor-toolbar .md-url-input {
+    box-sizing: border-box;
+    border-radius: 2px;
+    display: block;
+    width: calc(100% - 36px);
+    height: 36px;
+    padding: 5px 11px 5px 5px;
+    border: none;
+    background: #303030;
+    color: #fff;
+    font-size: 0.9em;
+    font-weight: 100;
+    border-right: 1px solid #555;
+    outline: none;
+}
+
+.md-editor-toolbar .md-url-input-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    background: #303030;
+}
+
+.md-toolbar-controls {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 14px;
+    border-right: 1px solid #555;
+    display: inline-flex;
+    vertical-align: top;
+}
+
+.md-toolbar-controls:last-child {
+    border-right: none;
+}
+
+.md-toolbar-controls.md-toolbar-controls--show-input {
+    display: block;
+}
+
+.md-toolbar-button {
+    color: inherit;
+    cursor: pointer;
+    padding: 6px;
+    height: 36px;
+    min-width: 36px;
+    line-height: 24px;
+    text-align: center;
+    display: block;
+    background: none;
+    border: 0;
+    box-sizing: border-box;
+}
+
+.md-toolbar-button:hover {
+    background: #3d3d3d;
+}
+
+.md-toolbar-button:active {
+    background: #000;
+}
+
+.md-toolbar-button.md-toolbar-button--active {
+    background: #111;
+}
+
+.md-toolbar-button.md-toolbar-button--active:hover {
+    background: #212121;
+}
+
+.md-toolbar-button.md-toolbar-button--active:active {
+    background: #000;
+}
+
+.md-toolbar-button:last-child {
+    margin-right: 0;
+}
+
+.md-toolbar-button.md-toolbar-button--bold {
+    font-weight: bold;
+}
+
+.md-toolbar-button.md-toolbar-button--italic {
+    font-style: italic;
+}
+
+.md-toolbar-button.md-toolbar-button--underline {
+    text-decoration: underline;
+}
+
+.md-toolbar-button.md-toolbar-button--strikethrough {
+    text-decoration: line-through;
+}
+
+.md-toolbar-button > svg {
+    pointer-events: none;
+}

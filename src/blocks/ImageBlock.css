@@ -1,31 +1,32 @@
 @keyframes imageLoading {
-  0% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.5;
-  }
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
 }
 
 .md-block--image {
-  margin: 0;
+    margin: 0;
+}
 
-  & .md-block-image-inner-container--image {
+.md-block--image .md-block-image-inner-container--image {
     display: block;
     margin: 0 auto;
     cursor: default;
     max-width: 100%;
     box-sizing: border-box;
-  }
+}
 
-  &--uploading {
+.md-block--image--uploading {
     animation: imageLoading 1s infinite;
-  }
+}
 
-  & figcaption {
+.md-block--image figcaption {
     display: block;
     font-size: 14px;
     line-height: 1.4;
@@ -36,20 +37,19 @@
     text-align: center;
     padding: 5px 0;
     border-bottom: 1px solid #ccc;
+}
 
-    & .public-DraftStyleDefault-block {
-      text-align: center;
-    }
-  }
+.md-block--image figcaption .public-DraftStyleDefault-block {
+    text-align: center;
+}
 
-  & .md-block-image-inner-container {
+.md-block--image .md-block-image-inner-container {
     position: relative;
-  }
+}
 
-  & .md-block-image-toolbar-container {
+.md-block--image .md-block-image-toolbar-container {
     position: absolute;
     top: 0;
     right: 10px;
     cursor: pointer;
-  }
 }

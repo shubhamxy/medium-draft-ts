@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import {EditorState} from 'draft-js';
 
-import './index.scss';
+import './index.css';
 import './demo.css';
 
 import {SideButton, MediumDraftEditor} from './MediumDraftEditor';

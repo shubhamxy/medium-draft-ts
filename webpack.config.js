@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const postcssNesting = require('postcss-nesting');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const pkg = require('./package.json');
 
@@ -35,7 +34,7 @@ module.exports = (env, argv) => {
         mode: isProd ? 'production' : 'development',
         entry: {
             'medium-draft': isProd ? './src/index.ts' : './src/demo.tsx',
-            'index': './src/index.scss',
+            'index': './src/index.css',
         },
         output: getOutput(isProd),
         resolve: {
@@ -55,18 +54,10 @@ module.exports = (env, argv) => {
                         'ts-loader',
                     ],
                 }, {
-                    test: /\.(sa|sc|c)ss$/,
+                    test: /\.css$/,
                     use: [
                         isProd ? MiniCssExtractPlugin.loader : 'style-loader',
                         'css-loader',
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: [
-                                    postcssNesting()
-                                ]
-                            }
-                        },
                     ],
                 }
             ],

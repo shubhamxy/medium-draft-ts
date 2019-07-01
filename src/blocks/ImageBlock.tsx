@@ -2,7 +2,7 @@ import * as React from 'react';
 import {EditorBlock, EditorState, SelectionState} from 'draft-js';
 import {getCurrentBlock} from '../util/helpers';
 import {BlockProps} from '../typings';
-import './ImageBlock.scss';
+import './ImageBlock.css';
 
 export class ImageBlock extends React.PureComponent<BlockProps> {
 

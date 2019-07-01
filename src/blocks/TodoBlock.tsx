@@ -2,7 +2,7 @@ import * as React from 'react';
 import {EditorBlock} from 'draft-js';
 import {updateDataOfBlock} from '../util/helpers';
 import {BlockProps} from '../typings';
-import './TodoBlock.scss';
+import './TodoBlock.css';
 
 export class TodoBlock extends React.PureComponent<BlockProps> {
 

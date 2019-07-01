@@ -2,7 +2,7 @@ import * as React from 'react';
 import {EditorBlock} from 'draft-js';
 import {BlockProps} from '../typings';
 
-import './CaptionBlock.scss';
+import './CaptionBlock.css';
 
 export const CaptionBlock = (props: BlockProps) => (
     <EditorBlock {...props} />

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {EditorBlock} from 'draft-js';
 import {BlockProps} from '../typings';
 
-import './CodeBlock.scss';
+import './CodeBlock.css';
 
 export class CodeBlock extends React.Component<BlockProps> {
 
