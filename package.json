@@ -12,9 +12,8 @@
     "tslint": "tslint -c tslint.json --fix 'src/**/*.ts'",
     "build:esm": "tsc --declaration --outDir ./dist/esm --target ESNext --module es6",
     "build": "tsc --declaration && npm run build:esm && npm run dist && npm run build:styles:esm && npm run build:styles:cjs",
-    "build:styles:esm": "copyfiles src/**/*.scss dist/esm -u 1",
-    "build:styles:cjs": "copyfiles src/**/*.scss dist/cjs -u 1",
-    "local": "mkdir -p local && cp -r lib dist package.json local",
+    "build:styles:esm": "copyfiles src/**/*.css dist/esm -u 1",
+    "build:styles:cjs": "copyfiles src/**/*.css dist/cjs -u 1",
     "prepublishOnly": "npm run build"
   },
   "repository": {
