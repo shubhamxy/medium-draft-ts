@@ -12,7 +12,7 @@ test('paragraph', () => {
     expect(blocks[0].data).toEqual({});
 });
 
-test('ImageBlock.scss', () => {
+test('image', () => {
     const html = '<figure><img src="./image.jpeg" ' +
         'srcset="image-320w.jpg 320w,image-800w.jpg 800w" ' +
         'sizes="(max-width: 320px) 280px,800px" alt="" ' +

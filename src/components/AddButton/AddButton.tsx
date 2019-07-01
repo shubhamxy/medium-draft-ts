@@ -104,7 +104,7 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
             <div className="md-side-toolbar" style={{top: this.state.top + 'px'}}>
                 <button
                     onClick={this.toggleToolbar}
-                    className={`md-sb-button md-add-button${this.state.isOpen ? ' md-open-button' : ''}`}
+                    className={`md-sb-button md-add-button${this.state.isOpen ? ' md-add-button--open' : ''}`}
                     type="button"
                 >
                     <svg viewBox="0 0 14 14" height="14" width="14">

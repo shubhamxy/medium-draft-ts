@@ -1,20 +1,11 @@
 import * as React from 'react';
-import {EditorBlock, ContentBlock, EditorState} from 'draft-js';
+import {EditorBlock} from 'draft-js';
 import {updateDataOfBlock} from '../util/helpers';
-import './code.scss';
+import {BlockProps} from '../typings';
 
-interface Props {
-    block: ContentBlock;
-    blockProps: {
-        getEditorState: () => EditorState;
-        setEditorState: (es: EditorState) => void;
-    };
-}
+import './CodeBlock.scss';
 
-export default class CodeBlock extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+export class CodeBlock extends React.Component<BlockProps> {
 
     public render() {
         const {block} = this.props;
@@ -22,9 +13,6 @@ export default class CodeBlock extends React.Component<Props> {
 
         return (
             <div className="md-block-code-wrapper" data-language={lang} spellCheck={false}>
-                {/* <span contentEditable={false}>
-          <button onClick={this.handleLanguage}>L</button>
-        </span> */}
                 <EditorBlock {...this.props} />
             </div>
         );

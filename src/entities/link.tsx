@@ -1,5 +1,5 @@
-import {ContentBlock, ContentState} from 'draft-js';
 import * as React from 'react';
+import {ContentBlock, ContentState} from 'draft-js';
 
 import {EntityTypes} from '../util/constants';
 
@@ -20,7 +20,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const Link = (props: Props) => {
+export const Link = (props: Props) => {
     const {contentState, entityKey} = props;
     const {url} = contentState.getEntity(entityKey).getData();
 
@@ -34,5 +34,3 @@ const Link = (props: Props) => {
         >{props.children}</a>
     );
 };
-
-export default Link;

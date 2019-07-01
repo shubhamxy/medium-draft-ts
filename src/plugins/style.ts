@@ -1,7 +1,7 @@
 import {Map} from 'immutable';
 import {Block, Inline} from '../util/constants';
 import {DraftPlugin} from '../plugins_editor/PluginsEditor';
-import Link, {findLinkEntities} from '../entities/link';
+import {Link, findLinkEntities} from '../entities/link';
 import {ContentBlock} from 'draft-js';
 
 const BASE_BLOCK_CLASS = 'md-block';

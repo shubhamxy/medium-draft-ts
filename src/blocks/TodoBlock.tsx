@@ -2,9 +2,9 @@ import * as React from 'react';
 import {EditorBlock} from 'draft-js';
 import {updateDataOfBlock} from '../util/helpers';
 import {BlockProps} from '../typings';
-import './todo.scss';
+import './TodoBlock.scss';
 
-export default class TodoBlock extends React.PureComponent<BlockProps> {
+export class TodoBlock extends React.PureComponent<BlockProps> {
 
     public render() {
         const data = this.props.block.getData();

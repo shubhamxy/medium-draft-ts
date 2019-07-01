@@ -34,14 +34,12 @@
   }
 }
 
-.md-sb-button-file-input {
-  display: none;
+.md-add-button--open svg {
+  transform: rotate(45deg);
 }
 
-.md-add-button {
-  &.md-open-button svg {
-    transform: rotate(45deg);
-  }
+.md-sb-button-file-input {
+  display: none;
 }
 
 .mb-side-menu {

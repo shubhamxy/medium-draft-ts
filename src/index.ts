@@ -1,9 +1,9 @@
-export { default as Link, findLinkEntities } from './entities/link';
-export { default as AtomicBlock } from './blocks/atomic';
-export { default as CodeBlock } from './blocks/code';
-export { default as QuoteCaptionBlock } from './blocks/blockquotecaption';
-export { default as CaptionBlock } from './blocks/caption';
-export { default as TodoBlock } from './blocks/todo';
+export { Link, findLinkEntities } from './entities/link';
+export { default as AtomicBlock } from './blocks/Atomic';
+export { CodeBlock } from './blocks/CodeBlock';
+export { default as QuoteCaptionBlock } from './blocks/BlockQuoteCaption';
+export { default as CaptionBlock } from './blocks/CaptionBlock';
+export { TodoBlock } from './blocks/TodoBlock';
 export { ImageBlock } from './blocks/ImageBlock';
 export { SeparatorBlock } from './blocks/SeparatorBlock';
 export { TextBlock } from './blocks/TextBlock';

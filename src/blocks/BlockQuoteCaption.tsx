@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {EditorBlock} from 'draft-js';
-import './blockquotecaption.scss';
+import {BlockProps} from '../typings';
+import './BlockQuoteCaption.scss';
 
-export default (props: any) => (
+export default (props: BlockProps) => (
     <cite>
         <EditorBlock {...props} />
     </cite>

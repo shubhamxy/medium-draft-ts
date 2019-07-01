@@ -1,11 +1,11 @@
-import QuoteCaptionBlock from '../blocks/blockquotecaption';
-import CaptionBlock from '../blocks/caption';
-import AtomicBlock from '../blocks/atomic';
+import QuoteCaptionBlock from '../blocks/BlockQuoteCaption';
+import CaptionBlock from '../blocks/CaptionBlock';
+import AtomicBlock from '../blocks/Atomic';
 import {SeparatorBlock} from '../blocks/SeparatorBlock';
 import {TextBlock} from '../blocks/TextBlock';
 import {Block} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
-import {ContentBlock} from 'draft-js';
+import {ContentBlock, DraftBlockType} from 'draft-js';
 
 export function blockRendererPlugin(): DraftPlugin {
     return {
