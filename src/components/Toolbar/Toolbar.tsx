@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {BlockButtonsBar} from './BlockButtonsBar';
 import {InlineToolbar} from './InlineButtonsBar';
-import {getSelection, getSelectionRect, isSelectionInsideLink} from '../../util/selection';
+import {getSelectedEntityKey, getSelection, getSelectionRect, isSelectionInsideLink} from '../../util/selection';
 import {getCurrentBlock} from '../../util/helpers';
 import {ENTITY_TYPE_LINK, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
 import {EditorState, SelectionState} from 'draft-js';
@@ -211,31 +211,29 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
             return;
         }
 
-        const currentBlock = getCurrentBlock(editorState);
         const selectedAddress = getSelectedAddress(editorState.getSelection());
-        let selectedEntity = '';
+        const entityKey = getSelectedEntityKey(selection, getCurrentBlock(editorState));
         let linkFound = false;
 
-        currentBlock.findEntityRanges((character) => {
-            const entityKey = character.getEntity();
-            selectedEntity = entityKey;
+        if (entityKey) {
+            const entity = editorState.getCurrentContent().getEntity(entityKey);
+            if (entity.getType() === ENTITY_TYPE_LINK) {
+                const {url} = entity.getData();
 
-            return entityKey !== null && editorState.getCurrentContent().getEntity(entityKey).getType() === ENTITY_TYPE_LINK;
-        }, () => {
-            linkFound = true;
-            const {url} = editorState.getCurrentContent().getEntity(selectedEntity).getData();
+                this.setState({
+                    selectedAddress,
+                    showURLInput: true,
+                    urlInputValue: url,
+                }, () => {
+                    setTimeout(() => {
+                        this.urlInputRef.current.focus();
+                        this.urlInputRef.current.select();
+                    });
+                });
 
-            this.setState({
-                selectedAddress,
-                showURLInput: true,
-                urlInputValue: url,
-            }, () => {
-                setTimeout(() => {
-                    this.urlInputRef.current.focus();
-                    this.urlInputRef.current.select();
-                }, 0);
-            });
-        });
+                linkFound = true;
+            }
+        }
 
         if (!linkFound) {
             this.setState({
@@ -244,7 +242,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
             }, () => {
                 setTimeout(() => {
                     this.urlInputRef.current.focus();
-                }, 0);
+                });
             });
         }
     }

@@ -68,7 +68,7 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
         if (block.getType() !== this.blockType) {
             this.blockType = block.getType();
             if (block.getLength() === 0) {
-                setTimeout(this.findNode, 0);
+                setTimeout(this.findNode);
             }
             this.blockKey = blockKey;
 
@@ -91,7 +91,7 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
         if (block.getLength() > 0) {
             this.hideBlock();
         } else {
-            setTimeout(this.findNode, 0);
+            setTimeout(this.findNode);
         }
     }
 
