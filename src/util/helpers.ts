@@ -1,6 +1,14 @@
-import {RawDraftContentState, EditorState, ContentState, ContentBlock, SelectionState, convertFromRaw, genKey} from 'draft-js';
+import {
+    ContentBlock,
+    ContentState,
+    convertFromRaw,
+    EditorState,
+    genKey,
+    RawDraftContentState,
+    SelectionState
+} from 'draft-js';
 import {List, Map} from 'immutable';
-import {Block, ENTITY_TYPE_LINK} from './constants';
+import {Block} from './constants';
 
 export function createEditorState(content: string | RawDraftContentState = null): EditorState {
     if (content === null) {
@@ -176,32 +184,6 @@ export const addNewBlockAt = (
     }) as ContentState;
 
     return EditorState.push(editorState, newContent, 'split-block');
-};
-
-/**
- * Check whether the cursor is inside one entity with type LINK
- */
-export const isCursorInsideLink = (editorState: EditorState): boolean => {
-    const selection = editorState.getSelection();
-    const content = editorState.getCurrentContent();
-    const currentBlock = getCurrentBlock(editorState);
-
-    if (currentBlock && currentBlock.getType().indexOf(Block.ATOMIC) < 0 && currentBlock.getLength() > 0) {
-        if (selection.getAnchorOffset() > 0) {
-
-            const entityAnchorKey = currentBlock.getEntityAt(selection.getAnchorOffset());
-            const entityFocusKey = currentBlock.getEntityAt(selection.getFocusOffset());
-            if (entityAnchorKey !== null && entityFocusKey !== null && entityAnchorKey === entityFocusKey) {
-                const entity = content.getEntity(entityAnchorKey);
-
-                if (entity.getType() === ENTITY_TYPE_LINK) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
 };
 
 /**

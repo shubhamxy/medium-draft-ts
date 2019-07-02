@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import {BlockButtonsBar} from './BlockButtonsBar';
 import {InlineToolbar} from './InlineButtonsBar';
-import {getSelection, getSelectionRect} from '../../util/selection';
-import {getCurrentBlock, isCursorInsideLink} from '../../util/helpers';
+import {getSelection, getSelectionRect, isSelectionInsideLink} from '../../util/selection';
+import {getCurrentBlock} from '../../util/helpers';
 import {ENTITY_TYPE_LINK, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
-import {EditorState} from 'draft-js';
+import {EditorState, SelectionState} from 'draft-js';
 import {ToolbarButton} from './ToolbarButton';
 
 import './Toolbar.css';
@@ -23,6 +23,7 @@ interface ToolbarProps {
 interface ToolbarState {
     showURLInput: boolean;
     urlInputValue: string;
+    selectedAddress: string;
 }
 
 export interface ToolbarButtonInterface {
@@ -31,9 +32,14 @@ export interface ToolbarButtonInterface {
     description?: string;
 }
 
+function getSelectedAddress(selState: SelectionState): string {
+    return `${selState.getAnchorKey()}_${selState.getAnchorOffset()}-${selState.getFocusKey()}_${selState.getFocusOffset()}`;
+}
+
 export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
     public state = {
+        selectedAddress: '',
         showURLInput: false,
         urlInputValue: '',
     };
@@ -45,10 +51,12 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     public componentWillReceiveProps(newProps: ToolbarProps) {
         const {editorState} = newProps;
         const selectionState = editorState.getSelection();
+        const selectedAddress = getSelectedAddress(selectionState);
 
-        if (selectionState.isCollapsed()) {
+        if (selectionState.isCollapsed() || selectedAddress !== this.state.selectedAddress) {
             if (this.state.showURLInput) {
                 this.setState({
+                    selectedAddress,
                     showURLInput: false,
                     urlInputValue: '',
                 });
@@ -69,7 +77,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
             return;
         }
         const nativeSelection = getSelection(window);
-        if (!nativeSelection.rangeCount) {
+        if (!nativeSelection || !nativeSelection.rangeCount) {
             return;
         }
         const selectionBoundary = getSelectionRect(nativeSelection);
@@ -136,7 +144,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         for (let cnt = currentInlineButtons.length - 1; cnt > 0; cnt--) {
             if (currentInlineButtons[cnt].style === HYPERLINK) {
                 hyperLink = currentInlineButtons.splice(cnt, 1)[0];
-                isHyperLinkActive = isCursorInsideLink(editorState);
+                isHyperLinkActive = isSelectionInsideLink(editorState);
                 break;
             }
         }
@@ -204,6 +212,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         }
 
         const currentBlock = getCurrentBlock(editorState);
+        const selectedAddress = getSelectedAddress(editorState.getSelection());
         let selectedEntity = '';
         let linkFound = false;
 
@@ -217,6 +226,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
             const {url} = editorState.getCurrentContent().getEntity(selectedEntity).getData();
 
             this.setState({
+                selectedAddress,
                 showURLInput: true,
                 urlInputValue: url,
             }, () => {
@@ -229,6 +239,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
         if (!linkFound) {
             this.setState({
+                selectedAddress,
                 showURLInput: true,
             }, () => {
                 setTimeout(() => {
@@ -245,6 +256,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
     private hideLinkInput = () => {
         this.setState({
+            selectedAddress: '',
             showURLInput: false,
             urlInputValue: '',
         }, this.props.focus);

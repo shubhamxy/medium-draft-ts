@@ -77,7 +77,7 @@ export function keyboardPlugin(): DraftPlugin {
             //   if (!mainProps.disableToolbar && this.toolbar) {
             //     // For some reason, scroll is jumping sometimes for the below code.
             //     // Debug and fix it later.
-            //     const isCursorLink = isCursorInsideLink(editorState);
+            //     const isCursorLink = isSelectionInsideLink(editorState);
             //     if (isCursorLink) {
             //       this.editLinkAfterSelection(isCursorLink.blockKey, isCursorLink.entityKey);
             //       return HANDLED;

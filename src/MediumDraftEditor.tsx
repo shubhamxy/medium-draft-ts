@@ -6,6 +6,7 @@ import {EditorState, RichUtils} from 'draft-js';
 import {AddButton} from './components/AddButton/AddButton';
 import {Toolbar, ToolbarButtonInterface} from './components/Toolbar/Toolbar';
 import {Tooltip} from './components/Tooltip/Tooltip';
+import {getSelectionForEntity, isSelectionInsideLink} from './util/selection';
 
 export interface SideButtonComponentProps {
     getEditorState: () => EditorState;
@@ -154,25 +155,26 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
     private getEditorState = () => this.props.editorState;
 
     private setLink = (url: string) => {
-        let { editorState } = this.props;
-        const selection = editorState.getSelection();
+        let {editorState} = this.props;
         const content = editorState.getCurrentContent();
+        let selection = editorState.getSelection();
         let entityKey = null;
         let newUrl = url;
 
         if (this.props.processURL) {
             newUrl = this.props.processURL(url);
-        } else if (url && url.indexOf('http') !== 0 && url.indexOf('mailto:') !== 0) {
-            if (url.indexOf('@') >= 0) {
-                newUrl = `mailto:${newUrl}`;
-            } else {
-                newUrl = `http://${newUrl}`;
-            }
+        } else if (url && url.indexOf('http') !== 0 && url.indexOf('mailto:') !== 0 && url.indexOf('@') >= 0) {
+            newUrl = `mailto:${newUrl}`;
         }
+
         if (newUrl) {
-            const contentWithEntity = content.createEntity(ENTITY_TYPE_LINK, 'MUTABLE', { url: newUrl });
+            const contentWithEntity = content.createEntity(ENTITY_TYPE_LINK, 'MUTABLE', {url: newUrl});
             editorState = EditorState.push(editorState, contentWithEntity, 'apply-entity');
             entityKey = contentWithEntity.getLastCreatedEntityKey();
+        }
+
+        if (isSelectionInsideLink(editorState)) {
+            selection = getSelectionForEntity(editorState);
         }
 
         this.props.onChange(RichUtils.toggleLink(editorState, selection, entityKey));

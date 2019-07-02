@@ -12,6 +12,7 @@ body {
 
 a, a:visited {
     color: #08c;
+    text-decoration: none;
 }
 
 .md-root {

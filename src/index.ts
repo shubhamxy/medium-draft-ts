@@ -24,3 +24,6 @@ export {
   Editor,
 };
 export default Editor;
+export {getSelectionForEntity} from './util/selection';
+export {getSelectedEntityKey} from './util/selection';
+export {isSelectionInsideLink} from './util/selection';
