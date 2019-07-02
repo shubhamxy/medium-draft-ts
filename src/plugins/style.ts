@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {Block, Inline} from '../util/constants';
+import {Block, INLINE_STYLE_HIGHLIGHT} from '../util/constants';
 import {DraftPlugin} from '../plugins_editor/PluginsEditor';
 import {Link, findLinkEntities} from '../entities/link';
 import {ContentBlock} from 'draft-js';
@@ -34,7 +34,7 @@ export function inlineStylePlugin(): DraftPlugin {
             }
         },
         customStyleMap: {
-            [Inline.HIGHLIGHT]: {
+            [INLINE_STYLE_HIGHLIGHT]: {
                 backgroundColor: 'yellow',
             },
         },

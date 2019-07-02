@@ -15,6 +15,7 @@ export const KEY_EIGHT = 56;
 export const KEY_COMMA = 188;
 export const KEY_PERIOD = 190;
 
+// Block styles
 export const Block = {
   UNSTYLED: 'unstyled',
   PARAGRAPH: 'unstyled',
@@ -35,20 +36,20 @@ export const Block = {
   BREAK: 'atomic:break',
 };
 
-export const Inline = {
-  BOLD: 'BOLD',
-  CODE: 'CODE',
-  ITALIC: 'ITALIC',
-  STRIKETHROUGH: 'STRIKETHROUGH',
-  UNDERLINE: 'UNDERLINE',
-  HIGHLIGHT: 'HIGHLIGHT',
-};
+// Inline styles
+export const INLINE_STYLE_BOLD = 'BOLD';
+export const INLINE_STYLE_CODE = 'CODE';
+export const INLINE_STYLE_ITALIC = 'ITALIC';
+export const INLINE_STYLE_STRIKETHROUGH = 'STRIKETHROUGH';
+export const INLINE_STYLE_UNDERLINE = 'UNDERLINE';
+export const INLINE_STYLE_HIGHLIGHT = 'HIGHLIGHT';
 
-export const EntityTypes = {
-  LINK: 'LINK',
-};
+// Inline entity
+export const ENTITY_TYPE_LINK = 'LINK';
 
 export const HYPERLINK = 'hyperlink';
+
+// Plugin handlers
 export const HANDLED = 'handled';
 export const NOT_HANDLED = 'not-handled';
 

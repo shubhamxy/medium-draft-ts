@@ -1,7 +1,6 @@
 import {RawDraftContentState, EditorState, ContentState, ContentBlock, SelectionState, convertFromRaw, genKey} from 'draft-js';
 import {List, Map} from 'immutable';
-
-import {Block, EntityTypes} from './constants';
+import {Block, ENTITY_TYPE_LINK} from './constants';
 
 export function createEditorState(content: string | RawDraftContentState = null): EditorState {
     if (content === null) {
@@ -195,7 +194,7 @@ export const isCursorInsideLink = (editorState: EditorState): boolean => {
             if (entityAnchorKey !== null && entityFocusKey !== null && entityAnchorKey === entityFocusKey) {
                 const entity = content.getEntity(entityAnchorKey);
 
-                if (entity.getType() === EntityTypes.LINK) {
+                if (entity.getType() === ENTITY_TYPE_LINK) {
                     return true;
                 }
             }

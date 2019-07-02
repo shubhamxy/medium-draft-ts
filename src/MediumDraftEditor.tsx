@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {DraftPlugin, PluginsEditor} from './plugins_editor/PluginsEditor';
-import {Block, EntityTypes, KEY_CTRL} from './util/constants';
+import {Block, ENTITY_TYPE_LINK, KEY_CTRL} from './util/constants';
 import {EditorState, RichUtils} from 'draft-js';
 import {AddButton} from './components/AddButton/AddButton';
 import {Toolbar, ToolbarButtonInterface} from './components/Toolbar/Toolbar';
@@ -170,7 +170,7 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
             }
         }
         if (newUrl) {
-            const contentWithEntity = content.createEntity(EntityTypes.LINK, 'MUTABLE', { url: newUrl });
+            const contentWithEntity = content.createEntity(ENTITY_TYPE_LINK, 'MUTABLE', { url: newUrl });
             editorState = EditorState.push(editorState, contentWithEntity, 'apply-entity');
             entityKey = contentWithEntity.getLastCreatedEntityKey();
         }

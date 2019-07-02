@@ -1,27 +1,36 @@
 import * as React from 'react';
 import {ContentStateConverterOptions, convertToHTML, RawBlock, RawEntity} from 'draft-convert';
 
-import {Block, EntityTypes, Inline} from './constants';
+import {
+    Block,
+    ENTITY_TYPE_LINK,
+    INLINE_STYLE_BOLD,
+    INLINE_STYLE_CODE,
+    INLINE_STYLE_HIGHLIGHT,
+    INLINE_STYLE_ITALIC,
+    INLINE_STYLE_STRIKETHROUGH,
+    INLINE_STYLE_UNDERLINE
+} from './constants';
 import {ContentState} from 'draft-js';
 
 export const styleToHTML = (style: string) => {
     switch (style) {
-        case Inline.ITALIC:
+        case INLINE_STYLE_ITALIC:
             return <em/>;
 
-        case Inline.BOLD:
+        case INLINE_STYLE_BOLD:
             return <strong/>;
 
-        case Inline.STRIKETHROUGH:
+        case INLINE_STYLE_STRIKETHROUGH:
             return <s/>;
 
-        case Inline.UNDERLINE:
+        case INLINE_STYLE_UNDERLINE:
             return <u/>;
 
-        case Inline.HIGHLIGHT:
+        case INLINE_STYLE_HIGHLIGHT:
             return <span className={`md-inline-${style.toLowerCase()}`}/>;
 
-        case Inline.CODE:
+        case INLINE_STYLE_CODE:
             return <code/>;
 
         default:
@@ -109,7 +118,7 @@ export const blockToHTML = (block: RawBlock) => {
 };
 
 export const entityToHTML = (entity: RawEntity, originalText: string) => {
-    if (entity.type === EntityTypes.LINK) {
+    if (entity.type === ENTITY_TYPE_LINK) {
         return {
             start: `<a href="${entity.data.url}">`,
             end: '</a>',

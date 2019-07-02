@@ -4,7 +4,7 @@ import {BlockButtonsBar} from './BlockButtonsBar';
 import {InlineToolbar} from './InlineButtonsBar';
 import {getSelection, getSelectionRect} from '../../util/selection';
 import {getCurrentBlock, isCursorInsideLink} from '../../util/helpers';
-import {EntityTypes, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
+import {ENTITY_TYPE_LINK, HYPERLINK, KEY_ENTER, KEY_ESCAPE} from '../../util/constants';
 import {EditorState} from 'draft-js';
 import {ToolbarButton} from './ToolbarButton';
 
@@ -211,7 +211,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
             const entityKey = character.getEntity();
             selectedEntity = entityKey;
 
-            return entityKey !== null && editorState.getCurrentContent().getEntity(entityKey).getType() === EntityTypes.LINK;
+            return entityKey !== null && editorState.getCurrentContent().getEntity(entityKey).getType() === ENTITY_TYPE_LINK;
         }, () => {
             linkFound = true;
             const {url} = editorState.getCurrentContent().getEntity(selectedEntity).getData();

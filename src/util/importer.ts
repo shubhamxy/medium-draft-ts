@@ -1,29 +1,38 @@
 import {convertFromHTML, ConvertFromHTMLOptions, EntityKey} from 'draft-convert';
-import {Block, EntityTypes as EntityType, Inline} from './constants';
+import {
+    Block,
+    ENTITY_TYPE_LINK,
+    INLINE_STYLE_BOLD,
+    INLINE_STYLE_CODE,
+    INLINE_STYLE_HIGHLIGHT,
+    INLINE_STYLE_ITALIC,
+    INLINE_STYLE_STRIKETHROUGH,
+    INLINE_STYLE_UNDERLINE
+} from './constants';
 import {ContentState, DraftInlineStyle} from 'draft-js';
 
 export const htmlToStyle = (nodeName: string, node: HTMLElement, currentStyle: DraftInlineStyle) => {
     switch (nodeName) {
         case 'em':
-            return currentStyle.add(Inline.ITALIC);
+            return currentStyle.add(INLINE_STYLE_ITALIC);
 
         case 'strong':
-            return currentStyle.add(Inline.BOLD);
+            return currentStyle.add(INLINE_STYLE_BOLD);
 
         case 'strike':
-            return currentStyle.add(Inline.STRIKETHROUGH);
+            return currentStyle.add(INLINE_STYLE_STRIKETHROUGH);
 
         case 'u':
-            return currentStyle.add(Inline.UNDERLINE);
+            return currentStyle.add(INLINE_STYLE_UNDERLINE);
 
         case 'span':
-            if (node.className === `md-inline-${Inline.HIGHLIGHT.toLowerCase()}`) {
-                return currentStyle.add(Inline.HIGHLIGHT);
+            if (node.className === `md-inline-${INLINE_STYLE_HIGHLIGHT.toLowerCase()}`) {
+                return currentStyle.add(INLINE_STYLE_HIGHLIGHT);
             }
             break;
 
         case 'code':
-            return currentStyle.add(Inline.CODE);
+            return currentStyle.add(INLINE_STYLE_CODE);
 
         default:
             break;
@@ -36,7 +45,7 @@ export const htmlToEntity = (nodeName: string, node: HTMLElement, createEntity: 
     if (nodeName === 'a') {
         const hrefNode = node as HTMLAnchorElement;
 
-        return createEntity(EntityType.LINK, 'MUTABLE', {url: hrefNode.href});
+        return createEntity(ENTITY_TYPE_LINK, 'MUTABLE', {url: hrefNode.href});
     }
 
     return undefined;

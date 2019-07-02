@@ -14,7 +14,7 @@
 }
 
 .md-block:last-child {
-    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .md-RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
