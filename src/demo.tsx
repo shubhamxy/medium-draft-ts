@@ -71,6 +71,7 @@ class App extends React.Component<{}, State> {
                 blockButtons={BLOCK_BUTTONS}
                 sideButtons={this.sideButtons}
                 toolbarEnabled={true}
+                spellCheck={true}
             />
         );
     }

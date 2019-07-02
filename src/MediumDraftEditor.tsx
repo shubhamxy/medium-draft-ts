@@ -1,12 +1,11 @@
 import * as React from 'react';
-
 import {DraftPlugin, PluginsEditor} from './plugins_editor/PluginsEditor';
-import {Block, ENTITY_TYPE_LINK, KEY_CTRL} from './util/constants';
-import {EditorState, RichUtils} from 'draft-js';
+import {Block, ENTITY_TYPE_LINK} from './util/constants';
+import {EditorProps, EditorState, RichUtils} from 'draft-js';
 import {AddButton} from './components/AddButton/AddButton';
 import {Toolbar, ToolbarButtonInterface} from './components/Toolbar/Toolbar';
-import {Tooltip} from './components/Tooltip/Tooltip';
 import {getSelectionForEntity, isSelectionInsideLink} from './util/selection';
+import {LinkTooltip} from './components/LinkTooltip/LinkTooltip';
 
 export interface SideButtonComponentProps {
     getEditorState: () => EditorState;
@@ -19,7 +18,7 @@ export interface SideButton {
     props?: {};
 }
 
-export interface MediumDraftEditorProps {
+export interface MediumDraftEditorProps extends EditorProps {
     autoFocus?: boolean;
     editorEnabled?: boolean;
     toolbarEnabled?: boolean;
@@ -35,9 +34,6 @@ export interface MediumDraftEditorProps {
 
 interface MediumDraftEditorState {
     isLinkTooltipOpen: boolean;
-    linkTooltipTop: number;
-    linkTooltipLeft: number;
-    linkTooltipText: string;
 }
 
 /**
@@ -54,13 +50,7 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
 
     public readonly state = {
         isLinkTooltipOpen: false,
-        linkTooltipTop: 0,
-        linkTooltipLeft: 0,
-        linkTooltipText: ''
     };
-
-    private mouseX: number = 0;
-    private mouseY: number = 0;
 
     private contentEditorRef = React.createRef<HTMLDivElement>();
 
@@ -69,22 +59,6 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
     public componentDidMount(): void {
         if (this.props.autoFocus) {
             setTimeout(this.focus);
-        }
-
-        if (this.contentEditorRef.current) {
-            this.contentEditorRef.current.addEventListener('mousemove', this.onMouseMove, {
-                passive: true
-            });
-            window.addEventListener('keydown', this.onKeyDown);
-            window.addEventListener('keyup', this.onKeyUp);
-        }
-    }
-
-    public componentWillUnmount(): void {
-        if (this.contentEditorRef.current) {
-            this.contentEditorRef.current.removeEventListener('mousemove', this.onMouseMove);
-            window.removeEventListener('keydown', this.onKeyDown);
-            window.removeEventListener('keyup', this.onKeyUp);
         }
     }
 
@@ -98,20 +72,21 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
             inlineButtons,
             ...restProps
         } = this.props;
-        const {
-            isLinkTooltipOpen,
-            linkTooltipLeft,
-            linkTooltipTop,
-            linkTooltipText
-        } = this.state;
 
-        const editorClass = `md-content-editor${!editorEnabled ? ' md-content-editor--readonly' : ''}`;
+        let editorClass = 'md-content-editor';
+        if (editorEnabled) {
+            editorClass += ' md-content-editor--readonly';
+        }
+        if (this.state.isLinkTooltipOpen) {
+            editorClass += ' md-content-editor--pointer';
+        }
 
         return (
             <div className="md-root">
                 <div className={editorClass} ref={this.contentEditorRef}>
                     <PluginsEditor
                         {...restProps}
+                        readOnly={!editorEnabled}
                         ref={this.editorRef}
                     />
                 </div>
@@ -135,13 +110,11 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
                         inlineButtons={inlineButtons}
                     />
                 )}
-                {isLinkTooltipOpen && (
-                    <Tooltip
-                        left={linkTooltipLeft}
-                        top={linkTooltipTop}
-                        text={linkTooltipText}
-                    />
-                )}
+                <LinkTooltip
+                    editorRef={this.contentEditorRef}
+                    onTooltipShow={this.onLinkTooltipShow}
+                    onTooltipHide={this.onLinkTooltipHide}
+                />
             </div>
         );
     }
@@ -211,64 +184,15 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
         );
     }
 
-    private onMouseMove = (event: MouseEvent) => {
-        this.mouseX = event.clientX;
-        this.mouseY = event.clientY;
+    private onLinkTooltipShow = () => {
+        this.setState({
+            isLinkTooltipOpen: true,
+        });
     }
 
-    private onKeyDown = (event: KeyboardEvent) => {
-        if (event.keyCode === KEY_CTRL) {
-            const linkClassName = 'md-link';
-            const rootClassName = 'md-root';
-            let element = document.elementFromPoint(this.mouseX, this.mouseY);
-            let linkElement: HTMLAnchorElement | null = null;
-            let rootElement: HTMLElement | null = null;
-
-            do {
-                if (element) {
-                    if (element.classList.contains(linkClassName)) {
-                        linkElement = element as HTMLAnchorElement;
-                    }
-
-                    if (element.classList.contains(rootClassName)) {
-                        rootElement = element as HTMLElement;
-                    }
-
-                    element = element.parentElement;
-                }
-            } while (element && !(linkElement && rootElement));
-
-            if (rootElement && linkElement) {
-                this.openLinkTooltip(rootElement, linkElement);
-            }
-        }
-    }
-
-    private onKeyUp = (event: KeyboardEvent) => {
-        if (event.keyCode === KEY_CTRL) {
-            this.setState({
-                isLinkTooltipOpen: false
-            });
-        }
-    }
-
-    private openLinkTooltip(root: HTMLElement, element: HTMLAnchorElement) {
-        const elementBounds = element.getBoundingClientRect();
-        const rootBounds = root.getBoundingClientRect();
-        const MIN_TOOLTIP_WIDTH = 300;
-
-        if (elementBounds && rootBounds) {
-            let left = elementBounds.left - rootBounds.left;
-            if (rootBounds.right - elementBounds.left < MIN_TOOLTIP_WIDTH) {
-                left = rootBounds.right - rootBounds.left - MIN_TOOLTIP_WIDTH;
-            }
-
-            this.setState({
-                isLinkTooltipOpen: true,
-                linkTooltipTop: elementBounds.bottom - rootBounds.top,
-                linkTooltipLeft: left,
-                linkTooltipText: element.href
-            });
-        }
+    private onLinkTooltipHide = () => {
+        this.setState({
+            isLinkTooltipOpen: false,
+        });
     }
 }

@@ -7,7 +7,7 @@ interface TooltipProps {
     text: string;
 }
 
-export class Tooltip extends React.Component<TooltipProps> {
+export class Tooltip extends React.PureComponent<TooltipProps> {
 
     public render() {
         return (

@@ -2,6 +2,10 @@
     cursor: text;
 }
 
+.md-content-editor--pointer .md-link {
+    cursor: pointer;
+}
+
 .md-content-editor h1 {
     font-size: 2em;
     margin: 25px 0 15px;
