@@ -20,16 +20,16 @@ export interface SideButton {
 
 export interface MediumDraftEditorProps extends EditorProps {
     autoFocus?: boolean;
-    editorEnabled?: boolean;
-    toolbarEnabled?: boolean;
+    blockButtons: ToolbarButtonInterface[];
     editorState: EditorState;
+    inlineButtons: ToolbarButtonInterface[];
     onChange: (editorState: EditorState) => void;
     placeholder?: string;
     plugins?: DraftPlugin[];
-    sideButtons: SideButton[];
-    inlineButtons: ToolbarButtonInterface[];
-    blockButtons: ToolbarButtonInterface[];
     processURL?: (url: string) => string;
+    readOnly?: boolean;
+    sideButtons: SideButton[];
+    toolbarEnabled?: boolean;
 }
 
 interface MediumDraftEditorState {
@@ -40,14 +40,6 @@ interface MediumDraftEditorState {
  * The main editor component with all the bells and whistles
  */
 export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProps, MediumDraftEditorState> {
-
-    public static defaultProps = {
-        autoFocus: false,
-        editorEnabled: true,
-        placeholder: '',
-        plugins: [] as DraftPlugin[],
-    };
-
     public readonly state = {
         isLinkTooltipOpen: false,
     };
@@ -64,7 +56,7 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
 
     public render() {
         const {
-            editorEnabled,
+            readOnly,
             toolbarEnabled,
             autoFocus,
             sideButtons,
@@ -74,7 +66,7 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
         } = this.props;
 
         let editorClass = 'md-content-editor';
-        if (editorEnabled) {
+        if (readOnly) {
             editorClass += ' md-content-editor--readonly';
         }
         if (this.state.isLinkTooltipOpen) {
@@ -86,11 +78,11 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
                 <div className={editorClass} ref={this.contentEditorRef}>
                     <PluginsEditor
                         {...restProps}
-                        readOnly={!editorEnabled}
+                        readOnly={readOnly}
                         ref={this.editorRef}
                     />
                 </div>
-                {sideButtons.length > 0 && editorEnabled && (
+                {sideButtons.length > 0 && !readOnly && (
                     <AddButton
                         editorState={this.props.editorState}
                         getEditorState={this.getEditorState}
@@ -99,7 +91,7 @@ export class MediumDraftEditor extends React.PureComponent<MediumDraftEditorProp
                         sideButtons={this.props.sideButtons}
                     />
                 )}
-                {toolbarEnabled && editorEnabled && (
+                {toolbarEnabled && !readOnly && (
                     <Toolbar
                         editorState={this.props.editorState}
                         toggleBlockType={this.toggleBlockType}
