@@ -25,11 +25,8 @@ export const htmlToStyle = (nodeName: string, node: HTMLElement, currentStyle: D
         case 'u':
             return currentStyle.add(INLINE_STYLE_UNDERLINE);
 
-        case 'span':
-            if (node.className === `md-inline-${INLINE_STYLE_HIGHLIGHT.toLowerCase()}`) {
-                return currentStyle.add(INLINE_STYLE_HIGHLIGHT);
-            }
-            break;
+        case 'mark':
+            return currentStyle.add(INLINE_STYLE_HIGHLIGHT);
 
         case 'code':
             return currentStyle.add(INLINE_STYLE_CODE);
@@ -105,6 +102,17 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
         }
 
         return undefined;
+    } else if (nodeName === 'img') {
+        return {
+            type: Block.IMAGE,
+            data: {
+                src: (node as HTMLImageElement).src,
+                srcSet: (node as HTMLImageElement).srcset,
+                sizes: (node as HTMLImageElement).sizes,
+                dataId: node.getAttribute('data-id')
+            },
+        };
+
     } else if (nodeName === 'hr') {
         return {
             type: Block.BREAK,

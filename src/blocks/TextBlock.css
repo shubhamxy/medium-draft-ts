@@ -28,6 +28,10 @@
     border-bottom: 1px solid #e5e5e5;
 }
 
+.md-content-editor mark {
+    background: yellow;
+}
+
 .md-content-editor h1, .md-content-editor h2, .md-content-editor h3 {
     line-height: 1.2;
 }

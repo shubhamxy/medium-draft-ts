@@ -7,7 +7,7 @@ const pkg = require('./package.json');
 const banner = [
     `${pkg.name}`,
     `Version - ${pkg.version}`,
-    `Author - ${pkg.author}`,
+    `Authors - ${pkg.author}`,
     '',
 ].join('\n');
 
@@ -95,7 +95,7 @@ module.exports = (env, argv) => {
                 amd: 'draft-js',
             },
             'immutable': {
-                root: 'immutable',
+                root: 'Immutable',
                 commonjs: 'immutable',
                 commonjs2: 'immutable',
                 amd: 'immutable',

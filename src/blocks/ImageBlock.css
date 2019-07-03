@@ -14,7 +14,7 @@
     margin: 0;
 }
 
-.md-block--image .md-block-image-inner-container--image {
+.md-block--image .md-block-image-inner-container-image {
     display: block;
     margin: 0 auto;
     cursor: default;

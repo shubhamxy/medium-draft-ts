@@ -28,7 +28,7 @@ export const styleToHTML = (style: string) => {
             return <u/>;
 
         case INLINE_STYLE_HIGHLIGHT:
-            return <span className={`md-inline-${style.toLowerCase()}`}/>;
+            return <mark/>;
 
         case INLINE_STYLE_CODE:
             return <code/>;
@@ -71,7 +71,7 @@ export const blockToHTML = (block: RawBlock) => {
             const imgData = block.data;
 
             return {
-                start: `<figure><img src="${imgData.src}" alt="${block.text}" /><figcaption>`,
+                start: `<figure><img src="${imgData.src}" alt="${block.text}" data-id="${imgData.dataId}" /><figcaption>`,
                 end: '</figcaption></figure>',
             };
         }

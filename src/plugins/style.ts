@@ -1,11 +1,9 @@
 import {Map} from 'immutable';
-import {Block, INLINE_STYLE_HIGHLIGHT} from '../util/constants';
+import {BASE_BLOCK_CLASS, Block, INLINE_STYLE_HIGHLIGHT} from '../util/constants';
 import {DraftPlugin} from '../plugins_editor/PluginsEditor';
 import {Link, findLinkEntities} from '../entities/link';
 import {ContentBlock} from 'draft-js';
 import {BlockType} from '../typings';
-
-const BASE_BLOCK_CLASS = 'md-block';
 
 /**
  * Base plugin that provides styling and structure to the editor.

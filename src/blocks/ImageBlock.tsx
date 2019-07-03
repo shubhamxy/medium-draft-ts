@@ -16,7 +16,7 @@ export class ImageBlock extends React.PureComponent<BlockProps> {
             return (
                 <>
                     <div className="md-block-image-inner-container" onClick={this.focusBlock}>
-                        <img role="presentation" src={src} srcSet={srcSet} alt="" className="md-block-image-inner-container--image"/>
+                        <img role="presentation" src={src} srcSet={srcSet} alt="" className="md-block-image-inner-container-image"/>
                     </div>
                     <figcaption>
                         <EditorBlock {...this.props} />

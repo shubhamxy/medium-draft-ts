@@ -62,7 +62,7 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
 
             const blockData = block.getData();
             const uploading = blockData.has('uploading') && blockData.get('uploading', false);
-            const imgClass = `${BASE_BLOCK_CLASS}-image`;
+            const imgClass = `${BASE_BLOCK_CLASS}--image`;
 
             return `${BASE_BLOCK_CLASS} ${imgClass} ${uploading ? `${imgClass}--uploading` : ''}`;
         },
