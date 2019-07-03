@@ -1,0 +1,499 @@
+/*!
+ * medium-draft-ts
+ * Version - 1.0.15
+ * Authors - Brijesh Bittu <brijesh@bitwiser.in> (http://bitwiser.in/) and Ilia Goldfarb
+ * 
+ */
+/**
+ * Draft v0.10.5
+ *
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+.DraftEditor-editorContainer,.DraftEditor-root,.public-DraftEditor-content{height:inherit;text-align:initial}.public-DraftEditor-content[contenteditable=true]{-webkit-user-modify:read-write-plaintext-only}.DraftEditor-root{position:relative}.DraftEditor-editorContainer{background-color:rgba(255,255,255,0);border-left:.1px solid transparent;position:relative;z-index:1}.public-DraftEditor-block{position:relative}.DraftEditor-alignLeft .public-DraftStyleDefault-block{text-align:left}.DraftEditor-alignLeft .public-DraftEditorPlaceholder-root{left:0;text-align:left}.DraftEditor-alignCenter .public-DraftStyleDefault-block{text-align:center}.DraftEditor-alignCenter .public-DraftEditorPlaceholder-root{margin:0 auto;text-align:center;width:100%}.DraftEditor-alignRight .public-DraftStyleDefault-block{text-align:right}.DraftEditor-alignRight .public-DraftEditorPlaceholder-root{right:0;text-align:right}.public-DraftEditorPlaceholder-root{color:#9197a3;position:absolute;z-index:1}.public-DraftEditorPlaceholder-hasFocus{color:#bdc1c9}.DraftEditorPlaceholder-hidden{display:none}.public-DraftStyleDefault-block{position:relative;white-space:pre-wrap}.public-DraftStyleDefault-ltr{direction:ltr;text-align:left}.public-DraftStyleDefault-rtl{direction:rtl;text-align:right}.public-DraftStyleDefault-listLTR{direction:ltr}.public-DraftStyleDefault-listRTL{direction:rtl}.public-DraftStyleDefault-ol,.public-DraftStyleDefault-ul{margin:16px 0;padding:0}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR{margin-left:1.5em}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL{margin-right:1.5em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR{margin-left:3em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL{margin-right:3em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR{margin-left:4.5em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL{margin-right:4.5em}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR{margin-left:6em}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL{margin-right:6em}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR{margin-left:7.5em}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL{margin-right:7.5em}.public-DraftStyleDefault-unorderedListItem{list-style-type:square;position:relative}.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth0{list-style-type:disc}.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth1{list-style-type:circle}.public-DraftStyleDefault-orderedListItem{list-style-type:none;position:relative}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before{left:-36px;position:absolute;text-align:right;width:30px}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before{position:absolute;right:-36px;text-align:left;width:30px}.public-DraftStyleDefault-orderedListItem:before{content:counter(ol0) ". ";counter-increment:ol0}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before{content:counter(ol1) ". ";counter-increment:ol1}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before{content:counter(ol2) ". ";counter-increment:ol2}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before{content:counter(ol3) ". ";counter-increment:ol3}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before{content:counter(ol4) ". ";counter-increment:ol4}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset{counter-reset:ol0}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset{counter-reset:ol1}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset{counter-reset:ol2}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset{counter-reset:ol3}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset{counter-reset:ol4}
+.md-block--quote {
+    border-left: 5px solid #4CA8DE;
+    font-size: 1.2em;
+    margin: 0;
+    padding: 15px 0 15px 20px;
+    background-color: #E2F2FF;
+}
+
+.md-root {
+    position: relative;
+}
+
+.md-block {
+    margin: 15px 0;
+}
+
+.md-block:first-child {
+    margin-top: 0;
+}
+
+.md-block:last-child {
+    margin-bottom: 0;
+}
+
+.md-RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+    display: none;
+}
+
+.md-content-editor .public-DraftStyleDefault-pre {
+    margin-top: 10px;
+}
+
+.public-DraftStyleDefault-unorderedListItem,
+.public-DraftStyleDefault-orderedListItem {
+    margin-bottom: 10px;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+a, a:visited {
+    color: #08c;
+    text-decoration: none;
+}
+
+.md-root {
+    font-family: serif;
+    max-width: 600px;
+    margin: 25px auto;
+    padding: 25px;
+    background: #fff;
+}
+
+.md-content-editor .public-DraftStyleDefault-pre {
+    font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+}
+
+.md-block-atomic-wrapper.md-block-atomic-wrapper-separator {
+    border-color: transparent;
+}
+
+.md-side-toolbar {
+  position: absolute;
+  z-index: 1;
+  left: -45px;
+  top: 0;
+  margin-top: 20px;
+}
+
+.md-sb-button {
+  padding: 0;
+  background: #fff;
+  border: 1px solid #aaa;
+  color: #000;
+  cursor: pointer;
+  height: 36px;
+  width: 36px;
+  border-radius: 18px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 2px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+
+.md-sb-button::-moz-focus-inner {
+  padding: 0;
+}
+
+.md-sb-button > svg {
+  fill: currentColor;
+  transition: transform 0.1s;
+}
+
+.md-add-button--open > svg {
+  transform: rotate(45deg);
+}
+
+.md-sb-button-file-input {
+  display: none;
+}
+
+.mb-side-menu {
+  background: #fff;
+  position: absolute;
+  left: calc(100% + 32px);
+  top: 0;
+  display: flex;
+}
+
+.mb-side-menu-button {
+  padding: 12px 4px;
+  background: #fff;
+}
+
+.mb-side-menu-button:hover {
+  background: #cecece;
+}
+
+.md-editor-toolbar {
+    background: #303030;
+    color: #fff;
+    border-radius: 2px;
+    z-index: 2;
+    position: absolute;
+    visibility: hidden;
+    box-shadow: 0 1px 3px 0 #717171;
+    margin-top: -5px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.md-editor-toolbar.md-editor-toolbar--is-open {
+    visibility: visible;
+}
+
+.md-editor-toolbar .md-url-input {
+    box-sizing: border-box;
+    border-radius: 2px;
+    display: block;
+    width: calc(100% - 36px);
+    height: 36px;
+    padding: 5px 11px 5px 5px;
+    border: none;
+    background: #303030;
+    color: #fff;
+    font-size: 0.9em;
+    font-weight: 100;
+    border-right: 1px solid #555;
+    outline: none;
+}
+
+.md-editor-toolbar .md-url-input-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    background: #303030;
+}
+
+.md-toolbar-controls {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 14px;
+    border-right: 1px solid #555;
+    display: inline-flex;
+    vertical-align: top;
+}
+
+.md-toolbar-controls:last-child {
+    border-right: none;
+}
+
+.md-toolbar-controls.md-toolbar-controls--show-input {
+    display: block;
+}
+
+.md-toolbar-button {
+    color: inherit;
+    cursor: pointer;
+    padding: 6px;
+    height: 36px;
+    min-width: 36px;
+    line-height: 24px;
+    text-align: center;
+    display: block;
+    background: none;
+    border: 0;
+    box-sizing: border-box;
+}
+
+.md-toolbar-button:hover {
+    background: #3d3d3d;
+}
+
+.md-toolbar-button:active {
+    background: #000;
+}
+
+.md-toolbar-button.md-toolbar-button--active {
+    background: #111;
+}
+
+.md-toolbar-button.md-toolbar-button--active:hover {
+    background: #212121;
+}
+
+.md-toolbar-button.md-toolbar-button--active:active {
+    background: #000;
+}
+
+.md-toolbar-button:last-child {
+    margin-right: 0;
+}
+
+.md-toolbar-button.md-toolbar-button--bold {
+    font-weight: bold;
+}
+
+.md-toolbar-button.md-toolbar-button--italic {
+    font-style: italic;
+}
+
+.md-toolbar-button.md-toolbar-button--underline {
+    text-decoration: underline;
+}
+
+.md-toolbar-button.md-toolbar-button--strikethrough {
+    text-decoration: line-through;
+}
+
+.md-toolbar-button > svg {
+    pointer-events: none;
+}
+
+.md-tooltip {
+  position: absolute;
+  background: #303030;
+  padding: 7px 10px;
+  color: #fff;
+  font-size: 12px;
+  max-width: 700px;
+  font-family: sans-serif;
+  z-index: 1;
+  border-radius: 2px;
+}
+
+.md-tooltip--link {
+  word-break: break-all;
+}
+
+.md-block-code {
+    background-color: #fdf6e3;
+    color: #657b83;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    tab-size: 4;
+    hyphens: none;
+}
+
+.md-block-code-settings {
+    position: absolute;
+    right: 0;
+    top: -20px;
+}
+
+.md-block-code-wrapper {
+    position: relative;
+    padding: 1em;
+}
+
+.md-block-code-wrapper::before {
+    content: attr(data-language);
+    font-size: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 1;
+}
+
+@keyframes imageLoading {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.md-block--image {
+    margin: 0;
+}
+
+.md-block--image .md-block-image-inner-container-image {
+    display: block;
+    margin: 0 auto;
+    cursor: default;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.md-block--image--uploading {
+    animation: imageLoading 1s infinite;
+}
+
+.md-block--image figcaption {
+    display: block;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #a0a0a0;
+    letter-spacing: 0;
+    font-weight: 300;
+    font-style: normal;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.md-block--image figcaption .public-DraftStyleDefault-block {
+    text-align: center;
+}
+
+.md-block--image .md-block-image-inner-container {
+    position: relative;
+}
+
+.md-block--image .md-block-image-toolbar-container {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
+}
+
+.md-block-quote cite {
+    display: block;
+    margin: 0;
+}
+
+.md-block-quote cite::before {
+    content: '\2013';
+    color: #999;
+    float: left;
+    font-weight: bold;
+    display: inline;
+    margin-right: 10px;
+}
+
+.md-block-caption {
+    display: block;
+    position: relative;
+    font-style: normal;
+    padding: 10px 0;
+    font-family: 'Hoefler Text', 'Georgia', serif;
+    margin: 0 0 20px 0;
+    background-color: #F7F7F7;
+    border-radius: 2px;
+    line-height: 1.2em;
+}
+
+.md-block-caption::before {
+    content: '“';
+    color: #C6DFFF;
+    display: inline;
+    position: absolute;
+    left: -25px;
+    top: -5px;
+    font-size: 3em;
+}
+
+.md-block-caption .public-DraftStyleDefault-ltr {
+    text-align: center;
+}
+
+.md-block--atomic {
+    margin: 0;
+}
+
+.md-block--atomic img {
+    width: 100%;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+.md-block-atomic-wrapper {
+    position: relative;
+}
+
+.md-block-atomic-controls {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all 0.2s ease;
+}
+
+.md-block-atomic-controls button {
+    display: inline-block;
+    background-color: #EAEAEA;
+    border: none;
+    color: #6D6D6D;
+    cursor: pointer;
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    position: absolute;
+    z-index: 1;
+    left: -27px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.md-block-atomic-controls button:focus {
+    outline: none;
+    border-color: #08c;
+    color: #08c;
+}
+
+.md-content-editor {
+    cursor: text;
+}
+
+.md-content-editor--pointer .md-link {
+    cursor: pointer;
+}
+
+.md-content-editor h1 {
+    font-size: 2em;
+    margin: 25px 0 15px;
+}
+
+.md-content-editor h2 {
+    font-size: 1.3em;
+    margin: 25px 0 15px;
+}
+
+.md-content-editor h3 {
+    font-size: 1.15em;
+    margin: 25px 0 15px;
+}
+
+.md-content-editor hr {
+    margin: 25px 0;
+    height: 0;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.md-content-editor mark {
+    background: yellow;
+}
+
+.md-content-editor h1, .md-content-editor h2, .md-content-editor h3 {
+    line-height: 1.2;
+}
+
+.md-content-editor h1:first-child, .md-content-editor h2:first-child, .md-content-editor h3:first-child {
+    margin-top: 0;
+}
+
+.md-content-editor h1:last-child, .md-content-editor h2:last-child, .md-content-editor h3:last-child {
+    margin-bottom: 0;
+}
+
