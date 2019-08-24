@@ -4,15 +4,10 @@
     border-radius: 2px;
     z-index: 2;
     position: absolute;
-    visibility: hidden;
     box-shadow: 0 1px 3px 0 #717171;
     margin-top: -5px;
     overflow: hidden;
     white-space: nowrap;
-}
-
-.md-editor-toolbar.md-editor-toolbar--is-open {
-    visibility: visible;
 }
 
 .md-editor-toolbar .md-url-input {

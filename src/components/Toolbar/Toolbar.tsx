@@ -21,9 +21,10 @@ interface ToolbarProps {
 }
 
 interface ToolbarState {
-    showURLInput: boolean;
+    isURLInputVisible: boolean;
     urlInputValue: string;
     selectedAddress: string;
+    isVisible: boolean;
 }
 
 export interface ToolbarButtonInterface {
@@ -39,8 +40,9 @@ function getSelectedAddress(selState: SelectionState): string {
 export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
     public state = {
+        isURLInputVisible: false,
+        isVisible: false,
         selectedAddress: '',
-        showURLInput: false,
         urlInputValue: '',
     };
 
@@ -48,27 +50,47 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
     private urlInputRef = React.createRef<HTMLInputElement>();
 
-    public componentWillReceiveProps(newProps: ToolbarProps) {
+    public static getDerivedStateFromProps(newProps: ToolbarProps, prevState: ToolbarState) {
         const {editorState} = newProps;
         const selectionState = editorState.getSelection();
-        const selectedAddress = getSelectedAddress(selectionState);
 
-        if (selectionState.isCollapsed() || selectedAddress !== this.state.selectedAddress) {
-            if (this.state.showURLInput) {
-                this.setState({
-                    selectedAddress,
-                    showURLInput: false,
-                    urlInputValue: '',
-                });
+        if (selectionState.isCollapsed()) {
+            return {
+                isURLInputVisible: false,
+                isVisible: false,
+                selectedAddress: '',
+                urlInputValue: '',
+            };
+        } else {
+            const selectedAddress = getSelectedAddress(selectionState);
+            let isURLInputVisible = prevState.isURLInputVisible;
+            let urlInputValue = prevState.urlInputValue;
+            if (selectedAddress !== prevState.selectedAddress && prevState.isURLInputVisible) {
+                isURLInputVisible = false;
+                urlInputValue = '';
             }
+
+            return {
+                isURLInputVisible,
+                isVisible: true,
+                selectedAddress,
+                urlInputValue,
+            };
         }
     }
 
     public componentDidUpdate() {
-        const toolbarNode = this.toolbarRef.current;
-        const parent = toolbarNode.parentElement;
+        if (!this.state.isVisible || this.state.isURLInputVisible) {
+            return;
+        }
 
-        if (this.state.showURLInput || !toolbarNode || !parent) {
+        const toolbarNode = this.toolbarRef.current;
+        if (!toolbarNode) {
+            return;
+        }
+
+        const parent = toolbarNode.parentElement;
+        if (!parent) {
             return;
         }
 
@@ -76,13 +98,14 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         if (selectionState.isCollapsed()) {
             return;
         }
+
         const nativeSelection = getSelection(window);
         if (!nativeSelection || !nativeSelection.rangeCount) {
             return;
         }
+
         const selectionBoundary = getSelectionRect(nativeSelection);
         const toolbarBoundary = toolbarNode.getBoundingClientRect();
-
         const parentBoundary = parent.getBoundingClientRect();
         /*
         * Main logic for setting the toolbar position.
@@ -108,19 +131,17 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
     public render() {
         const {editorState, inlineButtons, blockButtons} = this.props;
-        const {showURLInput, urlInputValue} = this.state;
-        let currentInlineButtons = [...inlineButtons];
+        const {isURLInputVisible, urlInputValue, isVisible} = this.state;
 
-        let isOpen = true;
-        if (editorState.getSelection().isCollapsed()) {
-            isOpen = false;
+        if (!isVisible) {
+            return null;
         }
 
-        if (showURLInput) {
+        if (isURLInputVisible) {
             return (
                 <div
                     ref={this.toolbarRef}
-                    className={`md-editor-toolbar md-editor-toolbar--link-input${(isOpen ? ' md-editor-toolbar--is-open' : '')}`}
+                    className="md-editor-toolbar md-editor-toolbar--link-input"
                 >
                     <div className="md-toolbar-controls md-toolbar-controls--show-input">
                         <button className="md-url-input-close md-toolbar-button" onClick={this.onSaveLink}>ok</button>
@@ -139,6 +160,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         }
 
         // try find hyperlink to move it in separate section
+        let currentInlineButtons = [...inlineButtons];
         let hyperLink: null | ToolbarButtonInterface = null;
         let isHyperLinkActive = false;
         for (let cnt = currentInlineButtons.length - 1; cnt > 0; cnt--) {
@@ -152,7 +174,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         return (
             <div
                 ref={this.toolbarRef}
-                className={`md-editor-toolbar${(isOpen ? ' md-editor-toolbar--is-open' : '')}`}
+                className="md-editor-toolbar"
             >
                 {blockButtons.length > 0 ? (
                     <BlockButtonsBar
@@ -222,7 +244,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
 
                 this.setState({
                     selectedAddress,
-                    showURLInput: true,
+                    isURLInputVisible: true,
                     urlInputValue: url,
                 }, () => {
                     setTimeout(() => {
@@ -238,7 +260,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
         if (!linkFound) {
             this.setState({
                 selectedAddress,
-                showURLInput: true,
+                isURLInputVisible: true,
             }, () => {
                 setTimeout(() => {
                     this.urlInputRef.current.focus();
@@ -255,7 +277,7 @@ export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     private hideLinkInput = () => {
         this.setState({
             selectedAddress: '',
-            showURLInput: false,
+            isURLInputVisible: false,
             urlInputValue: '',
         }, this.props.focus);
     }

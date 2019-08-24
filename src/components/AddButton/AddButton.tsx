@@ -17,11 +17,8 @@ interface AddButtonState {
     visible: boolean;
     isOpen: boolean;
     top: number;
-}
-
-interface ExtendedSelectionState extends SelectionState {
-    anchorKey: string;
-    focusKey: string;
+    blockType: DraftBlockType;
+    blockKey: string;
 }
 
 /**
@@ -33,65 +30,49 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
     public state: Readonly<AddButtonState> = {
         visible: false,
         isOpen: false,
+        blockType: 'unstyled',
+        blockKey: '',
         top: 0,
     };
 
     private node: HTMLElement = null;
 
-    private blockType: DraftBlockType = 'unstyled';
-
-    private blockKey: string = '';
-
     // To show + button only when text length == 0
-    public componentWillReceiveProps(newProps: AddButtonProps) {
+    public static getDerivedStateFromProps(newProps: AddButtonProps) {
         const {editorState} = newProps;
-        const contentState = editorState.getCurrentContent();
-        const selectionState = editorState.getSelection() as ExtendedSelectionState;
+        const selectionState = editorState.getSelection();
+        const anchorKey = selectionState.getAnchorKey();
 
-        if (!selectionState.isCollapsed()
-            || selectionState.anchorKey !== selectionState.focusKey
-            || contentState.getBlockForKey(selectionState.getAnchorKey()).getType().indexOf('atomic') >= 0) {
-            this.hideBlock();
+        if (selectionState.isCollapsed() && anchorKey === selectionState.getFocusKey()) {
+            const contentState = editorState.getCurrentContent();
+            if (contentState.getBlockForKey(anchorKey).getType().indexOf('atomic') !== 0) {
 
-            return;
-        }
+                const block = contentState.getBlockForKey(anchorKey);
+                const blockKey = block.getKey();
 
-        const block = contentState.getBlockForKey(selectionState.anchorKey as string);
-        const blockKey = block.getKey();
-
-        if (block.getLength() > 0) {
-            this.hideBlock();
-
-            return;
-        }
-
-        if (block.getType() !== this.blockType) {
-            this.blockType = block.getType();
-            if (block.getLength() === 0) {
-                setTimeout(this.findNode);
+                if (block.getLength() === 0) {
+                    return {
+                        visible: true,
+                        blockType: block.getType(),
+                        blockKey,
+                    };
+                }
             }
-            this.blockKey = blockKey;
-
-            return;
         }
 
-        if (this.blockKey === blockKey) {
-            if (block.getLength() > 0) {
-                this.hideBlock();
-            } else {
-                this.setState({
-                    visible: true,
-                });
+        return {
+            visible: false,
+            isOpen: false,
+            blockType: 'unstyled',
+            blockKey: '',
+        };
+    }
+
+    public componentDidUpdate(prevProps: Readonly<AddButtonProps>, prevState: Readonly<AddButtonState>): void {
+        if (this.state.visible) {
+            if (prevState.blockKey !== this.state.blockKey || this.state.blockType !== prevState.blockType) {
+                this.findNode();
             }
-
-            return;
-        }
-
-        this.blockKey = blockKey;
-        if (block.getLength() > 0) {
-            this.hideBlock();
-        } else {
-            setTimeout(this.findNode);
         }
     }
 
@@ -137,30 +118,7 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
         );
     }
 
-    private hideBlock = () => {
-        if (this.state.visible) {
-            this.setState({
-                visible: false,
-                isOpen: false,
-            });
-        }
-    }
-
-    private toggleToolbar = () => {
-        this.setState({
-            isOpen: !this.state.isOpen,
-        }, () => { // callback function
-            // save page state
-            const x = window.scrollX || window.pageXOffset;
-            const y = window.scrollY || window.pageYOffset;
-            // do focus
-            this.props.focus();
-            // back previous window state
-            window.scrollTo(x, y);
-        });
-    }
-
-    private findNode = () => {
+    private findNode() {
         const node = getSelectedBlockNode(window);
         if (node !== this.node) {
             if (node) {
@@ -177,5 +135,19 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
                 });
             }
         }
+    }
+
+    private toggleToolbar = () => {
+        this.setState({
+            isOpen: !this.state.isOpen,
+        }, () => { // callback function
+            // save page state
+            const x = window.scrollX || window.pageXOffset;
+            const y = window.scrollY || window.pageYOffset;
+            // do focus
+            this.props.focus();
+            // back previous window state
+            window.scrollTo(x, y);
+        });
     }
 }
