@@ -1,6 +1,7 @@
 import {
     ContentBlock,
-    ContentState, DraftEditorCommand,
+    ContentState,
+    DraftEditorCommand,
     EditorState,
     genKey,
     KeyBindingUtil,
@@ -18,9 +19,11 @@ import {
     KEY_EIGHT,
     KEY_K,
     KEY_ONE,
-    KEY_PERIOD, KEY_TAB,
+    KEY_PERIOD,
+    KEY_TAB,
     KEY_THREE,
-    KEY_TWO, KEY_UP,
+    KEY_TWO,
+    KEY_UP,
     NOT_HANDLED,
     StringToTypeMap
 } from '../util/constants';

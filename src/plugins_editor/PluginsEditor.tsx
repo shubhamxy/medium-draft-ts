@@ -146,6 +146,8 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
 
                 return getDefaultKeyBinding(e);
             };
+
+            return;
         }
 
         if (key.indexOf('handle') === 0) {
