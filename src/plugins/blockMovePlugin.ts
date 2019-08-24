@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {EditorState} from 'draft-js';
+import {EditorState, DraftEditorCommand} from 'draft-js';
 
 import {swapBlocks} from '../util/helpers';
 import {DraftPlugin} from '../plugins_editor/PluginsEditor';
+import {KEY_DOWN, KEY_UP} from '../util/constants';
 
 type KeyBoardFilterFunc = (ev: React.KeyboardEvent<{}> | KeyboardEvent) => boolean;
 
@@ -10,19 +11,14 @@ function defaultFilterFunction(ev: React.KeyboardEvent<{}>): boolean {
     return (ev.ctrlKey && ev.altKey);
 }
 
-const enum MoveDirection {
-    UP,
-    DOWN,
-}
-
-function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEvent<{}>, editorState: EditorState, direction: MoveDirection, setEditorState: (es: EditorState) => void): boolean {
+function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEvent<{}>, editorState: EditorState, setEditorState: (es: EditorState) => void, isUp: boolean): DraftEditorCommand | undefined | false {
     if (!keyFilterFunction(ev)) {
-        return false;
+        return;
     }
 
     const selection = editorState.getSelection();
     if (!selection.isCollapsed()) {
-        return false;
+        return;
     }
 
     const contentState = editorState.getCurrentContent();
@@ -30,20 +26,15 @@ function moveBlock(keyFilterFunction: KeyBoardFilterFunc, ev: React.KeyboardEven
     const lastBlock = contentState.getLastBlock();
     const blockToMove = contentState.getBlockForKey(selection.getAnchorKey());
 
-    const isUp = (direction === MoveDirection.UP);
-    const isDown = (direction === MoveDirection.DOWN);
-
     if (
-        (isUp && blockToMove.getKey() === firstBlock.getKey()) ||
-        (isDown && blockToMove.getKey() === lastBlock.getKey())
+        (isUp && blockToMove.getKey() !== firstBlock.getKey()) ||
+        (!isUp && blockToMove.getKey() !== lastBlock.getKey())
     ) {
+        const blockToSwapWith = isUp ? contentState.getBlockBefore(blockToMove.getKey()) : contentState.getBlockAfter(blockToMove.getKey());
+        setEditorState(swapBlocks(editorState, blockToMove, blockToSwapWith));
+
         return false;
     }
-
-    const blockToSwapWith = isUp ? contentState.getBlockBefore(blockToMove.getKey()) : contentState.getBlockAfter(blockToMove.getKey());
-    setEditorState(swapBlocks(editorState, blockToMove, blockToSwapWith));
-
-    return true;
 }
 
 interface BlockMovePluginOptions {
@@ -54,11 +45,13 @@ export function blockMovePlugin(options?: BlockMovePluginOptions): DraftPlugin {
     const keyFilterFunction = (options && options.keyFilterFunction) || defaultFilterFunction;
 
     return {
-        onUpArrow: (ev, {getEditorState, setEditorState}) => {
-            return moveBlock(keyFilterFunction, ev, getEditorState(), MoveDirection.UP, setEditorState);
-        },
-        onDownArrow: (ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}) => {
-            return moveBlock(keyFilterFunction, ev, getEditorState(), MoveDirection.DOWN, setEditorState);
+        keyBindingFn: (ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}) => {
+            if (ev.which === KEY_UP) {
+                return moveBlock(keyFilterFunction, ev, getEditorState(), setEditorState, true);
+            }
+            if (ev.which === KEY_DOWN) {
+                return moveBlock(keyFilterFunction, ev, getEditorState(), setEditorState, false);
+            }
         },
     };
 }

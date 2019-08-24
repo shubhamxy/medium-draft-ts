@@ -3,6 +3,8 @@ Some of the constants which are used throughout this project instead of
 directly using string.
 */
 
+import {DraftEditorCommand} from 'draft-js';
+
 export const KEY_ENTER = 13;
 export const KEY_ESCAPE = 27;
 export const KEY_CTRL = 17;
@@ -14,6 +16,9 @@ export const KEY_THREE = 51;
 export const KEY_EIGHT = 56;
 export const KEY_COMMA = 188;
 export const KEY_PERIOD = 190;
+export const KEY_UP = 38;
+export const KEY_DOWN = 40;
+export const KEY_TAB = 9;
 
 // Block styles
 export const Block = {
@@ -54,12 +59,12 @@ export const HANDLED = 'handled';
 export const NOT_HANDLED = 'not-handled';
 
 export const KEY_COMMANDS = {
-  addNewBlock: () => 'add-new-block',
-  changeType: (type = '') => `changetype:${type}`,
-  showLinkInput: () => 'showlinkinput',
-  unlink: () => 'unlink',
-  toggleInline: (type = '') => `toggleinline:${type}`,
-  deleteBlock: () => 'delete-block',
+  addNewBlock: () => 'add-new-block' as DraftEditorCommand,
+  changeType: (type = '') => `changetype:${type}` as DraftEditorCommand,
+  showLinkInput: () => 'showlinkinput' as DraftEditorCommand,
+  unlink: () => 'unlink' as DraftEditorCommand,
+  toggleInline: (type = '') => `toggleinline:${type}` as DraftEditorCommand,
+  deleteBlock: () => 'delete-block' as DraftEditorCommand,
 };
 
 export const StringToTypeMap: {[key: string]: string} = {

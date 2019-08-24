@@ -13,7 +13,9 @@ import {
     Editor,
     EditorProps,
     EditorState,
-    SelectionState
+    SelectionState,
+    getDefaultKeyBinding,
+    DraftEditorCommand
 } from 'draft-js';
 import {Map} from 'immutable';
 import memoizeOne from 'memoize-one';
@@ -88,16 +90,10 @@ export interface DraftPlugin {
     handlePastedText?: (text: string, html: string, editorState: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleReturn?: (ev: React.KeyboardEvent<{}>, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     initialize?: (draftPluginFns: PluginFunctions) => void;
-    keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => string | void;
+    keyBindingFn?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => DraftEditorCommand | void | false;
     onBlur?: (e: React.SyntheticEvent<{}>) => void;
     onChange?: (es: EditorState, draftPluginFns: PluginFunctions) => (EditorState | void);
-    onDownArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onEscape?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
     onFocus?: (e: React.SyntheticEvent<{}>) => void;
-    onLeftArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onRightArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onTab?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
-    onUpArrow?: (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => void;
     willUnmount?: (draftPluginFns: PluginFunctions) => void;
 }
 
@@ -131,6 +127,26 @@ function getMainPropsFromPlugins(plugins: DraftPlugin[], getters?: () => PluginF
         }
 
         const handlers = props[key];
+
+        if (key === 'keyBindingFn') {
+            mainProps.keyBindingFn = (e) => {
+                for (let i = 0; i < handlers.length; i++) {
+                    const handler = handlers[i] as (ev: React.KeyboardEvent<{}>, draftPluginFns: PluginFunctions) => DraftEditorCommand | void | false;
+                    const result = handler(e, getters());
+
+                    if (result) {
+                        return result;
+                    }
+
+                    // stop loop without default key binding
+                    if (result === false) {
+                        return null;
+                    }
+                }
+
+                return getDefaultKeyBinding(e);
+            };
+        }
 
         if (key.indexOf('handle') === 0) {
             // @ts-ignore: Unreachable code error

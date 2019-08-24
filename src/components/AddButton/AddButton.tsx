@@ -151,8 +151,8 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
             isOpen: !this.state.isOpen,
         }, () => { // callback function
             // save page state
-            const x = window.scrollX;
-            const y = window.scrollY;
+            const x = window.scrollX || window.pageXOffset;
+            const y = window.scrollY || window.pageYOffset;
             // do focus
             this.props.focus();
             // back previous window state

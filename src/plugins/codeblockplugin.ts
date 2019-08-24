@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {ContentBlock, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
+import {ContentBlock, DraftEditorCommand, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
 import {CodeBlock} from '../blocks/CodeBlock';
 import {getCurrentBlock, updateDataOfBlock} from '../util/helpers';
-import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_L, NOT_HANDLED} from '../util/constants';
+import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_L, KEY_TAB, NOT_HANDLED} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 
 interface OptionType {
@@ -45,14 +45,36 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
             return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-code language-${lang || 'no-lang'}`;
         },
 
-        keyBindingFn(ev: React.KeyboardEvent, {getEditorState}: PluginFunctions) {
+        keyBindingFn(ev: React.KeyboardEvent, {getEditorState, setEditorState}: PluginFunctions): DraftEditorCommand | void | false  {
             const editorState = getEditorState();
+
             if (shouldEarlyReturn(getCurrentBlock(editorState))) {
                 return;
             }
 
             if (ev.ctrlKey && ev.shiftKey && ev.which === KEY_L) {
-                return 'code-block-add-language';
+                return 'code-block-add-language' as DraftEditorCommand;
+            }
+
+            if (ev.which === KEY_TAB) {
+                const currentBlock = getCurrentBlock(editorState);
+                const selection = editorState.getSelection();
+
+                if (shouldEarlyReturn(currentBlock) || !selection.isCollapsed()) {
+                    return null;
+                }
+
+                ev.preventDefault();
+                let str: string = '';
+                for (let i = 0; i < tabSize; i++) {
+                    str += ' ';
+                }
+
+                const contentState = Modifier.insertText(editorState.getCurrentContent(), selection, str);
+                const newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
+                setEditorState(EditorState.forceSelection(newEditorState, contentState.getSelectionAfter()));
+
+                return false;
             }
         },
 
@@ -135,25 +157,5 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
 
             return HANDLED;
         },
-
-        onTab(ev: React.KeyboardEvent, {getEditorState, setEditorState}: PluginFunctions) {
-            const editorState = getEditorState();
-            const currentBlock = getCurrentBlock(editorState);
-            const selection = editorState.getSelection();
-
-            if (shouldEarlyReturn(currentBlock) || !selection.isCollapsed()) {
-                return null;
-            }
-
-            ev.preventDefault();
-            let str: string = '';
-            for (let i = 0; i < tabSize; i++) {
-                str += ' ';
-            }
-
-            const contentState = Modifier.insertText(editorState.getCurrentContent(), selection, str);
-            const newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
-            setEditorState(EditorState.forceSelection(newEditorState, contentState.getSelectionAfter()));
-        }
     };
 }

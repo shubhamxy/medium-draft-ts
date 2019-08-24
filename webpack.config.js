@@ -30,7 +30,6 @@ module.exports = (env, argv) => {
     const isProd = argv.mode === 'production';
 
     return {
-        target: 'web',
         mode: isProd ? 'production' : 'development',
         entry: {
             'medium-draft': isProd ? './src/index.ts' : './src/demo.tsx',

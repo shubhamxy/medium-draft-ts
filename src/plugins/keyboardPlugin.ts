@@ -1,9 +1,8 @@
 import {
     ContentBlock,
-    ContentState,
+    ContentState, DraftEditorCommand,
     EditorState,
     genKey,
-    getDefaultKeyBinding,
     KeyBindingUtil,
     RichUtils,
     SelectionState
@@ -19,9 +18,9 @@ import {
     KEY_EIGHT,
     KEY_K,
     KEY_ONE,
-    KEY_PERIOD,
+    KEY_PERIOD, KEY_TAB,
     KEY_THREE,
-    KEY_TWO,
+    KEY_TWO, KEY_UP,
     NOT_HANDLED,
     StringToTypeMap
 } from '../util/constants';
@@ -33,9 +32,70 @@ import {BlockType} from '../typings';
 
 const {changeType, showLinkInput, unlink} = KEY_COMMANDS;
 
+function onTab(ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}: PluginFunctions) {
+    const editorState = getEditorState();
+    const newEditorState = RichUtils.onTab(ev, editorState, 2);
+    if (newEditorState !== editorState) {
+        setEditorState(newEditorState);
+    }
+}
+
+function onUpArrow(ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}: PluginFunctions) {
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) {
+        return;
+    }
+
+    const editorState = getEditorState();
+    const content = editorState.getCurrentContent();
+    const selection = editorState.getSelection();
+
+    if (!selection.isCollapsed()) {
+        return;
+    }
+
+    const key = selection.getAnchorKey();
+    const currentBlock = content.getBlockForKey(key);
+    const firstBlock = content.getFirstBlock();
+
+    if (firstBlock.getKey() === key) {
+        if (firstBlock.getType().indexOf(Block.ATOMIC) === 0) {
+            ev.preventDefault();
+            const newBlock = new ContentBlock({
+                type: Block.UNSTYLED,
+                key: genKey(),
+            });
+            const newBlockMap = OrderedMap([[newBlock.getKey(), newBlock]]).concat(content.getBlockMap());
+            const newContent = content.merge({
+                blockMap: newBlockMap,
+                selectionAfter: selection.merge({
+                    anchorKey: newBlock.getKey(),
+                    focusKey: newBlock.getKey(),
+                    anchorOffset: 0,
+                    focusOffset: 0,
+                    isBackward: false,
+                }),
+            }) as ContentState;
+            setEditorState(EditorState.push(editorState, newContent, 'insert-characters'));
+        }
+    } else if (currentBlock.getType().indexOf(Block.ATOMIC) === 0) {
+        const blockBefore = content.getBlockBefore(key);
+        if (blockBefore) {
+            ev.preventDefault();
+            const newSelection = selection.merge({
+                anchorKey: blockBefore.getKey(),
+                focusKey: blockBefore.getKey(),
+                anchorOffset: blockBefore.getLength(),
+                focusOffset: blockBefore.getLength(),
+                isBackward: false,
+            }) as SelectionState;
+            setEditorState(EditorState.forceSelection(editorState, newSelection));
+        }
+    }
+}
+
 export function keyboardPlugin(): DraftPlugin {
     return {
-        keyBindingFn(ev: React.KeyboardEvent<{}>) {
+        keyBindingFn(ev: React.KeyboardEvent<{}>, pluginsFns: PluginFunctions): DraftEditorCommand | void | false {
             if (KeyBindingUtil.hasCommandModifier(ev) && ev.which === KEY_K) {
                 if (ev.shiftKey) {
                     return unlink();
@@ -46,7 +106,7 @@ export function keyboardPlugin(): DraftPlugin {
 
             if (ev.altKey && !ev.ctrlKey) {
                 if (ev.shiftKey) {
-                    return getDefaultKeyBinding(ev);
+                    return;
                 }
 
                 switch (ev.which) {
@@ -65,7 +125,13 @@ export function keyboardPlugin(): DraftPlugin {
                 }
             }
 
-            return getDefaultKeyBinding(ev);
+            switch (ev.which) {
+                case KEY_TAB:
+                    return onTab(ev, pluginsFns);
+
+                case KEY_UP:
+                    return onUpArrow(ev, pluginsFns);
+            }
         },
 
         handleKeyCommand(command: string, editorState: EditorState, pluginFns: PluginFunctions) {
@@ -150,6 +216,7 @@ export function keyboardPlugin(): DraftPlugin {
             }
 
             const finalType = blockTo.split(':');
+            // tslint:disable-next-line:no-magic-numbers
             if (finalType.length < 1 || finalType.length > 3) {
                 return NOT_HANDLED;
             }
@@ -166,6 +233,8 @@ export function keyboardPlugin(): DraftPlugin {
                 if (blockType === finalType[0]) {
                     fType = finalType[1];
                 }
+
+                // tslint:disable-next-line:no-magic-numbers
             } else if (finalType.length === 3) {
                 if (blockType === finalType[2]) {
                     return NOT_HANDLED;
@@ -231,72 +300,6 @@ export function keyboardPlugin(): DraftPlugin {
             }
 
             return NOT_HANDLED;
-        },
-
-        onTab(ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}: PluginFunctions) {
-            const editorState = getEditorState();
-            const newEditorState = RichUtils.onTab(ev, editorState, 2);
-            if (newEditorState !== editorState) {
-                setEditorState(newEditorState);
-            }
-        },
-
-        onUpArrow(ev: React.KeyboardEvent<{}>, {getEditorState, setEditorState}: PluginFunctions) {
-            if (ev.ctrlKey || ev.metaKey || ev.altKey) {
-                return false;
-            }
-
-            const editorState = getEditorState();
-            const content = editorState.getCurrentContent();
-            const selection = editorState.getSelection();
-
-            if (!selection.isCollapsed()) {
-                return false;
-            }
-
-            const key = selection.getAnchorKey();
-            const currentBlock = content.getBlockForKey(key);
-            const firstBlock = content.getFirstBlock();
-
-            if (firstBlock.getKey() === key) {
-                if (firstBlock.getType().indexOf(Block.ATOMIC) === 0) {
-                    ev.preventDefault();
-                    const newBlock = new ContentBlock({
-                        type: Block.UNSTYLED,
-                        key: genKey(),
-                    });
-                    const newBlockMap = OrderedMap([[newBlock.getKey(), newBlock]]).concat(content.getBlockMap());
-                    const newContent = content.merge({
-                        blockMap: newBlockMap,
-                        selectionAfter: selection.merge({
-                            anchorKey: newBlock.getKey(),
-                            focusKey: newBlock.getKey(),
-                            anchorOffset: 0,
-                            focusOffset: 0,
-                            isBackward: false,
-                        }),
-                    }) as ContentState;
-                    setEditorState(EditorState.push(editorState, newContent, 'insert-characters'));
-
-                    return true;
-                }
-            } else if (currentBlock.getType().indexOf(Block.ATOMIC) === 0) {
-                const blockBefore = content.getBlockBefore(key);
-                if (!blockBefore) {
-                    return;
-                }
-                ev.preventDefault();
-                const newSelection = selection.merge({
-                    anchorKey: blockBefore.getKey(),
-                    focusKey: blockBefore.getKey(),
-                    anchorOffset: blockBefore.getLength(),
-                    focusOffset: blockBefore.getLength(),
-                    isBackward: false,
-                }) as SelectionState;
-                setEditorState(EditorState.forceSelection(editorState, newSelection));
-
-                return true;
-            }
         }
     };
 }
