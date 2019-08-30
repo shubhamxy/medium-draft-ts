@@ -1,3 +1,11 @@
+### 2.0.0
+
+- Add image uploading
+
+### 1.0.0
+
+- Moved code to TypeScript.
+
 ### 0.5.5
 
 - A new prop `toolbarConfig` has been introduced. So instead of passing whole configuration into `blockButtons` and `inlineButtons`, you can just pass, `toolbarConfig` with value
