@@ -28,7 +28,7 @@
     "url": "https://github.com/dumistoklus/medium-draft/issues"
   },
   "sideEffects": false,
-  "homepage": "https://github.conode-sassm/dumistoklus/medium-draft#readme",
+  "homepage": "https://dumistoklus.github.io/medium-draft/",
   "devDependencies": {
     "@types/draft-js": "0.10.35",
     "@types/jest": "24.0.18",
