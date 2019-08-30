@@ -86,5 +86,3 @@ export const continuousBlocks = [
   Block.OL,
   Block.UL,
 ];
-
-export const BASE_BLOCK_CLASS = 'md-block';

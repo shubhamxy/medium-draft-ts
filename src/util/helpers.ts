@@ -5,7 +5,8 @@ import {
     EditorState,
     genKey,
     RawDraftContentState,
-    SelectionState
+    SelectionState,
+    Modifier
 } from 'draft-js';
 import {List, Map} from 'immutable';
 import {Block} from './constants';
@@ -62,7 +63,6 @@ export function addNewBlock(editorState: EditorState, newType: string, initialDa
     }
 
     const currentBlock = getCurrentBlock(editorState);
-
     if (!currentBlock) {
         return editorState;
     }
@@ -113,6 +113,29 @@ export const resetBlockWithType = (editorState: EditorState, newType: string, ov
     }) as ContentState;
 
     return EditorState.push(editorState, newContentState, 'change-block-type');
+};
+
+/**
+ *
+ */
+export const removeBlock = (editorState: EditorState, blockKey: string) => {
+    const contentState = editorState.getCurrentContent();
+    const afterKey = contentState.getKeyAfter(blockKey);
+    const targetRange = new SelectionState({
+        anchorKey: blockKey,
+        anchorOffset: 0,
+        focusKey: afterKey,
+        focusOffset: 0
+    });
+    let newContentState = Modifier.setBlockType(
+        contentState,
+        targetRange,
+        'unstyled'
+    );
+
+    newContentState = Modifier.removeRange(newContentState, targetRange, 'backward');
+
+    return EditorState.push(editorState, newContentState, 'remove-range');
 };
 
 /**

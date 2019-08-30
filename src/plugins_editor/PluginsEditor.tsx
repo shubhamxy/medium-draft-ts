@@ -85,7 +85,7 @@ export interface DraftPlugin {
     handleBeforeInput?: (input: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleDrop?: (selection: EditorState, dataTransfer: DataTransfer, isInternal: DraftDragType, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleDroppedFiles?: (selection: SelectionState, files: Blob[], draftPluginFns: PluginFunctions) => DraftHandleValue;
-    handleKeyCommand?: (command: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
+    handleKeyCommand?: (command: string, editorState: EditorState, eventTimeStamp: number, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handlePastedFiles?: (files: Blob[]) => DraftHandleValue;
     handlePastedText?: (text: string, html: string, editorState: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleReturn?: (ev: React.KeyboardEvent<{}>, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
@@ -95,10 +95,6 @@ export interface DraftPlugin {
     onChange?: (es: EditorState, draftPluginFns: PluginFunctions) => (EditorState | void);
     onFocus?: (e: React.SyntheticEvent<{}>) => void;
     willUnmount?: (draftPluginFns: PluginFunctions) => void;
-}
-
-interface ExtraPropTypes {
-    plugins?: DraftPlugin[];
 }
 
 type DraftPluginKeys = keyof DraftPlugin;
@@ -225,8 +221,8 @@ function getDecorators(plugins: DraftPlugin[]): MultiDecorator {
 
 export class PluginsEditor extends React.PureComponent<PluginEditorProps> {
 
-    public static defaultProps: ExtraPropTypes = {
-        plugins: [],
+    public static defaultProps = {
+        plugins: [] as DraftPlugin[],
     };
 
     constructor(props: PluginEditorProps) {

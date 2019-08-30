@@ -18,6 +18,7 @@ import {BLOCK_BUTTONS, INLINE_BUTTONS} from './components/Toolbar/Buttons';
 import {blockRendererPlugin} from './plugins/blockRendererFn';
 import {setRenderOptions} from './util/exporter';
 import {toState} from './util/importer';
+import {UploadImageData} from './util/upload';
 
 interface State {
     editorState: EditorState;
@@ -27,8 +28,14 @@ const rootNode = document.getElementById('root');
 const textNode = document.getElementById('data');
 let demoText = textNode.innerText;
 
-function uploadImage(files: Blob[]) {
-    console.log('upload file', files);
+function uploadImage(file: Blob): Promise<UploadImageData> {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                src: URL.createObjectURL(file),
+            });
+        }, 1000);
+    });
 }
 
 class App extends React.Component<{}, State> {
@@ -82,7 +89,7 @@ class App extends React.Component<{}, State> {
 
         if (html !== demoText) {
             demoText = html;
-            console.log(demoText);
+            // console.log(demoText);
         }
 
         this.setState({

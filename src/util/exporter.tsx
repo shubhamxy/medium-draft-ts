@@ -68,10 +68,14 @@ export const blockToHTML = (block: RawBlock) => {
             };
 
         case Block.IMAGE: {
-            const imgData = block.data;
+            const blockData = block.data;
+            const imgData = blockData.data as {[key: string]: string | null | number};
+            const dataStr = imgData ? Object.keys(imgData).map((key) => {
+                return `data-${key}="${decodeURIComponent(imgData[key] as string)}"`;
+            }).join(' ') : '';
 
             return {
-                start: `<figure><img src="${imgData.src}" alt="${block.text}" data-id="${imgData.dataId}" /><figcaption>`,
+                start: `<figure><img src="${blockData.src}" alt="${block.text}" ${dataStr}/><figcaption>`,
                 end: '</figcaption></figure>',
             };
         }

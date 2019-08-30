@@ -27,7 +27,7 @@ import {
     NOT_HANDLED,
     StringToTypeMap
 } from '../util/constants';
-import {addNewBlockAt, getCurrentBlock, resetBlockWithType} from '../util/helpers';
+import {addNewBlockAt, getCurrentBlock, removeBlock, resetBlockWithType} from '../util/helpers';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import * as React from 'react';
@@ -137,11 +137,7 @@ export function keyboardPlugin(): DraftPlugin {
             }
         },
 
-        handleKeyCommand(command: string, editorState: EditorState, pluginFns: PluginFunctions) {
-            const {
-                setEditorState
-            } = pluginFns;
-
+        handleKeyCommand(command: string, editorState: EditorState, time: number, {setEditorState}: PluginFunctions) {
             // if (command === KEY_COMMANDS.showLinkInput()) {
             //   if (!mainProps.disableToolbar && this.toolbar) {
             //     // For some reason, scroll is jumping sometimes for the below code.
@@ -175,19 +171,45 @@ export function keyboardPlugin(): DraftPlugin {
                 setEditorState(RichUtils.toggleBlockType(editorState, newBlockType));
 
                 return HANDLED;
-            } else if (command.indexOf(`${KEY_COMMANDS.toggleInline()}`) === 0) {
+            }
+
+            if (command.indexOf(`${KEY_COMMANDS.toggleInline()}`) === 0) {
                 const inline = command.split(':')[1];
                 setEditorState(RichUtils.toggleInlineStyle(editorState, inline));
 
                 return HANDLED;
-            } else if (command === 'backspace' && currentBlockType === Block.CODE && !block.getText().length) {
+            }
+
+            if (command === 'backspace' && currentBlockType === Block.CODE && !block.getText().length) {
                 setEditorState(resetBlockWithType(editorState, Block.UNSTYLED));
 
                 return HANDLED;
             }
 
-            const newState = RichUtils.handleKeyCommand(editorState, command);
+            if (command === 'backspace') {
+                const contentState = editorState.getCurrentContent();
+                const previousBlock = contentState.getBlockBefore(block.getKey());
+                const previousBlockType = previousBlock.getType();
+                const selectionState = editorState.getSelection();
+                const position = selectionState.getStartOffset();
 
+                if (previousBlockType === Block.BREAK && position === 0) {
+                    const previousBlockKey = previousBlock.getKey();
+                    const newSelection = new SelectionState({
+                        anchorKey: previousBlockKey,
+                        focusKey: previousBlockKey,
+                        anchorOffset: 0,
+                        focusOffset: 0,
+                    });
+
+                    editorState = removeBlock(editorState, previousBlockKey);
+                    setEditorState(EditorState.forceSelection(editorState, newSelection));
+
+                    return HANDLED;
+                }
+            }
+
+            const newState = RichUtils.handleKeyCommand(editorState, command);
             if (newState) {
                 setEditorState(newState);
 
@@ -199,8 +221,6 @@ export function keyboardPlugin(): DraftPlugin {
 
         handleBeforeInput(inputString: string, editorState: EditorState, pluginFns: PluginFunctions) {
             const {setEditorState} = pluginFns;
-            const mapping = StringToTypeMap;
-            const selection = editorState.getSelection();
             const block = getCurrentBlock(editorState);
             const blockType = block.getType();
 
@@ -208,12 +228,13 @@ export function keyboardPlugin(): DraftPlugin {
                 return NOT_HANDLED;
             }
 
+            const selection = editorState.getSelection();
             const blockLength = block.getLength();
             if (selection.getAnchorOffset() > 1 || blockLength > 1) {
                 return NOT_HANDLED;
             }
 
-            const blockTo = mapping[block.getText()[0] + inputString];
+            const blockTo = StringToTypeMap[block.getText()[0] + inputString];
             if (!blockTo) {
                 return NOT_HANDLED;
             }

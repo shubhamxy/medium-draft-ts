@@ -96,7 +96,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
                     src: imageNode.src,
                     srcSet: imageNode.srcset,
                     sizes: imageNode.sizes,
-                    dataId: imageNode.getAttribute('data-id')
+                    data: imageNode.dataset
                 },
             };
         }
@@ -109,7 +109,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
                 src: (node as HTMLImageElement).src,
                 srcSet: (node as HTMLImageElement).srcset,
                 sizes: (node as HTMLImageElement).sizes,
-                dataId: node.getAttribute('data-id')
+                data: node.dataset
             },
         };
 

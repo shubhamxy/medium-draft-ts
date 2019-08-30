@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {BASE_BLOCK_CLASS, Block, INLINE_STYLE_HIGHLIGHT} from '../util/constants';
+import {Block, INLINE_STYLE_HIGHLIGHT} from '../util/constants';
 import {DraftPlugin} from '../plugins_editor/PluginsEditor';
 import {Link, findLinkEntities} from '../entities/link';
 import {ContentBlock} from 'draft-js';
@@ -15,17 +15,15 @@ export function inlineStylePlugin(): DraftPlugin {
 
             switch (blockType) {
                 case Block.BLOCKQUOTE:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--quote`;
+                    return `md-block md-block--quote`;
                 case Block.UNSTYLED:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--paragraph`;
+                    return `md-block md-block--paragraph`;
                 case Block.ATOMIC:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--atomic`;
+                    return `md-block md-block--atomic`;
                 case Block.CAPTION:
-                    return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-caption`;
+                    return `md-block md-block-caption`;
                 case Block.BLOCKQUOTE_CAPTION: {
-                    const cls = `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}--quote`;
-
-                    return `${cls} ${BASE_BLOCK_CLASS}-quote-caption`;
+                    return `md-block md-block--quote md-block-quote-caption`;
                 }
                 default:
                     return null;

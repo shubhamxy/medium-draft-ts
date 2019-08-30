@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ContentBlock, DraftEditorCommand, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
 import {CodeBlock} from '../blocks/CodeBlock';
 import {getCurrentBlock, updateDataOfBlock} from '../util/helpers';
-import {BASE_BLOCK_CLASS, Block, HANDLED, KEY_L, KEY_TAB, NOT_HANDLED} from '../util/constants';
+import {Block, HANDLED, KEY_L, KEY_TAB, NOT_HANDLED} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 
 interface OptionType {
@@ -42,7 +42,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
             const data = block.getData();
             const lang = data.get('language', 'no-lang');
 
-            return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-code language-${lang || 'no-lang'}`;
+            return `md-block md-block-code language-${lang || 'no-lang'}`;
         },
 
         keyBindingFn(ev: React.KeyboardEvent, {getEditorState, setEditorState}: PluginFunctions): DraftEditorCommand | void | false  {
@@ -78,7 +78,7 @@ export function codeBlockPlugin(options?: OptionType): DraftPlugin {
             }
         },
 
-        handleKeyCommand(command: string, editorState: EditorState, {setEditorState, getProps}: PluginFunctions) {
+        handleKeyCommand(command: string, editorState: EditorState, time: number, {setEditorState, getProps}: PluginFunctions) {
             const block = getCurrentBlock(editorState);
 
             if (shouldEarlyReturn(block)) {

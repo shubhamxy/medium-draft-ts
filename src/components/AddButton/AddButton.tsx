@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {DraftBlockType, EditorState, SelectionState} from 'draft-js';
+import {DraftBlockType, EditorState} from 'draft-js';
 
 import {getSelectedBlockNode} from '../../util/selection';
 import {SideButton} from '../../MediumDraftEditor';
@@ -45,18 +45,14 @@ export class AddButton extends React.Component<AddButtonProps, AddButtonState> {
 
         if (selectionState.isCollapsed() && anchorKey === selectionState.getFocusKey()) {
             const contentState = editorState.getCurrentContent();
-            if (contentState.getBlockForKey(anchorKey).getType().indexOf('atomic') !== 0) {
+            const block = contentState.getBlockForKey(anchorKey);
 
-                const block = contentState.getBlockForKey(anchorKey);
-                const blockKey = block.getKey();
-
-                if (block.getLength() === 0) {
-                    return {
-                        visible: true,
-                        blockType: block.getType(),
-                        blockKey,
-                    };
-                }
+            if (block && block.getType().indexOf('atomic') !== 0 && block.getLength() === 0) {
+                return {
+                    visible: true,
+                    blockType: block.getType(),
+                    blockKey: block.getKey(),
+                };
             }
         }
 

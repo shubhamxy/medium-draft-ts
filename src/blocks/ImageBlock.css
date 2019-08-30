@@ -1,12 +1,9 @@
 @keyframes imageLoading {
     0% {
-        opacity: 0.5;
-    }
-    50% {
-        opacity: 1;
+        transform: rotate(0deg);
     }
     100% {
-        opacity: 0.5;
+        transform: rotate(360deg);
     }
 }
 
@@ -14,7 +11,7 @@
     margin: 0;
 }
 
-.md-block--image .md-block-image-inner-container-image {
+.md-block-image-inner-container-image {
     display: block;
     margin: 0 auto;
     cursor: default;
@@ -22,8 +19,23 @@
     box-sizing: border-box;
 }
 
-.md-block--image--uploading {
-    animation: imageLoading 1s infinite;
+.md-block-image-inner-container {
+    position: relative;
+}
+
+.md-block-image-inner-container--uploading:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -23px 0 0 -23px;
+    content: "";
+    display: block;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #fff transparent;
+    animation: imageLoading 1.2s linear infinite;
 }
 
 .md-block--image figcaption {
@@ -36,15 +48,11 @@
     font-style: normal;
     text-align: center;
     padding: 5px 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .md-block--image figcaption .public-DraftStyleDefault-block {
     text-align: center;
-}
-
-.md-block--image .md-block-image-inner-container {
-    position: relative;
 }
 
 .md-block--image .md-block-image-toolbar-container {

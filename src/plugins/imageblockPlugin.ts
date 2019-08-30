@@ -1,22 +1,16 @@
-import {ContentBlock, EditorState, genKey, SelectionState, Modifier} from 'draft-js';
+import {ContentBlock, EditorState, SelectionState, Modifier} from 'draft-js';
 
-import {BASE_BLOCK_CLASS, Block, HANDLED, NOT_HANDLED} from '../util/constants';
+import {Block, HANDLED, NOT_HANDLED} from '../util/constants';
 import {ImageBlock} from '../blocks/ImageBlock';
-import {addNewBlock, addNewBlockAt, getCurrentBlock} from '../util/helpers';
+import {getCurrentBlock} from '../util/helpers';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
-
-export interface ImagePluginOptionType {
-    /**
-     * A method that returns a Promise and resolves with the url of uploaded image.
-     */
-    uploadImage?: (files: Blob[]) => void;
-}
+import {uploadHelper, UploadHelperOptions} from '../util/upload';
 
 function shouldEarlyReturn(block: ContentBlock): boolean {
     return (block.getType() !== Block.IMAGE);
 }
 
-export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
+export function imageBlockPlugin(options?: UploadHelperOptions): DraftPlugin {
     return {
         blockRendererFn(block: ContentBlock, {getEditorState, setEditorState}: PluginFunctions) {
             if (!shouldEarlyReturn(block)) {
@@ -60,67 +54,20 @@ export function imageBlockPlugin(options?: ImagePluginOptionType): DraftPlugin {
                 return null;
             }
 
-            const blockData = block.getData();
-            const uploading = blockData.has('uploading') && blockData.get('uploading', false);
-            const imgClass = `${BASE_BLOCK_CLASS}--image`;
-
-            return `${BASE_BLOCK_CLASS} ${imgClass} ${uploading ? `${imgClass}--uploading` : ''}`;
+            return 'md-block--image';
         },
 
-        handleDroppedFiles(selection: SelectionState, files: Blob[], {getEditorState, setEditorState}: PluginFunctions) {
+        handleDroppedFiles(selection: SelectionState, files: Blob[], pluginFns: PluginFunctions) {
             if (!selection.isCollapsed() || !files.length) {
                 return NOT_HANDLED;
             }
 
             const imageFiles = files.filter((file) => file.type.indexOf('image/') === 0);
-
             if (!imageFiles) {
                 return NOT_HANDLED;
             }
 
-            const editorState = getEditorState();
-            const currentBlockKey = selection.getIsBackward() ? selection.getFocusKey() : selection.getAnchorKey();
-            const block = editorState.getCurrentContent().getBlockForKey(currentBlockKey);
-
-            let newEditorState: EditorState;
-            let src = URL.createObjectURL(imageFiles[0]);
-            let blockKey: string;
-
-            if (!block.getLength() && block.getType().indexOf(Block.ATOMIC) < 0) {
-
-                // Replace empty block
-                blockKey = block.getKey();
-                newEditorState = addNewBlock(
-                    editorState,
-                    Block.IMAGE, {
-                        src,
-                        uploading: true,
-                    }
-                );
-            } else {
-
-                // Insert after current block
-                blockKey = genKey();
-                newEditorState = addNewBlockAt(
-                    editorState,
-                    currentBlockKey,
-                    Block.IMAGE, {
-                        src,
-                        uploading: true,
-                    },
-                    blockKey,
-                );
-            }
-
-            setEditorState(EditorState.forceSelection(newEditorState, new SelectionState({
-                focusKey: blockKey,
-                anchorKey: blockKey,
-                focusOffset: 0,
-            })));
-
-            if (options && options.uploadImage) {
-                options.uploadImage([imageFiles[0]]);
-            }
+            uploadHelper(pluginFns, files, options, selection);
 
             return HANDLED;
         }

@@ -5,6 +5,13 @@ A medium like rich text editor built upon [draft-js](https://facebook.github.io/
 This branch supports draft-js-plugins and can accept an array of plugins to
 extend the functionalities.
 
+## Priorities of project
+- Best performance.
+- Minimal package size.
+- Typings for all.
+- Good looking from box.
+- Full customization and controllability.
+
 ## Installation
 ```npm i medium-draft-ts```
 

@@ -26,7 +26,7 @@ declare module 'draft-convert' {
         type: string;
         depth: number;
         data?: {
-            [key: string]: string | null | number;
+            [key: string]: string | null | number | {[key: string]: string | null | number};
         };
         text: string;
     }

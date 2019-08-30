@@ -1,15 +1,14 @@
 import * as React from 'react';
 
-import {addNewBlock} from '../util/helpers';
-import {Block} from '../util/constants';
 import {SideButtonComponentProps} from '../MediumDraftEditor';
+import {UploadImageData, uploadHelper} from '../util/upload';
 
 interface ImageButtonOptions {
-    uploadImage?: (files: Blob[]) => void;
+    uploadImage?: (files: Blob) => Promise<UploadImageData>;
 }
 
-interface ImageButtonComponentProps extends SideButtonComponentProps {
-    uploadImage?: (files: Blob[]) => void;
+interface ImageButtonComponentProps extends SideButtonComponentProps, ImageButtonOptions {
+
 }
 
 class ImageButton extends React.PureComponent<ImageButtonComponentProps> {
@@ -44,22 +43,16 @@ class ImageButton extends React.PureComponent<ImageButtonComponentProps> {
     }
 
     private onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
+        const files: Blob[] = [];
 
-        if (file.type.indexOf('image/') === 0) {
-            const src = URL.createObjectURL(file);
-
-            this.props.setEditorState(addNewBlock(
-                this.props.getEditorState(),
-                Block.IMAGE, {
-                    src,
-                    uploading: true,
-                }
-            ));
-
-            if (this.props.uploadImage) {
-                this.props.uploadImage([file]);
+        for (let i = 0; i < e.target.files.length; i++) {
+            if (e.target.files[i].type.indexOf('image/') === 0) {
+                files.push(e.target.files[i]);
             }
+        }
+
+        if (files.length) {
+            uploadHelper(this.props, files, {uploadImage: this.props.uploadImage});
         }
 
         this.props.close();

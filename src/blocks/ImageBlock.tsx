@@ -11,14 +11,15 @@ export class ImageBlock extends React.PureComponent<BlockProps> {
         const data = block.getData();
         const src = data.get('src');
         const srcSet = data.get('srcSet');
+        const isLoading = data.get('uploading');
 
         if (src !== null) {
             return (
                 <>
-                    <div className="md-block-image-inner-container" onClick={this.focusBlock}>
+                    <div className={`md-block-image-inner-container${isLoading ? ' md-block-image-inner-container--uploading' : ''}`} onClick={this.focusBlock}>
                         <img role="presentation" src={src} srcSet={srcSet} alt="" className="md-block-image-inner-container-image"/>
                     </div>
-                    <figcaption>
+                    <figcaption className="md-block-image-figcaption">
                         <EditorBlock {...this.props} />
                     </figcaption>
                 </>
