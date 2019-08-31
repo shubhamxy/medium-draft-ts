@@ -7,7 +7,7 @@ module.exports = (env, argv) => {
         'medium-draft': './src/demo.tsx',
     };
     config.output = {
-        path: path.resolve(__dirname, 'demo'),
+        path: path.resolve(__dirname, 'docs'),
         filename: '[name].js',
         libraryTarget: 'umd',
         globalObject: 'self',
