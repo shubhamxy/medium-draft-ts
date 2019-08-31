@@ -89,7 +89,7 @@ class App extends React.Component<{}, State> {
 
         if (html !== demoText) {
             demoText = html;
-            // console.log(demoText);
+            console.log(demoText);
         }
 
         this.setState({

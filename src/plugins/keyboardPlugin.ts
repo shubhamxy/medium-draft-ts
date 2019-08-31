@@ -189,7 +189,7 @@ export function keyboardPlugin(): DraftPlugin {
             if (command === 'backspace') {
                 const contentState = editorState.getCurrentContent();
                 const previousBlock = contentState.getBlockBefore(block.getKey());
-                const previousBlockType = previousBlock.getType();
+                const previousBlockType = previousBlock ? previousBlock.getType() : '';
                 const selectionState = editorState.getSelection();
                 const position = selectionState.getStartOffset();
 

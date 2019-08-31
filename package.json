@@ -18,17 +18,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dumistoklus/medium-draft.git"
+    "url": "git+https://github.com/dumistoklus/medium-draft-ts.git"
   },
   "types": "./dist/main.d.ts",
   "keywords": [],
   "author": "Brijesh Bittu <brijesh@bitwiser.in> (http://bitwiser.in/) and Ilia Goldfarb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dumistoklus/medium-draft/issues"
+    "url": "https://github.com/dumistoklus/medium-draft-ts/issues"
   },
   "sideEffects": false,
-  "homepage": "https://dumistoklus.github.io/medium-draft/",
+  "homepage": "https://dumistoklus.github.io/medium-draft-ts/",
   "devDependencies": {
     "@types/draft-js": "0.10.35",
     "@types/jest": "24.0.18",

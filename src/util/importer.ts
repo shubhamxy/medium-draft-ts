@@ -80,8 +80,8 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
             data: {},
         };
     } else if (nodeName === 'p' && (
-        node.className === `md-block-${Block.CAPTION.toLowerCase()}` ||
-        node.className === `md-block-${Block.BLOCKQUOTE_CAPTION.toLowerCase()}`)) {
+        node.className === 'md-block-caption' ||
+        node.className === 'md-block-block-quote-caption')) {
         return {
             type: Block.BLOCKQUOTE_CAPTION,
             data: {},
@@ -96,7 +96,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
                     src: imageNode.src,
                     srcSet: imageNode.srcset,
                     sizes: imageNode.sizes,
-                    data: imageNode.dataset
+                    data: {...imageNode.dataset}
                 },
             };
         }
@@ -109,7 +109,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
                 src: (node as HTMLImageElement).src,
                 srcSet: (node as HTMLImageElement).srcset,
                 sizes: (node as HTMLImageElement).sizes,
-                data: node.dataset
+                data: {...node.dataset}
             },
         };
 
@@ -138,6 +138,10 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
     return undefined;
 };
 
+function replaceBrInEmptyParagraph(html: string): string {
+    return html.replace(/<p[^>]*><br\s*\/><\/p>/, '<p><\/p>');
+}
+
 export const options: ConvertFromHTMLOptions = {
     htmlToStyle,
     htmlToEntity,
@@ -145,9 +149,13 @@ export const options: ConvertFromHTMLOptions = {
 };
 
 export function setImportOptions(htmlOptions: ConvertFromHTMLOptions = options) {
-    return convertFromHTML(htmlOptions);
+    const converter = convertFromHTML(htmlOptions);
+
+    return (rawHTML: string) => {
+        return converter(replaceBrInEmptyParagraph(rawHTML));
+    };
 }
 
 export function toState(rawHTML: string, htmlOptions: ConvertFromHTMLOptions = options): ContentState {
-    return convertFromHTML(htmlOptions)(rawHTML);
+    return convertFromHTML(htmlOptions)(replaceBrInEmptyParagraph(rawHTML));
 }
