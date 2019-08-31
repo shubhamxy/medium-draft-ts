@@ -1,14 +1,14 @@
 import {MediumDraftEditor as Editor} from './MediumDraftEditor';
 
 export { Link, findLinkEntities } from './entities/link';
-export { AtomicBlock } from './blocks/AtomicBlock';
-export { CodeBlock } from './blocks/CodeBlock';
-export { QuoteCaptionBlock } from './blocks/BlockQuoteCaption';
-export { CaptionBlock } from './blocks/CaptionBlock';
-export { TodoBlock } from './blocks/TodoBlock';
-export { ImageBlock } from './blocks/ImageBlock';
-export { SeparatorBlock } from './blocks/SeparatorBlock';
-export { TextBlock } from './blocks/TextBlock';
+export { AtomicBlock } from './blocks/AtomicBlock/AtomicBlock';
+export { CodeBlock } from './blocks/CodeBlock/CodeBlock';
+export { QuoteCaptionBlock } from './blocks/BlockQuoteCaption/BlockQuoteCaption';
+export { CaptionBlock } from './blocks/CaptionBlock/CaptionBlock';
+export { TodoBlock } from './blocks/TodoBlock/TodoBlock';
+export { ImageBlock } from './blocks/ImageBlock/ImageBlock';
+export { SeparatorBlock } from './blocks/SeparatorBlock/SeparatorBlock';
+export { TextBlock } from './blocks/TextBlock/TextBlock';
 
 export * from './util/helpers';
 

@@ -1,7 +1,7 @@
 import {ContentBlock, EditorState, SelectionState, Modifier} from 'draft-js';
 
 import {Block, HANDLED, NOT_HANDLED} from '../util/constants';
-import {ImageBlock} from '../blocks/ImageBlock';
+import {ImageBlock} from '../blocks/ImageBlock/ImageBlock';
 import {getCurrentBlock} from '../util/helpers';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 import {uploadHelper, UploadHelperOptions} from '../util/uploadImage';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ContentBlock, DraftEditorCommand, EditorState, KeyBindingUtil, Modifier, RichUtils} from 'draft-js';
-import {CodeBlock} from '../blocks/CodeBlock';
+import {CodeBlock} from '../blocks/CodeBlock/CodeBlock';
 import {getCurrentBlock, updateDataOfBlock} from '../util/helpers';
 import {Block, HANDLED, KEY_L, KEY_TAB, NOT_HANDLED} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';

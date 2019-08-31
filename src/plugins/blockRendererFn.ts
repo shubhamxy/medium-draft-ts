@@ -1,8 +1,8 @@
-import {QuoteCaptionBlock} from '../blocks/BlockQuoteCaption';
-import {CaptionBlock} from '../blocks/CaptionBlock';
-import {AtomicBlock} from '../blocks/AtomicBlock';
-import {SeparatorBlock} from '../blocks/SeparatorBlock';
-import {TextBlock} from '../blocks/TextBlock';
+import {QuoteCaptionBlock} from '../blocks/BlockQuoteCaption/BlockQuoteCaption';
+import {CaptionBlock} from '../blocks/CaptionBlock/CaptionBlock';
+import {AtomicBlock} from '../blocks/AtomicBlock/AtomicBlock';
+import {SeparatorBlock} from '../blocks/SeparatorBlock/SeparatorBlock';
+import {TextBlock} from '../blocks/TextBlock/TextBlock';
 import {Block} from '../util/constants';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
 import {ContentBlock} from 'draft-js';
