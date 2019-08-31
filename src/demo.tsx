@@ -18,7 +18,7 @@ import {BLOCK_BUTTONS, INLINE_BUTTONS} from './components/Toolbar/Buttons';
 import {blockRendererPlugin} from './plugins/blockRendererFn';
 import {setRenderOptions} from './util/exporter';
 import {toState} from './util/importer';
-import {UploadImageData} from './util/upload';
+import {UploadImageData} from './util/uploadImage';
 
 interface State {
     editorState: EditorState;
@@ -31,6 +31,12 @@ let demoText = textNode.innerText;
 function uploadImage(file: Blob): Promise<UploadImageData> {
     return new Promise((resolve) => {
         setTimeout(() => {
+            /*
+            resolve({
+                error: 'Network error',
+            });
+            */
+
             resolve({
                 src: URL.createObjectURL(file),
             });

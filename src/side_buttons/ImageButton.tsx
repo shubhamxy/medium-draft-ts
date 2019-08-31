@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {SideButtonComponentProps} from '../MediumDraftEditor';
-import {UploadImageData, uploadHelper} from '../util/upload';
+import {UploadImageData, uploadHelper} from '../util/uploadImage';
 
 interface ImageButtonOptions {
     uploadImage?: (files: Blob) => Promise<UploadImageData>;

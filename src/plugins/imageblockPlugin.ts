@@ -4,7 +4,7 @@ import {Block, HANDLED, NOT_HANDLED} from '../util/constants';
 import {ImageBlock} from '../blocks/ImageBlock';
 import {getCurrentBlock} from '../util/helpers';
 import {DraftPlugin, PluginFunctions} from '../plugins_editor/PluginsEditor';
-import {uploadHelper, UploadHelperOptions} from '../util/upload';
+import {uploadHelper, UploadHelperOptions} from '../util/uploadImage';
 
 function shouldEarlyReturn(block: ContentBlock): boolean {
     return (block.getType() !== Block.IMAGE);

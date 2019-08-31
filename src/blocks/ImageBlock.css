@@ -19,6 +19,19 @@
     box-sizing: border-box;
 }
 
+.md-block-image-error {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    padding: 15px;
+    background: #ae0000;
+    color: #fff;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
 .md-block-image-inner-container {
     position: relative;
 }
@@ -48,7 +61,6 @@
     font-style: normal;
     text-align: center;
     padding: 5px 0;
-    border-bottom: 1px solid #e5e5e5;
 }
 
 .md-block--image figcaption .public-DraftStyleDefault-block {
