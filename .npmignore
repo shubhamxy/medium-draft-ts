@@ -8,6 +8,7 @@ hash.json
 webpack.*.js
 src/
 icons/
+demo/
 docs/
 wiki/
 coverage/
