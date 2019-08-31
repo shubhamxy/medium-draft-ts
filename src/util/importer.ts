@@ -139,7 +139,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
 };
 
 function replaceBrInEmptyParagraph(html: string): string {
-    return html.replace(/<p[^>]*><br\s*\/><\/p>/, '<p><\/p>');
+    return html.replace(/<p[^>]*><br\s*\/><\/p>/g, '<p><\/p>');
 }
 
 export const options: ConvertFromHTMLOptions = {
