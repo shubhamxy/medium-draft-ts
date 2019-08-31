@@ -1,3 +1,7 @@
+### 2.0.1
+
+- Replace history after image loading
+
 ### 2.0.0
 
 - Add image uploading
