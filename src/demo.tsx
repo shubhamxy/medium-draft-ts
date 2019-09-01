@@ -50,6 +50,8 @@ class App extends React.Component<{}, State> {
         editorState: EditorState.createWithContent(toState(demoText)),
     };
 
+    private changeCount = -1; // without autofocus use 0
+
     private readonly plugins: DraftPlugin[] = [
         codeBlockPlugin(),
         imageBlockPlugin({
@@ -90,13 +92,22 @@ class App extends React.Component<{}, State> {
         );
     }
 
-    private onChange = (editorState: EditorState) => {
+    private onExport(editorState: EditorState) {
         const html = this.exporter(editorState.getCurrentContent());
 
         if (html !== demoText) {
             demoText = html;
             console.log(demoText);
         }
+    }
+
+    private onChange = (editorState: EditorState) => {
+        if (this.changeCount > 0) {
+            this.onExport(editorState);
+        }
+
+        // Optimization: do not call first export
+        this.changeCount++;
 
         this.setState({
             editorState,
