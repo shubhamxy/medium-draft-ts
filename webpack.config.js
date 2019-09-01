@@ -39,7 +39,7 @@ module.exports = (env, argv) => {
             extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
             alias: {
                 // protect from two copies of immutable
-                immutable: path.join(__dirname, '/node_modules/immutable/dist/immutable.min.js')
+                immutable: path.join(__dirname, '/node_modules/immutable/dist/immutable.min.js'),
             }
         },
         devtool: isProd ? '' : 'source-map',

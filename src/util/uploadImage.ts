@@ -105,11 +105,13 @@ export function uploadHelper({getEditorState, setEditorState}: StateGetterSetter
                 targetSelection,
                 blockData
             );
+            const decorator = state.getDecorator();
             const stateWithLoadedImage = EditorState.create({
                 currentContent: newContent,
                 undoStack: replaceStack(state.getUndoStack(), contentOnAddingStep, contentForReplacing),
                 redoStack: replaceStack(state.getRedoStack(), contentOnAddingStep, contentForReplacing),
                 selection: oldSelection,
+                decorator: decorator || null,
             });
 
             // Return correct selection position
