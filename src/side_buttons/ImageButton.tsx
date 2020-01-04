@@ -4,7 +4,7 @@ import {SideButtonComponentProps} from '../MediumDraftEditor';
 import {UploadImageData, uploadHelper} from '../util/uploadImage';
 
 interface ImageButtonOptions {
-    uploadImage?: (files: Blob) => Promise<UploadImageData>;
+    uploadImage?: (files: File) => Promise<UploadImageData>;
 }
 
 interface ImageButtonComponentProps extends SideButtonComponentProps, ImageButtonOptions {
@@ -43,7 +43,7 @@ class ImageButton extends React.PureComponent<ImageButtonComponentProps> {
     }
 
     private onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files: Blob[] = [];
+        const files: File[] = [];
 
         for (let i = 0; i < e.target.files.length; i++) {
             if (e.target.files[i].type.indexOf('image/') === 0) {

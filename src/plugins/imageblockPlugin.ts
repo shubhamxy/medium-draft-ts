@@ -57,7 +57,7 @@ export function imageBlockPlugin(options?: UploadHelperOptions): DraftPlugin {
             return 'md-block--image';
         },
 
-        handleDroppedFiles(selection: SelectionState, files: Blob[], pluginFns: PluginFunctions) {
+        handleDroppedFiles(selection: SelectionState, files: File[], pluginFns: PluginFunctions) {
             if (!selection.isCollapsed() || !files.length) {
                 return NOT_HANDLED;
             }

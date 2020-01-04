@@ -28,7 +28,7 @@ Look at `src/demo.tsx` to insert editor it in your project.
 
 Create function `uploadImage`:
 ```
-uploadImage(file: Blob): Promise<UploadImageData> {
+uploadImage(file: File): Promise<UploadImageData> {
     return fetch('http://www.example.net', {
         method: 'POST',
         body: file

@@ -84,9 +84,9 @@ export interface DraftPlugin {
     decorators?: DraftDecoratorType[];
     handleBeforeInput?: (input: string, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleDrop?: (selection: EditorState, dataTransfer: DataTransfer, isInternal: DraftDragType, draftPluginFns: PluginFunctions) => DraftHandleValue;
-    handleDroppedFiles?: (selection: SelectionState, files: Blob[], draftPluginFns: PluginFunctions) => DraftHandleValue;
+    handleDroppedFiles?: (selection: SelectionState, files: File[], draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleKeyCommand?: (command: string, editorState: EditorState, eventTimeStamp: number, draftPluginFns: PluginFunctions) => DraftHandleValue;
-    handlePastedFiles?: (files: Blob[]) => DraftHandleValue;
+    handlePastedFiles?: (files: File[]) => DraftHandleValue;
     handlePastedText?: (text: string, html: string, editorState: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     handleReturn?: (ev: React.KeyboardEvent<{}>, es: EditorState, draftPluginFns: PluginFunctions) => DraftHandleValue;
     initialize?: (draftPluginFns: PluginFunctions) => void;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import {EditorState} from 'draft-js';
 
 import './index.css';
@@ -28,7 +28,7 @@ const rootNode = document.getElementById('root');
 const textNode = document.getElementById('data');
 let demoText = textNode.innerText;
 
-function uploadImage(file: Blob): Promise<UploadImageData> {
+function uploadImage(file: File): Promise<UploadImageData> {
     return new Promise((resolve) => {
         setTimeout(() => {
             /*

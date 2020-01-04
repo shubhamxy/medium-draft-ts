@@ -14,7 +14,7 @@ export interface UploadImageData {
 }
 
 export interface UploadHelperOptions {
-    uploadImage?: (file: Blob) => Promise<UploadImageData>;
+    uploadImage?: (file: File) => Promise<UploadImageData>;
 }
 
 export interface StateGetterSetter {
@@ -22,7 +22,7 @@ export interface StateGetterSetter {
     setEditorState: (state: EditorState) => void;
 }
 
-export function uploadHelper({getEditorState, setEditorState}: StateGetterSetter, files: Blob[], options: UploadHelperOptions, selection?: SelectionState) {
+export function uploadHelper({getEditorState, setEditorState}: StateGetterSetter, files: File[], options: UploadHelperOptions, selection?: SelectionState) {
     let newEditorState: EditorState;
     let src = URL.createObjectURL(files[0]);
     let blockKey: string;
