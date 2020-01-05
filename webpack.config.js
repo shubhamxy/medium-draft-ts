@@ -33,6 +33,7 @@ module.exports = (env, argv) => {
         mode: isProd ? 'production' : 'development',
         entry: {
             'medium-draft': isProd ? './src/index.ts' : './src/demo.tsx',
+            'base': './src/index.css',
         },
         output: getOutput(isProd),
         resolve: {
@@ -42,7 +43,7 @@ module.exports = (env, argv) => {
                 immutable: path.join(__dirname, '/node_modules/immutable/dist/immutable.min.js'),
             }
         },
-        devtool: isProd ? '' : 'source-map',
+        devtool: isProd ? false : 'source-map',
         module: {
             rules: [
                 {

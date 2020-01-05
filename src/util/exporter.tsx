@@ -69,10 +69,9 @@ export const blockToHTML = (block: RawBlock) => {
 
         case Block.IMAGE: {
             const blockData = block.data;
-            const imgData = blockData.data as {[key: string]: string | null | number};
-            const dataStr = imgData ? Object.keys(imgData).map((key) => {
-                return `data-${key}="${decodeURIComponent(imgData[key] as string)}"`;
-            }).join(' ') : '';
+            // @ts-ignore: blockData.data is Map from ImmutableJs
+            const imgData = (blockData.data ? blockData.data.toJS() : {}) as {[key: string]: string | null | number};
+            const dataStr = Object.keys(imgData).map((key) => `data-${key}="${decodeURIComponent(imgData[key] as string)}"`).join(' ');
 
             return {
                 start: `<figure><img src="${blockData.src}" alt="${block.text}" ${dataStr}/><figcaption>`,
