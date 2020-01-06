@@ -70,7 +70,7 @@ export const blockToHTML = (block: RawBlock) => {
         case Block.IMAGE: {
             const blockData = block.data;
             // @ts-ignore: blockData.data is Map from ImmutableJs
-            const imgData = (blockData.data ? blockData.data.toJS() : {}) as {[key: string]: string | null | number};
+            const imgData = (blockData.data && blockData.data.toJS ? blockData.data.toJS() : {}) as {[key: string]: string | null | number};
             const dataStr = Object.keys(imgData).map((key) => `data-${key}="${decodeURIComponent(imgData[key] as string)}"`).join(' ');
 
             return {

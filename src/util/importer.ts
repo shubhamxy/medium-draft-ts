@@ -1,4 +1,5 @@
 import {convertFromHTML, ConvertFromHTMLOptions, EntityKey} from 'draft-convert';
+import {Map} from 'immutable';
 import {
     Block,
     ENTITY_TYPE_LINK,
@@ -96,7 +97,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
                     src: imageNode.src,
                     srcSet: imageNode.srcset,
                     sizes: imageNode.sizes,
-                    data: {...imageNode.dataset}
+                    data: Map(imageNode.dataset)
                 },
             };
         }
@@ -109,7 +110,7 @@ export const htmlToBlock = (nodeName: string, node: HTMLElement) => {
                 src: (node as HTMLImageElement).src,
                 srcSet: (node as HTMLImageElement).srcset,
                 sizes: (node as HTMLImageElement).sizes,
-                data: {...node.dataset}
+                data: Map(node.dataset)
             },
         };
 
