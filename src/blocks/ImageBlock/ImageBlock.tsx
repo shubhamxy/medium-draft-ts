@@ -11,6 +11,7 @@ export class ImageBlock extends React.PureComponent<BlockProps> {
         const data = block.getData();
         const src = data.get('src');
         const srcSet = data.get('srcSet');
+        const sizes = data.get('sizes');
         const isLoading = data.get('uploading');
         const errorMessage = data.get('error');
 
@@ -25,7 +26,7 @@ export class ImageBlock extends React.PureComponent<BlockProps> {
                                 </div>
                             )
                         }
-                        <img role="presentation" src={src} srcSet={srcSet} alt="" className="md-block-image-inner-container-image"/>
+                        <img role="presentation" src={src} srcSet={srcSet} sizes={sizes} alt="" className="md-block-image-inner-container-image"/>
                     </div>
                     <figcaption className="md-block-image-figcaption">
                         <EditorBlock {...this.props} />
