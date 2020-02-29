@@ -26,25 +26,34 @@ export class LinkTooltip extends React.PureComponent<LinkTooltipProps, LinkToolt
 
     private mouseX: number = 0;
     private mouseY: number = 0;
+    private removeMoveListener: () => void;
 
     public componentDidMount(): void {
-        if (this.props.editorRef.current) {
-            this.props.editorRef.current.addEventListener('mousemove', this.onMouseMove, {
+        const editorRef = this.props.editorRef.current;
+
+        if (editorRef) {
+            editorRef.addEventListener('mousemove', this.onMouseMove, {
                 passive: true
             });
-            window.addEventListener('keydown', this.onKeyDown);
-            window.addEventListener('keyup', this.onKeyUp);
-            window.addEventListener('click', this.onClick);
+
+            this.removeMoveListener = () => {
+                editorRef.removeEventListener('mousemove', this.onMouseMove);
+            };
         }
+
+        window.addEventListener('keydown', this.onKeyDown);
+        window.addEventListener('keyup', this.onKeyUp);
+        window.addEventListener('click', this.onClick);
     }
 
     public componentWillUnmount(): void {
-        if (this.props.editorRef.current) {
-            this.props.editorRef.current.removeEventListener('mousemove', this.onMouseMove);
-            window.removeEventListener('keydown', this.onKeyDown);
-            window.removeEventListener('keyup', this.onKeyUp);
-            window.removeEventListener('click', this.onClick);
+        if (this.removeMoveListener) {
+            this.removeMoveListener();
         }
+
+        window.removeEventListener('keydown', this.onKeyDown);
+        window.removeEventListener('keyup', this.onKeyUp);
+        window.removeEventListener('click', this.onClick);
     }
 
     public render() {
