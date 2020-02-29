@@ -1,4 +1,4 @@
-# medium-draft-ts - [demo](https://dumistoklus.github.io/medium-draft/)
+# medium-draft-ts - [demo](https://dumistoklus.github.io/medium-draft-ts/)
 
 A medium like rich WYSIWYG text editor built upon [draft-js](https://facebook.github.io/draft-js/) with an emphasis on eliminating mouse usage by adding relevant keyboard shortcuts.
 
