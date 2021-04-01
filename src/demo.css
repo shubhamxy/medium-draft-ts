@@ -16,15 +16,10 @@ a, a:visited {
 }
 
 .md-root {
-    font-family: serif;
-    max-width: 600px;
-    margin: 25px auto;
-    padding: 25px;
     background: #fff;
 }
 
 .md-content-editor .public-DraftStyleDefault-pre {
-    font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
 }
 
 .md-block-atomic-wrapper.md-block-atomic-wrapper-separator {

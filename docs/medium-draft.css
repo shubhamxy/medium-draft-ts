@@ -20,6 +20,12 @@
     padding: 15px 0 15px 20px;
     background-color: #E2F2FF;
 }
+.md-component {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #000;
+}
 
 .md-root {
     position: relative;
@@ -68,7 +74,6 @@ a, a:visited {
 }
 
 .md-root {
-    font-family: serif;
     max-width: 600px;
     margin: 25px auto;
     padding: 25px;
@@ -84,11 +89,6 @@ a, a:visited {
 }
 
 .md-side-toolbar {
-  position: absolute;
-  z-index: 1;
-  left: -45px;
-  top: 0;
-  margin-top: 17px;
 }
 
 .md-sb-button {
@@ -104,7 +104,7 @@ a, a:visited {
   font-size: 20px;
   margin-right: 2px;
   text-align: center;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   outline: none;
@@ -129,8 +129,6 @@ a, a:visited {
 
 .mb-side-menu {
   background: #fff;
-  position: absolute;
-  left: calc(100% + 32px);
   top: 0;
   display: flex;
 }
@@ -145,7 +143,7 @@ a, a:visited {
 }
 
 .md-editor-toolbar {
-    background: #303030;
+    background: #0b3827;
     color: #fff;
     border-radius: 2px;
     z-index: 2;
@@ -164,7 +162,7 @@ a, a:visited {
     height: 36px;
     padding: 5px 11px 5px 5px;
     border: none;
-    background: #303030;
+    background: #0b3827;
     color: #fff;
     font-size: 0.9em;
     font-weight: 100;
@@ -177,11 +175,10 @@ a, a:visited {
     right: 0;
     top: 0;
     cursor: pointer;
-    background: #303030;
+    background: #0b3827;
 }
 
 .md-toolbar-controls {
-    font-family: 'Helvetica', sans-serif;
     font-size: 14px;
     border-right: 1px solid #555;
     display: inline-flex;
@@ -193,7 +190,8 @@ a, a:visited {
 }
 
 .md-toolbar-controls.md-toolbar-controls--show-input {
-    display: block;
+    display: flex;
+    flex: 1;
 }
 
 .md-toolbar-button {
@@ -256,12 +254,11 @@ a, a:visited {
 
 .md-tooltip {
   position: absolute;
-  background: #303030;
+  background: #0b3827;
   padding: 7px 10px;
   color: #fff;
   font-size: 12px;
   max-width: 700px;
-  font-family: sans-serif;
   z-index: 1;
   border-radius: 2px;
 }
@@ -273,7 +270,7 @@ a, a:visited {
 .md-block-code {
     background-color: #fdf6e3;
     color: #657b83;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -333,7 +330,6 @@ a, a:visited {
     background: #ae0000;
     color: #fff;
     text-align: center;
-    font-family: sans-serif;
     font-size: 12px;
 }
 

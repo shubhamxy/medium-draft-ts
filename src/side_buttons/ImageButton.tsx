@@ -8,13 +8,12 @@ interface ImageButtonOptions {
 }
 
 interface ImageButtonComponentProps extends SideButtonComponentProps, ImageButtonOptions {
-
 }
 
 class ImageButton extends React.PureComponent<ImageButtonComponentProps> {
 
     private inputRef = React.createRef<HTMLInputElement>();
-
+   
     public render() {
         return (
             <button
@@ -37,7 +36,7 @@ class ImageButton extends React.PureComponent<ImageButtonComponentProps> {
         );
     }
 
-    private onClick = () => {
+    public onClick = () => {
         this.inputRef.current.value = null;
         this.inputRef.current.click();
     }

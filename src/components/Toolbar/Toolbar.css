@@ -1,24 +1,27 @@
 .md-editor-toolbar {
-    background: #303030;
+    background: #0b3827;
     color: #fff;
-    border-radius: 2px;
+    border-radius: 8px;
     z-index: 2;
     position: absolute;
     box-shadow: 0 1px 3px 0 #717171;
     margin-top: -5px;
+    display: flex;
     overflow: hidden;
     white-space: nowrap;
 }
 
 .md-editor-toolbar .md-url-input {
     box-sizing: border-box;
-    border-radius: 2px;
-    display: block;
-    width: calc(100% - 36px);
-    height: 36px;
-    padding: 5px 11px 5px 5px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 56px);
+    height: 56px;
+    padding: 5px 11px 5px 11px;
     border: none;
-    background: #303030;
+    background: #0b3827;
     color: #fff;
     font-size: 0.9em;
     font-weight: 100;
@@ -31,15 +34,14 @@
     right: 0;
     top: 0;
     cursor: pointer;
-    background: #303030;
+    background: #0b3827;
 }
 
 .md-toolbar-controls {
-    font-family: 'Helvetica', sans-serif;
     font-size: 14px;
     border-right: 1px solid #555;
     display: inline-flex;
-    vertical-align: top;
+    vertical-align: center;
 }
 
 .md-toolbar-controls:last-child {
@@ -47,41 +49,44 @@
 }
 
 .md-toolbar-controls.md-toolbar-controls--show-input {
-    display: block;
+    display: flex;
+    flex: 1;
 }
 
 .md-toolbar-button {
     color: inherit;
     cursor: pointer;
     padding: 6px;
-    height: 36px;
-    min-width: 36px;
+    height: 56px;
+    width: 56px;
     line-height: 24px;
     text-align: center;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: 0;
     box-sizing: border-box;
 }
 
 .md-toolbar-button:hover {
-    background: #3d3d3d;
+    background: #0a3223;
 }
 
 .md-toolbar-button:active {
-    background: #000;
+    background: #0a3223;
 }
 
 .md-toolbar-button.md-toolbar-button--active {
-    background: #111;
+    background: #0a3223;
 }
 
 .md-toolbar-button.md-toolbar-button--active:hover {
-    background: #212121;
+    background: #0a3223;
 }
 
 .md-toolbar-button.md-toolbar-button--active:active {
-    background: #000;
+    background: #0a3223;
 }
 
 .md-toolbar-button:last-child {
